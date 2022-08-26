@@ -114,7 +114,7 @@ export default function MinionTemplates() {
 
   useEffect(() => {
     post(
-      `/adm-api/v1/nft/get-list`,
+      `/api/v1/nft/get-list`,
       {
         filters: {
           category: "ROOT",
@@ -205,14 +205,14 @@ export default function MinionTemplates() {
     // defaultData.properties.passiveSkills = skills;
     defaultData.type = "MINION_PARTS";
     if (defaultData.tokenId) {
-      put(`/adm-api/v1/nft`, defaultData, () => {
+      put(`/api/v1/nft`, defaultData, () => {
         toast.success("Update");
         setOpen(false);
         setRefresh(!refresh);
         setDefaultData(model);
       });
     } else {
-      post(`/adm-api/v1/nft`, defaultData, () => {
+      post(`/api/v1/nft`, defaultData, () => {
         toast.success("Created");
         setOpen(false);
         setRefresh(!refresh);

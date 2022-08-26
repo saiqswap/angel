@@ -113,7 +113,7 @@ const Boxes = ({ type }) => {
 
   const loadData = () => {
     setData(null);
-    get(`/adm-api/v1/config/box-open-rate?boxType=${type}`, (data) => {
+    get(`/api/v1/config/box-open-rate?boxType=${type}`, (data) => {
       setData(data);
     });
   };
@@ -135,7 +135,7 @@ const Boxes = ({ type }) => {
     setOpen(false);
     if (selected) {
       put(
-        `/adm-api/v1/config/box-open-rate`,
+        `/api/v1/config/box-open-rate`,
         {
           id: selected.id,
           boxType: type,
@@ -152,7 +152,7 @@ const Boxes = ({ type }) => {
       );
     } else {
       post(
-        `/adm-api/v1/config/box-open-rate`,
+        `/api/v1/config/box-open-rate`,
         {
           boxType: type,
           nftType: "MINION_PARTS",
@@ -176,7 +176,7 @@ const Boxes = ({ type }) => {
         content: "Are you for this action",
         _handleSubmit: () => {
           _delete(
-            `/adm-api/v1/config/box-open-rate?id=${id}`,
+            `/api/v1/config/box-open-rate?id=${id}`,
             {},
             () => {
               loadData();
@@ -272,13 +272,11 @@ const Boxes = ({ type }) => {
                     native: true,
                   }}
                 >
-                  {TYPE_LEVEL.map(
-                    (item) => (
-                      <option key={item} value={item}>
-                        {item}
-                      </option>
-                    )
-                  )}
+                  {TYPE_LEVEL.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
                 </TextField>
               </Grid>
               <Grid item xs={12}>

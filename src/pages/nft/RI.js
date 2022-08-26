@@ -62,8 +62,8 @@ const filterBy = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/adm-api/v1/config/ri/list`,
-  updateEndpoint: `/adm-api/v1/config/ri`,
+  endpoint: `/api/v1/config/ri/list`,
+  updateEndpoint: `/api/v1/config/ri`,
   createFields: [
     new Filter({
       key: "nftType",
@@ -160,7 +160,7 @@ export default SearchHigherComponent({
       col: 12,
     }),
   ],
-  deleteEndpoint: `/adm-api/v1/config/ri`,
+  deleteEndpoint: `/api/v1/config/ri`,
   title: "RI",
   columns,
   filterBy,

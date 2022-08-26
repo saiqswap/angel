@@ -49,7 +49,7 @@ export default function SkinImages() {
 
   useEffect(() => {
     post(
-      `/adm-api/v1/nft/get-list`,
+      `/api/v1/nft/get-list`,
       {
         page: 1,
         pageSize: 1000,

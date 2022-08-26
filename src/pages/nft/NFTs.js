@@ -56,10 +56,10 @@ const filterBy = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/adm-api/v1/nft/get-list`,
+  endpoint: `/api/v1/nft/get-list`,
   title: "NFTs",
   columns,
   filterBy,
-  reMintEndpoint: `/adm-api/v1/nft/mint`,
+  reMintEndpoint: `/api/v1/nft/mint`,
   component: "nfts",
 });

@@ -46,7 +46,7 @@ const _handleUpload = (server, e, callback) => {
         if (image.size < 50000000) {
           var fd = new FormData();
           fd.append("image", image);
-          fetch(`${API}/adm-api/v1/upload/${endpoint}?isRandomName=false`, {
+          fetch(`${API}/api/v1/upload/${endpoint}?isRandomName=false`, {
             headers: {
               Authorization: "bearer " + getAccessToken(),
             },

@@ -20,7 +20,7 @@ export default function NewDashboard() {
 
   useState(() => {
     post(
-      `/adm-api/v1/nft/get-list`,
+      `/api/v1/nft/get-list`,
       {
         page: 1,
         pageSize: 5,
@@ -55,7 +55,7 @@ export default function NewDashboard() {
     //   (data) => setRecentWithdraws(data ? data.items : null)
     // );
     post(
-      `/adm-api/v1/nft-transaction/get-list`,
+      `/api/v1/nft-transaction/get-list`,
       {
         page: 1,
         pageSize: 5,

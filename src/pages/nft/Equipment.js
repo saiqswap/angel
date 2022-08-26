@@ -62,8 +62,8 @@ const filterBy = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/adm-api/v1/config/equipment/list`,
-  updateEndpoint: `/adm-api/v1/config/equipment`,
+  endpoint: `/api/v1/config/equipment/list`,
+  updateEndpoint: `/api/v1/config/equipment`,
   createFields: [
     new Filter({
       key: "class",
@@ -170,7 +170,7 @@ export default SearchHigherComponent({
       col: 12,
     }),
   ],
-  deleteEndpoint: `/adm-api/v1/config/equipment`,
+  deleteEndpoint: `/api/v1/config/equipment`,
   title: "Equipment",
   columns,
   filterBy,

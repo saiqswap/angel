@@ -72,7 +72,7 @@ const filterBy = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/adm-api/v1/presale/transaction/get-list`,
+  endpoint: `/api/v1/presale/transaction/get-list`,
   title: "Transaction",
   columns,
   getRoles: true,

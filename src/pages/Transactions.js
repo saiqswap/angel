@@ -88,7 +88,7 @@ const filterBy = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/adm-api/v1/nft-transaction/get-list`,
+  endpoint: `/api/v1/nft-transaction/get-list`,
   title: "Transaction",
   columns,
   getRoles: true,

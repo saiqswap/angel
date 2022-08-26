@@ -26,7 +26,7 @@ const _handleUploadWeb3 = (e, callback) => {
       if (e.target.files[0].size < 5000000) {
         var fd = new FormData();
         fd.append("image", e.target.files[0]);
-        fetch(`${API}/adm-api/v1/upload/file`, {
+        fetch(`${API}/api/v1/upload/file`, {
           headers: {
             Authorization: "bearer " + getAccessToken(),
           },

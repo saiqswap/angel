@@ -34,11 +34,11 @@ const columns = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/adm-api/v1/config/system-box/list`,
+  endpoint: `/api/v1/config/system-box/list`,
   title: "Box list",
   columns,
-  updateEndpoint: `/adm-api/v1/config/system-box`,
-  //   deleteEndpoint: `/adm-api/v1/config/contract`,
+  updateEndpoint: `/api/v1/config/system-box`,
+  //   deleteEndpoint: `/api/v1/config/contract`,
   getRoles: true,
   //   createFields: [
   //     new Filter({

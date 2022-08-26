@@ -25,7 +25,7 @@ export default function AngelBoxes() {
 
   const loadData = () => {
     setData(null);
-    get(`/adm-api/v1/config/box-open-rate?boxType=ANGEL`, (data) => {
+    get(`/api/v1/config/box-open-rate?boxType=ANGEL`, (data) => {
       setData(data);
     });
   };
@@ -46,7 +46,7 @@ export default function AngelBoxes() {
     const rate = e.target.rate.value;
     if (selected) {
       put(
-        `/adm-api/v1/config/box-open-rate`,
+        `/api/v1/config/box-open-rate`,
         {
           id: selected.id,
           nftLevel,
@@ -62,7 +62,7 @@ export default function AngelBoxes() {
       );
     } else {
       post(
-        `/adm-api/v1/config/box-open-rate`,
+        `/api/v1/config/box-open-rate`,
         {
           nftLevel,
           rate,
@@ -86,7 +86,7 @@ export default function AngelBoxes() {
         title: "Notification",
         content: "Are you for this action",
         _handleSubmit: () => {
-          _delete(`/adm-api/v1/config/box-open-rate?id=${id}`, {}, () => {
+          _delete(`/api/v1/config/box-open-rate?id=${id}`, {}, () => {
             loadData();
           });
         },
@@ -169,13 +169,11 @@ export default function AngelBoxes() {
                     native: true,
                   }}
                 >
-                  {TYPE_LEVEL.map(
-                    (item) => (
-                      <option key={item} value={item}>
-                        {item}
-                      </option>
-                    )
-                  )}
+                  {TYPE_LEVEL.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
                 </TextField>
               </Grid>
               <Grid item xs={12}>
@@ -223,7 +221,7 @@ const AngelImage = ({ id }) => {
 
   useEffect(() => {
     post(
-      `/adm-api/v1/nft/get-list`,
+      `/api/v1/nft/get-list`,
       {
         page: 1,
         pageSize: 1,

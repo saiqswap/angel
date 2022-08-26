@@ -64,10 +64,10 @@ const columns = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/adm-api/v1/presale/product/get-list`,
+  endpoint: `/api/v1/presale/product/get-list`,
   title: "Minting Box",
   columns,
-  updateEndpoint: `/adm-api/v1/presale/product`,
+  updateEndpoint: `/api/v1/presale/product`,
   getRoles: true,
   createFields: [
     new Filter({

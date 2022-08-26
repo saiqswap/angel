@@ -94,7 +94,7 @@ export default function AngelTemplates() {
 
   useEffect(() => {
     post(
-      `/adm-api/v1/nft/get-list`,
+      `/api/v1/nft/get-list`,
       {
         filters: {
           category: "ROOT",
@@ -169,7 +169,7 @@ export default function AngelTemplates() {
   const _handleCreateTemplate = () => {
     defaultData.properties.skills = skills;
     if (defaultData.tokenId) {
-      put(`/adm-api/v1/nft`, defaultData, () => {
+      put(`/api/v1/nft`, defaultData, () => {
         toast.success("Update");
         setOpen(false);
         setRefresh(!refresh);
@@ -178,7 +178,7 @@ export default function AngelTemplates() {
       });
     } else {
       defaultData.type = "ANGEL";
-      post(`/adm-api/v1/nft`, defaultData, () => {
+      post(`/api/v1/nft`, defaultData, () => {
         toast.success("Created");
         setOpen(false);
         setRefresh(!refresh);

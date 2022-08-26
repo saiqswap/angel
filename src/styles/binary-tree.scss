@@ -1,0 +1,198 @@
+.binary-tree {
+  form.MuiPaper-root {
+    width: 250px;
+    input {
+      width: 190px;
+      padding-left: 10px;
+    }
+  }
+  .tree {
+    list-style: none;
+    padding: 0;
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+    display: table;
+    min-width: 90%;
+
+    ul,
+    li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    ul {
+      display: table;
+      width: 100%;
+    }
+
+    li {
+      display: table-cell;
+      padding: 50px 0;
+      vertical-align: top;
+
+      &:before {
+        outline: solid 1px rgba($color: #000, $alpha: 0.12);
+        content: "";
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+      &:first-child:before {
+        left: 50%;
+      }
+
+      &:last-child:before {
+        right: 50%;
+      }
+    }
+
+    .content-tree {
+      border: solid 1px rgba($color: #000, $alpha: 0.12);
+      border-radius: 0.2em;
+      display: inline-block;
+      margin: 0 1em 53px;
+      padding: 1.5em 1em;
+      position: relative;
+      border-radius: 5px;
+      padding: 10px;
+      background: #fff;
+      &.root {
+        &:before {
+          height: 0;
+          outline: none;
+          top: 0;
+        }
+      }
+      .user-name {
+        border: solid 0.1em #37c0ca;
+        border-radius: 5px;
+        padding: 5px;
+        font-weight: bolder;
+        white-space: nowrap;
+        margin-bottom: 5px;
+      }
+      p {
+        margin-bottom: 0;
+      }
+      .detail-tree {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        .left-layout {
+          width: 50%;
+          text-align: left;
+          border-right: solid 1px rgba($color: #000, $alpha: 0.12);
+        }
+        .right-layout {
+          width: 50%;
+          text-align: right;
+        }
+        h3 {
+          color: #37c0ca;
+          font-size: 1.3em;
+        }
+      }
+      .sum-credits {
+        text-align: center;
+        margin-bottom: 5px;
+        border-bottom: solid 1px rgba($color: #000, $alpha: 0.12);
+        padding: 10px 0;
+      }
+      .user-tree {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .user-left {
+          width: 50%;
+          text-align: left;
+          display: flex;
+          padding-right: 5px;
+          align-items: center;
+          justify-content: space-between;
+          .user-name-active {
+            text-align: left;
+          }
+          .user-avatar-active {
+            text-align: right;
+          }
+        }
+        .user-right {
+          width: 50%;
+          text-align: right;
+          display: flex;
+          padding-left: 5px;
+          align-items: center;
+          justify-content: space-between;
+          .user-name-active {
+            text-align: right;
+          }
+          .user-avatar-active {
+            text-align: left;
+          }
+        }
+        .user-avatar-active {
+          .avatar {
+            width: 20px;
+            border-radius: 50%;
+            border: 1px solid #000;
+            background-color: #fff;
+          }
+        }
+      }
+    }
+
+    ul:before,
+    .content-tree:before {
+      outline: solid 1px rgba($color: #000, $alpha: 0.12);
+      content: "";
+      height: 47px;
+      left: 50%;
+      position: absolute;
+    }
+
+    ul:before {
+      top: -51px;
+    }
+
+    .content-tree:before {
+      top: -50px;
+    }
+
+    > li {
+      margin-top: 0;
+
+      &:before,
+      &:after {
+        outline: none;
+      }
+
+      > {
+        code:before,
+        span:before {
+          outline: none;
+        }
+      }
+    }
+  }
+  .container-tree {
+    width: 100%;
+    overflow: hidden;
+    cursor: all-scroll;
+    border: 1px solid #e0e0e0;
+    background-color: #fff;
+    position: relative;
+    height: 460px;
+    .tools {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      z-index: 11;
+    }
+  }
+}

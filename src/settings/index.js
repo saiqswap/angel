@@ -9,12 +9,13 @@ const hostname = window.location.hostname.replace("www.", "");
 //   ? APIs[hostname]
 //   : `https://marketplace_api.megdev.co`;
 
-export const API = `https://marketplace.infinityangel.io`;
+export const API = ``;
+export const USER_API = ``;
 
-const USER_APIs = [];
-export const USER_API = APIs[hostname]
-  ? USER_APIs[hostname]
-  : `https://nftcapi.ganet.io/api`;
+// const USER_APIs = [];
+// export const USER_API = APIs[hostname]
+//   ? USER_APIs[hostname]
+//   : `https://nftcapi.ganet.io/api`;
 
 const domains = {
   localhost: "http://localhost:3000",

@@ -1,4 +1,8 @@
 import SearchHigherComponent from "../components/SearchHigherComponent";
+import {
+  ENDPOINT_CONFIG_BOX_SYSTEM,
+  ENDPOINT_CONFIG_BOX_SYSTEM_LIST,
+} from "../constants/endpoint";
 import { Filter } from "../settings";
 
 const columns = [
@@ -34,11 +38,11 @@ const columns = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/api/v1/config/system-box/list`,
+  endpoint: ENDPOINT_CONFIG_BOX_SYSTEM_LIST,
   title: "Box list",
   columns,
-  updateEndpoint: `/api/v1/config/system-box`,
-  //   deleteEndpoint: `/api/v1/config/contract`,
+  updateEndpoint: ENDPOINT_CONFIG_BOX_SYSTEM,
+  //   deleteEndpoint: `/adm-api/v1/config/contract`,
   getRoles: true,
   //   createFields: [
   //     new Filter({

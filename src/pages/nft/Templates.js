@@ -51,12 +51,12 @@ const filterBy = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/api/v1/nft/get-list`,
+  endpoint: `ENDPOINT_NFT_GET_LIST`,
   title: "NFT Templates",
   columns,
   filterBy,
-  updateEndpoint: `/api/v1/nft`,
-  // deleteEndpoint: `/api/v1/nft`,
+  updateEndpoint: `/adm-api/v1/nft`,
+  // deleteEndpoint: `/adm-api/v1/nft`,
   createFields: [
     new Filter({
       key: "name",

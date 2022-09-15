@@ -93,6 +93,19 @@ function formatBigMoney(str) {
 //   },
 // };
 
+export function formatAddress_1(string, length = 10) {
+  if (string)
+    return (
+      <>
+        {string.length > length * 2
+          ? string.slice(0, length) +
+            "..." +
+            string.slice(string.length - length)
+          : string}
+      </>
+    );
+  else return "--/--";
+}
 export function formatAddress(string, length = 10) {
   if (string)
     return (
@@ -118,48 +131,74 @@ export function formatAddress(string, length = 10) {
 
 export function getLinkHash(data) {
   if (data) {
-    const { type, network, txId } = data;
-    if (txId) {
-      if (type === "EXTERNAL") {
-        let address = null;
-        if (network === "TRC20") {
-          address = `https://tronscan.org/#/transaction/${txId}`;
-        }
-        if (network === "ERC20" || network === "ETH") {
-          address = `https://etherscan.io/tx/${txId}`;
-        }
-        if (network === "BTC") {
-          address = `https://www.blockchain.com/btc/tx/${txId}`;
-        }
-        return (
-          <>
-            <a href={address} target="_blank" rel="noreferrer">
-              {data.txId.slice(0, 10) +
-                "..." +
-                data.txId.slice(data.txId.length - 10)}
-            </a>
-            <Icon
-              name="copy outline"
-              onClick={() => {
-                toast.success("Copied");
-                navigator.clipboard.writeText(txId);
-              }}
-              style={{
-                cursor: "pointer",
-                fontSize: "1.2em",
-                marginLeft: 5,
-                zIndex: 1001,
-              }}
-            />
-          </>
-        );
-      } else {
-        return formatAddress(txId);
-      }
-    } else return null;
+    const { txHash } = data;
+    let address = `https://bscscan.com/tx/${txHash}`;
+    return (
+      <>
+        <a href={address} target="_blank" rel="noreferrer">
+          {formatAddress(txHash)}
+        </a>
+        <Icon
+          name="copy outline"
+          onClick={() => {
+            toast.success("Copied");
+            navigator.clipboard.writeText(txHash);
+          }}
+          style={{
+            cursor: "pointer",
+            fontSize: "1.2em",
+            marginLeft: 5,
+            zIndex: 1001,
+          }}
+        />
+      </>
+    );
   } else {
     return null;
   }
+  // if (data) {
+  //   const { type, network, txId } = data;
+  //   if (txId) {
+  //     if (type === "EXTERNAL") {
+  //       let address = null;
+  //       if (network === "TRC20") {
+  //         address = `https://tronscan.org/#/transaction/${txId}`;
+  //       }
+  //       if (network === "ERC20" || network === "ETH") {
+  //         address = `https://etherscan.io/tx/${txId}`;
+  //       }
+  //       if (network === "BTC") {
+  //         address = `https://www.blockchain.com/btc/tx/${txId}`;
+  //       }
+  //       return (
+  //         <>
+  //           <a href={address} target="_blank" rel="noreferrer">
+  //             {data.txId.slice(0, 10) +
+  //               "..." +
+  //               data.txId.slice(data.txId.length - 10)}
+  //           </a>
+  //           <Icon
+  //             name="copy outline"
+  //             onClick={() => {
+  //               toast.success("Copied");
+  //               navigator.clipboard.writeText(txId);
+  //             }}
+  //             style={{
+  //               cursor: "pointer",
+  //               fontSize: "1.2em",
+  //               marginLeft: 5,
+  //               zIndex: 1001,
+  //             }}
+  //           />
+  //         </>
+  //       );
+  //     } else {
+  //       return formatAddress(txId);
+  //     }
+  //   } else return null;
+  // } else {
+  //   return null;
+  // }
 }
 
 export function formatShortAmount(str) {
@@ -182,10 +221,28 @@ export function formatShortAmount(str) {
   return result;
 }
 
+// export function formatAmount(str) {
+//   str += "";
+//   let deleteText = str.replace(/[^\d.]/g, ""); //clear text
+//   deleteText = Math.floor(deleteText * 1.0e8) / 1.0e8;
+//   const x = deleteText.toString().split(".");
+//   let x1 = x[0];
+//   const x2 = x[1];
+//   const x3 = x.length > 1 ? "." + x2.slice(0, 8) : "";
+//   if (!x1) x1 = "0";
+//   const rgx = /(\d+)(\d{3})/;
+//   while (rgx.test(x1)) {
+//     x1 = x1.replace(rgx, "$1,$2");
+//   }
+//   let result = (x1 + x3).replace(/^0+(?!\.|$)/, "").replace(/^\./, "");
+//   return result;
+// }
+
 export function formatAmount(str) {
-  str += "";
-  let deleteText = str.replace(/[^\d.]/g, ""); //clear text
-  deleteText = Math.floor(deleteText * 1.0e8) / 1.0e8;
+  let deleteText = Number(str)
+    .toFixed(8)
+    .replace(/\.?0+$/, "");
+  deleteText = deleteText !== "NaN" ? deleteText : 0;
   const x = deleteText.toString().split(".");
   let x1 = x[0];
   const x2 = x[1];
@@ -219,9 +276,10 @@ export function formatShortUSD(str) {
 }
 
 export function formatNumber(str, length = 8) {
-  str += "";
-  let deleteText = str.replace(/[^\d.]/g, ""); //clear text
-  deleteText = Math.floor(deleteText * 1.0e8) / 1.0e8;
+  let deleteText = Number(str)
+    .toFixed(8)
+    .replace(/\.?0+$/, "");
+  deleteText = deleteText !== "NaN" ? deleteText : 0;
   const x = deleteText.toString().split(".");
   let x1 = x[0];
   const x2 = x[1];
@@ -233,4 +291,18 @@ export function formatNumber(str, length = 8) {
   }
   let result = (x1 + x3).replace(/^0+(?!\.|$)/, "").replace(/^\./, "");
   return result;
+}
+
+export function _convertCsvToArray(str, delimiter = ",") {
+  const headers = str.slice(0, str.indexOf("\n")).trim().split(delimiter);
+  const rows = str.slice(str.indexOf("\n") + 1).split("\n");
+  const arr = rows.map((row) => {
+    const values = row.replace("\r", "").split(delimiter);
+    const el = headers.reduce((object, header, index) => {
+      object[header] = values[index];
+      return object;
+    }, {});
+    return el;
+  });
+  return arr;
 }

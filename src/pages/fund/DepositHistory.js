@@ -95,10 +95,14 @@ const filterBy = [
   }),
 ];
 
-export default SearchHigherComponent({
-  endpoint: ENDPOINT_POST_DEPOSIT_HISTORY,
-  // exportLink: "/user-service/user/export",
-  title: "Deposit history",
-  columns,
-  filterBy,
-});
+export default function DepositHistory(props) {
+  const Component = new SearchHigherComponent({
+    ...props,
+    endpoint: ENDPOINT_POST_DEPOSIT_HISTORY,
+    // exportLink: "/user-service/user/export",
+    title: "Deposit history",
+    columns,
+    filterBy,
+  });
+  return <Component />;
+}

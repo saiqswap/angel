@@ -1,4 +1,8 @@
 import SearchHigherComponent from "../../components/SearchHigherComponent";
+import {
+  ENDPOINT_CONFIG_EQUIPMENT,
+  ENDPOINT_CONFIG_EQUIPMENT_LIST,
+} from "../../constants/endpoint";
 import { Filter } from "../../settings";
 
 const columns = [
@@ -62,8 +66,8 @@ const filterBy = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/api/v1/config/equipment/list`,
-  updateEndpoint: `/api/v1/config/equipment`,
+  endpoint: ENDPOINT_CONFIG_EQUIPMENT_LIST,
+  updateEndpoint: ENDPOINT_CONFIG_EQUIPMENT,
   createFields: [
     new Filter({
       key: "class",
@@ -170,7 +174,7 @@ export default SearchHigherComponent({
       col: 12,
     }),
   ],
-  deleteEndpoint: `/api/v1/config/equipment`,
+  deleteEndpoint: ENDPOINT_CONFIG_EQUIPMENT,
   title: "Equipment",
   columns,
   filterBy,

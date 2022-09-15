@@ -1,4 +1,8 @@
 import SearchHigherComponent from "../../components/SearchHigherComponent";
+import {
+  ENDPOINT_MINTING_BOX_PRODUCT,
+  ENDPOINT_MINTING_BOX_PRODUCT_LIST,
+} from "../../constants/endpoint";
 import { Filter } from "../../settings";
 
 const columns = [
@@ -64,10 +68,10 @@ const columns = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/api/v1/presale/product/get-list`,
+  endpoint: ENDPOINT_MINTING_BOX_PRODUCT_LIST,
   title: "Minting Box",
   columns,
-  updateEndpoint: `/api/v1/presale/product`,
+  updateEndpoint: ENDPOINT_MINTING_BOX_PRODUCT,
   getRoles: true,
   createFields: [
     new Filter({
@@ -115,8 +119,8 @@ export default SearchHigherComponent({
     }),
     new Filter({
       key: "paymentContract",
-      type: "select",
-      text: "Payment Contract",
+      type: "SELECT_PAYMENT_CONTRACT",
+      text: "Asset",
       col: 12,
       require: true,
       selectName: "PAYMENT_CONTRACTS",
@@ -190,8 +194,8 @@ export default SearchHigherComponent({
     }),
     new Filter({
       key: "paymentContract",
-      type: "select",
-      text: "Payment Contract",
+      type: "SELECT_PAYMENT_CONTRACT",
+      text: "Asset",
       col: 12,
       require: true,
       selectName: "PAYMENT_CONTRACTS",

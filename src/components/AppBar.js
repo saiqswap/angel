@@ -7,11 +7,14 @@ import {
   Popover,
   Toolbar,
 } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useSelector } from "react-redux";
 import Notify from "./Notify";
+import { useDispatch } from "react-redux";
+import { _getContracts, _getProfile } from "../actions/adminActions";
+import { _getConfig } from "../actions/settingActions";
 
 function emailToName(email) {
   const index = email.indexOf("@");
@@ -23,6 +26,13 @@ export default function CustomAppBar({ open, _handleDrawerOpen }) {
   const { admin } = useSelector((state) => state);
   const { profile } = admin;
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(_getProfile());
+    dispatch(_getConfig());
+    dispatch(_getContracts());
+  }, [dispatch]);
 
   // const _handleClick = (event) => {
   //   setAnchorEl(event.currentTarget);

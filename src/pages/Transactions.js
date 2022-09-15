@@ -1,4 +1,5 @@
 import SearchHigherComponent from "../components/SearchHigherComponent";
+import { ENDPOINT_NFT_TRANSACTION_LIST } from "../constants/endpoint";
 import { Filter } from "../settings";
 
 const columns = [
@@ -8,20 +9,15 @@ const columns = [
     isId: true,
   },
   {
+    key: "refId",
+    label: "Ref ID",
+    isId: true,
+  },
+  {
     key: "userId",
     label: "User ID",
     isEmail: true,
     userId: "userId",
-  },
-  {
-    key: "fromAddress",
-    label: "From",
-    isAddress: true,
-  },
-  {
-    key: "toAddress",
-    label: "To",
-    isAddress: true,
   },
   {
     key: "type",
@@ -87,10 +83,13 @@ const filterBy = [
   }),
 ];
 
-export default SearchHigherComponent({
-  endpoint: `/api/v1/nft-transaction/get-list`,
-  title: "Transaction",
-  columns,
-  getRoles: true,
-  filterBy,
-});
+export default function Transactions(props) {
+  const Component = new SearchHigherComponent({
+    ...props,
+    endpoint: ENDPOINT_NFT_TRANSACTION_LIST,
+    title: "Transactions",
+    columns,
+    filterBy,
+  });
+  return <Component />;
+}

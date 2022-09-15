@@ -46,7 +46,7 @@ const _handleUpload = (server, e, callback) => {
         if (image.size < 50000000) {
           var fd = new FormData();
           fd.append("image", image);
-          fetch(`${API}/api/v1/upload/${endpoint}?isRandomName=false`, {
+          fetch(`${API}/adm-api/v1/upload/${endpoint}?isRandomName=false`, {
             headers: {
               Authorization: "bearer " + getAccessToken(),
             },
@@ -177,12 +177,13 @@ export default function S3Component() {
                             }}
                           >
                             <img
-                              src={`${baseUrl}${i}`}
+                              src={`${baseUrl}/${i}`}
                               alt=""
                               style={{
                                 width: "100%",
                                 height: "150px",
                                 objectFit: "contain",
+                                background: "rgba(0, 0, 0, 0.4)",
                               }}
                             />
                             <TextField

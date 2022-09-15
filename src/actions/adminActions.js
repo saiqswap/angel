@@ -57,7 +57,7 @@ export const _getRoles = () => (dispatch) => {
 
 export const _getContracts = () => (dispatch) => {
   post(
-    `/api/v1/config/contract/list`,
+    `/adm-api/v1/config/contract/list`,
     {},
     (data) =>
       dispatch({

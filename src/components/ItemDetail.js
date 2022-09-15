@@ -11,8 +11,8 @@ import {
   TableRow,
   Typography,
 } from "@material-ui/core";
-import React from "react";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import React from "react";
 
 const formatFieldName = (string) => {
   string = string.replace(/([A-Z])/g, " $1");
@@ -20,12 +20,6 @@ const formatFieldName = (string) => {
 };
 
 export default function ItemDetail({ data, _onClose }) {
-  if (data) {
-    Object.keys(data)
-      .sort()
-      .map((key, index) => console.log(data[key]));
-  }
-
   return (
     <Drawer anchor="right" open={data !== null} onClose={_onClose}>
       <div className="item-detail">
@@ -54,15 +48,42 @@ export default function ItemDetail({ data, _onClose }) {
                 <TableBody>
                   {Object.keys(data)
                     .sort()
-                    .map(
-                      (key, index) =>
+                    .map((key, index) => {
+                      if (key === "items") {
+                        const items = data[key];
+                        const array = [];
+                        items.forEach((item) => {
+                          const index = array.findIndex(
+                            (e) => e.boxType === item.boxType
+                          );
+                          if (index < 0) {
+                            array.push({ boxType: item.boxType, amount: 1 });
+                          } else {
+                            array[index].amount += 1;
+                          }
+                        });
+                        return (
+                          <TableRow key={index}>
+                            <TableCell>{formatFieldName(key)}</TableCell>
+                            <TableCell>
+                              {array.map((item, index) => (
+                                <Typography variant="body2" key={index}>
+                                  {item.boxType}: {item.amount}
+                                </Typography>
+                              ))}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      }
+                      return (
                         key !== "properties" && (
                           <TableRow key={index}>
                             <TableCell>{formatFieldName(key)}</TableCell>
                             <TableCell>{data[key]}</TableCell>
                           </TableRow>
                         )
-                    )}
+                      );
+                    })}
                 </TableBody>
               </Table>
             </TableContainer>

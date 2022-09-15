@@ -6,12 +6,19 @@ import { get } from "../../utils/api";
 
 export default function UserBalances({ data }) {
   const [balances, setBalances] = useState(null);
+  const [mounted, setMounted] = useState(true);
 
   useEffect(() => {
     get(`${ENDPOINT_POST_BALANCES}?userId=${data.id}`, (data) => {
-      setBalances(data);
+      if (mounted) {
+        setBalances(data);
+      }
     });
-  }, [data.id]);
+  }, [data.id, mounted]);
+
+  useEffect(() => {
+    return () => setMounted(false);
+  }, []);
 
   return (
     balances && (

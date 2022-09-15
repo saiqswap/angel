@@ -6,8 +6,9 @@ import Balances from "../../pages/fund/Balances";
 import DepositHistory from "../../pages/fund/DepositHistory";
 import FundLogs from "../../pages/fund/FundLogs";
 import WithdrawHistory from "../../pages/fund/WithdrawHistory";
+import Transactions from "../../pages/Transactions";
 
-export default function Transactions() {
+export default function UserTransaction({ userId }) {
   const [tab, setTab] = useState(0);
 
   const menus = [
@@ -20,21 +21,25 @@ export default function Transactions() {
     //   component: <Balances />,
     // },
     {
+      title: `Transactions`,
+      component: <Transactions isProfile={true} profileUserId={userId} />,
+    },
+    {
       title: "Logs",
-      component: <FundLogs />,
+      component: <FundLogs isProfile={true} profileUserId={userId} />,
     },
     {
       title: "Deposit",
-      component: <DepositHistory />,
+      component: <DepositHistory isProfile={true} profileUserId={userId} />,
     },
     {
       title: "Withdraw/Transfer",
-      component: <WithdrawHistory />,
+      component: <WithdrawHistory isProfile={true} profileUserId={userId} />,
     },
-    {
-      title: `Affiliate Commission`,
-      component: <AffiliateCommission />,
-    },
+    // {
+    //   title: `Affiliate Commission`,
+    //   component: <AffiliateCommission />,
+    // },
   ];
 
   const _handleChange = (e, value) => setTab(value);

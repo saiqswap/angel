@@ -17,7 +17,13 @@ import DetailsIcon from "@material-ui/icons/Details";
 import CustomLoading from "./CustomLoading";
 import { useState } from "react";
 import EditIcon from "@material-ui/icons/Edit";
-import { Check, Close, RestorePage } from "@material-ui/icons";
+import {
+  Check,
+  CheckBoxOutlineBlank,
+  CheckCircle,
+  Close,
+  RestorePage,
+} from "@material-ui/icons";
 import { get } from "../utils/api";
 import { ENDPOINT_GET_HOT_WALLET } from "../constants/endpoint";
 import { Link } from "react-router-dom";
@@ -44,8 +50,19 @@ function CustomTable({
   //remint
   reMintEndpoint,
   _handleReMint,
+
+  isProfile,
 }) {
   const [rows, setRows] = useState(null);
+
+  if (isProfile) {
+    const index = columns.findIndex((object) => {
+      return object.isEmail;
+    });
+    if (index > -1) {
+      columns.splice(index, 1);
+    }
+  }
 
   useEffect(() => {
     if (data) {
@@ -156,7 +173,22 @@ function CustomTable({
                     isContent,
                     isCount,
                     isImage,
+                    isUsed,
+                    isINOItems,
                   } = col;
+                  if (isINOItems) {
+                    const items = row[col.key];
+                    let mintCount = 0;
+                    items.forEach((e) => {
+                      if (e.box.mintTxHash) {
+                        mintCount++;
+                      }
+                    });
+                    result = `${mintCount}/${items.length}`;
+                  }
+                  if (!row[col.key]) {
+                    result = "--/--";
+                  }
                   if (isId) {
                     result = "#" + row[col.key];
                   }
@@ -198,6 +230,10 @@ function CustomTable({
                       ? library[row[col.key]]
                       : row[col.key];
                   if (isGA) result = row.gaEnable ? "ON" : "OFF";
+                  if (isUsed)
+                    result = row[col.key] ? (
+                      <CheckCircle color="primary" fontSize="small" />
+                    ) : null;
                   if (isArray) result = row[col.key].toString();
                   if (isBool)
                     result = row[col.key] ? (
@@ -245,6 +281,7 @@ function CustomTable({
                       />
                     );
                   }
+
                   return (
                     <TableCell
                       key={colIndex}

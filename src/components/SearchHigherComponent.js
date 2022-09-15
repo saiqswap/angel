@@ -7,25 +7,24 @@ import {
   TableContainer,
   Typography,
 } from "@material-ui/core";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { CSVLink } from "react-csv";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { _getRoles } from "../actions/adminActions";
 import { _switchPopup } from "../actions/settingActions";
 import { ENDPOINT_POST_USER_LOGIN } from "../constants/endpoint";
 import { USER_DOMAIN } from "../settings";
 import { post, _delete } from "../utils/api";
+import { userPost } from "../utils/user-api";
 import CustomPagination from "./CustomPagination";
 import CustomTable from "./CustomTable";
 import ItemCreate from "./ItemCreate";
 import ItemDetail from "./ItemDetail";
-import KYCForm from "./KYCForm";
 import Meta from "./Meta";
 import Toolbar from "./Toolbar";
-import moment from "moment";
-import { _getRoles } from "../actions/adminActions";
-import { userPost } from "../utils/user-api";
 
 function SearchHigherComponent({
   columns,
@@ -54,15 +53,7 @@ function SearchHigherComponent({
     const [data, setData] = useState(null);
     const [pageSize, setPageSize] = useState(10);
     const [page, setPage] = useState(1);
-    const [filters, setFilters] = useState(
-      defaultFilter
-        ? defaultFilter
-        : userId
-        ? props.note === "referrals"
-          ? { sponsorId: userId }
-          : { userId }
-        : {}
-    );
+    const [filters, setFilters] = useState(null);
     const [isReload, setIsReload] = useState(false);
     // const [orderBy, setOrderBy] = useState("");
     // const [isDesc, setIsDesc] = useState("");
@@ -71,10 +62,26 @@ function SearchHigherComponent({
     const [selectedIds, setSelectedIds] = useState([]);
     const [selectedEdit, setSelectedEdit] = useState(null);
     const [showCreate, setShowCreate] = useState(false);
-    const [selectKYC, setSelectKYC] = useState(null);
     const dispatch = useDispatch();
     const [mounted, setMounted] = useState(true);
     const [exportData, setExportData] = useState(null);
+
+    useEffect(() => {
+      let tempFilters = {};
+      if (defaultFilter) {
+        tempFilters = defaultFilter;
+      }
+      if (userId) {
+        tempFilters = { userId };
+      }
+      if (props.note === "referrals") {
+        tempFilters = { sponsorId: userId };
+      }
+      if (props.isProfile) {
+        tempFilters = { userId: props.profileUserId };
+      }
+      setFilters(tempFilters);
+    }, [userId]);
 
     useEffect(() => {
       if (getRoles) {
@@ -84,45 +91,49 @@ function SearchHigherComponent({
 
     useEffect(() => {
       setData(null);
-      if (!requireFilter || (requireFilter && filters[requireFilter])) {
-        if (component === "nfts") {
-          if (isNFTTemplate) {
-            filters.category = "ROOT";
-          } else {
-            filters.category = "NFT";
+      if (filters) {
+        if (!requireFilter || (requireFilter && filters[requireFilter])) {
+          if (component === "nfts") {
+            if (isNFTTemplate) {
+              filters.category = "ROOT";
+            } else {
+              filters.category = "NFT";
+            }
           }
-        }
-        const body = {
-          page,
-          pageSize,
-          search: "",
-          // orderBy,
-          // isDesc,
-          responseMeta: true,
-          filters,
-        };
-        if (userId && !props.note) body.userId = userId;
-        if (userId && props.note === "referrals") {
-          body.filters.sponsorId = userId;
-        }
-        if (isUserAPI) {
-          userPost(endpoint, body, (data) => {
-            if (mounted) {
-              setData(data);
-            }
-          });
+          const body = {
+            page,
+            pageSize,
+            search: "",
+            // orderBy,
+            // isDesc,
+            responseMeta: true,
+            filters,
+          };
+          if (props.isProfile && props.profileUserId)
+            body.filters.userId = props.profileUserId;
+          if (userId && !props.note) body.userId = userId;
+          if (userId && props.note === "referrals") {
+            body.filters.sponsorId = userId;
+          }
+          if (isUserAPI) {
+            userPost(endpoint, body, (data) => {
+              if (mounted) {
+                setData(data);
+              }
+            });
+          } else {
+            post(endpoint, body, (data) => {
+              if (mounted) {
+                setData(data);
+              }
+            });
+          }
         } else {
-          post(endpoint, body, (data) => {
-            if (mounted) {
-              setData(data);
-            }
+          setData({
+            items: [],
           });
+          toast(`Please enter ${requireFilter} for filter data`);
         }
-      } else {
-        setData({
-          items: [],
-        });
-        toast(`Please enter ${requireFilter} for filter data`);
       }
     }, [filters, page, pageSize, isReload, userId, mounted]);
 
@@ -260,7 +271,7 @@ function SearchHigherComponent({
     return (
       <Grid container spacing={5}>
         <Grid item xs={12}>
-          {title && !userId && (
+          {title && !userId && !props.isProfile && (
             <Typography variant="h5" style={{ fontWeight: 500 }}>
               {title}
             </Typography>
@@ -274,6 +285,7 @@ function SearchHigherComponent({
             createFields={createFields}
             defaultFilter={defaultFilter}
             note={props.note}
+            isProfile={props.isProfile}
             exportLink={exportLink}
             _onReload={() => setIsReload(!isReload)}
             _onReset={_handleReset}
@@ -329,16 +341,13 @@ function SearchHigherComponent({
                   setSelectedIds(e);
                 }}
                 _handleEditItem={(e) => setSelectedEdit(e)}
-                _handleSelectKYC={(e) => {
-                  setSelectKYC(null);
-                  setSelectKYC(e);
-                }}
                 _handleDelete={_handleDelete}
                 _handleLogin={_handleLogin}
                 deleteEndpoint={deleteEndpoint}
                 //remint
                 reMintEndpoint={reMintEndpoint}
                 _handleReMint={_handleReMint}
+                isProfile={props.isProfile}
               />
             </TableContainer>
             <CustomPagination
@@ -375,13 +384,13 @@ function SearchHigherComponent({
               _onReload={_onReload}
             />
           )}
-          {component === "verification" && (
+          {/* {component === "verification" && (
             <KYCForm
               data={selectKYC}
               _handleClose={() => setSelectKYC(null)}
               _onReload={_onReload}
             />
-          )}
+          )} */}
         </Grid>
         {exportData && (
           <CSVLink

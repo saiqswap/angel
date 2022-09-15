@@ -1,4 +1,3 @@
-import { CircularProgress } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -6,6 +5,7 @@ import {
   CloudUpload,
   Grain,
   Settings,
+  Share,
   Star,
 } from "@material-ui/icons";
 import DvrIcon from "@material-ui/icons/Dvr";
@@ -13,43 +13,47 @@ import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import GavelIcon from "@material-ui/icons/Gavel";
 import HistoryIcon from "@material-ui/icons/History";
 import InboxIcon from "@material-ui/icons/Inbox";
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import PersonIcon from "@material-ui/icons/Person";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { _getProfile } from "../actions/adminActions";
 import AppBar from "../components/AppBar";
 import Content from "../components/Content";
+import CurrentUserProfile from "../components/CurrentUserProfile";
 import Sidebar from "../components/Sidebar";
 import AdminList from "./AdminList";
 import AffiliateCommission from "./AffiliateCommission";
-import AngelBoxes from "./box/AngelBoxes";
-import MinionBoxes from "./box/MinionBoxes";
-import SkinBoxes from "./box/SkinBoxes";
+import BoxByType from "./airdrop/BoxByType";
+import BoxByTypeAndTier from "./airdrop/BoxByTypeAndTier";
+import BoxList from "./box/BoxList";
+import BoxRate from "./box/BoxRate";
 import Boxes from "./Boxes";
 import Contracts from "./Contracts";
-import ApprovedWithdraws from "./fund/ApprovedWithdraws";
 import CoinList from "./fund/CoinList";
 import DepositHistory from "./fund/DepositHistory";
 import FundLogs from "./fund/FundLogs";
-import PendingWithdraws from "./fund/PendingWithdraws";
 import WithdrawHistory from "./fund/WithdrawHistory";
+import INOList from "./ino/INOList";
+import MintingBoxCombo from "./minting-box/MintingBoxCombo";
 import MintingBoxProducts from "./minting-box/MintingBoxProducts";
-import MintingBox from "./minting-box/MintingBoxProducts";
 import MintingBoxTransactions from "./minting-box/MintingBoxTransactions";
 import Equipment from "./nft/Equipment";
 import NewTemplates from "./nft/NewTemplates";
 import NFTs from "./nft/NFTs";
 import RI from "./nft/RI";
+import PresaleSetting from "./PresaleSetting";
 import RoleList from "./RoleList";
 import S3Component from "./S3Component";
 import ChangePassword from "./setting/ChangePassword";
 import GoogleAuthenticator from "./setting/GoogleAuthenticator";
 import Transactions from "./Transactions";
+import MemberCount from "./user/MemberCount";
 import UserList from "./user/UserList";
+import TelegramIcon from "@material-ui/icons/Telegram";
 
 const routes = [
+  //user
   {
     name: "User",
     icon: <PersonIcon />,
@@ -61,14 +65,14 @@ const routes = [
         component: UserList,
         scope: "USER_READ",
       },
-      // {
-      //   name: "Verifications",
-      //   path: "/user/verifications",
-      //   component: VerificationList,
-      //   scope: "USER_FULL",
-      // },
+      {
+        name: "Member count",
+        path: "/user/member-count",
+        component: MemberCount,
+      },
     ],
   },
+  //nft
   {
     name: "NFTs",
     icon: <DvrIcon />,
@@ -95,25 +99,13 @@ const routes = [
       },
     ],
   },
+  //box
   {
     name: "Box",
     icon: <InboxIcon />,
     routes: [
-      {
-        name: "Angels",
-        path: "/box/angels",
-        component: AngelBoxes,
-      },
-      {
-        name: "Costume",
-        path: "/box/costume",
-        component: SkinBoxes,
-      },
-      {
-        name: "Minion Parts",
-        path: "/box/minion_parts",
-        component: MinionBoxes,
-      },
+      { name: "List", path: "/box/list", component: BoxList },
+      { name: "Box Rate", path: "/box/rate", component: BoxRate },
       {
         name: "Box Price",
         path: "/box/price",
@@ -121,6 +113,7 @@ const routes = [
       },
     ],
   },
+  //fund
   {
     name: "Fund",
     icon: <AccountBalanceWallet />,
@@ -138,18 +131,18 @@ const routes = [
         component: WithdrawHistory,
         // scope: "FUND_FULL",
       },
-      {
-        name: "Pending withdrawals",
-        path: "/fund/pending-withdraws",
-        component: PendingWithdraws,
-        // scope: "FUND_FULL",
-      },
-      {
-        name: "Approved withdrawals",
-        path: "/fund/approved-withdraws",
-        component: ApprovedWithdraws,
-        // scope: "FUND_FULL",
-      },
+      // {
+      //   name: "Pending withdrawals",
+      //   path: "/fund/pending-withdraws",
+      //   component: PendingWithdraws,
+      //   // scope: "FUND_FULL",
+      // },
+      // {
+      //   name: "Approved withdrawals",
+      //   path: "/fund/approved-withdraws",
+      //   component: ApprovedWithdraws,
+      //   // scope: "FUND_FULL",
+      // },
       {
         name: "Coins",
         path: "/fund/coins",
@@ -167,7 +160,7 @@ const routes = [
   {
     name: "Minting Box",
     icon: <Star />,
-    scope: "ADMIN_FULL",
+    // scope: "AIRDROP_WRITE_SUPPORT",
     routes: [
       {
         name: "Products",
@@ -175,9 +168,45 @@ const routes = [
         path: "/minting-box/products",
       },
       {
+        name: "Combo",
+        component: MintingBoxCombo,
+        path: "/minting-box/combo",
+      },
+      {
         name: "Transactions",
         component: MintingBoxTransactions,
         path: "/minting-box/boxes",
+      },
+    ],
+  },
+  //airdrop
+  {
+    name: "Airdrop",
+    icon: <Share />,
+    scope: "ADMIN_FULL",
+    routes: [
+      {
+        name: "Box",
+        component: BoxByType,
+        path: "/airdrop/box-by-type",
+      },
+      {
+        name: "Box With Tier",
+        component: BoxByTypeAndTier,
+        path: "/airdrop/box-by-type-and-tier",
+      },
+    ],
+  },
+  //airdrop
+  {
+    name: "INO",
+    icon: <TelegramIcon />,
+    scope: "ADMIN_FULL",
+    routes: [
+      {
+        name: "List",
+        component: INOList,
+        path: "/ino/list",
       },
     ],
   },
@@ -195,7 +224,6 @@ const routes = [
     component: AffiliateCommission,
     path: "/affiliate-commission",
   },
-
   {
     name: "Contracts",
     icon: <GavelIcon />,
@@ -241,14 +269,18 @@ const routes = [
     path: "/upload",
     scope: "ADMIN_FULL",
   },
+  // {
+  //   name: "Presale Setting",
+  //   icon: <MonetizationOnIcon />,
+  //   component: PresaleSetting,
+  //   path: "/presale-setting",
+  //   scope: "ADMIN_FULL",
+  // },
 ];
 
 export default function Main() {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
-  const dispatch = useDispatch();
-  const { admin } = useSelector((state) => state);
-  const { profile } = admin;
 
   const _handleDrawerOpen = () => {
     setOpen(true);
@@ -258,11 +290,7 @@ export default function Main() {
     setOpen(false);
   };
 
-  useEffect(() => {
-    dispatch(_getProfile());
-  }, [dispatch]);
-
-  return profile ? (
+  return (
     <Router>
       <div className={classes.root}>
         <CssBaseline />
@@ -275,18 +303,8 @@ export default function Main() {
         />
         <Content routes={routes} />
       </div>
-      {/* <RequireForAdmin /> */}
+      <CurrentUserProfile />
     </Router>
-  ) : (
-    <div
-      style={{
-        height: "100vh",
-        width: "100vw",
-        display: "flex",
-      }}
-    >
-      <CircularProgress style={{ margin: "auto" }} />
-    </div>
   );
 }
 

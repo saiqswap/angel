@@ -1,11 +1,8 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import Dashboard from "../pages/Dashboard";
 import NewDashboard from "../pages/NewDashboard";
-import FeedDetail from "../pages/nft/FeedDetail";
 import UserDetail from "../pages/user/UserDetail";
-import VerificationView from "../pages/user/VerificationView";
 
 export default function Routes({ routes }) {
   const classes = useStyles();
@@ -33,9 +30,7 @@ export default function Routes({ routes }) {
             />
           )
         )}
-        <Route path="/user/verification/:id" component={VerificationView} />
         <Route path="/user/detail/:userId" component={UserDetail} />
-        <Route path="/feed/detail/:token" component={FeedDetail} />
         <Route path="*" component={NewDashboard} />
       </Switch>
     </main>

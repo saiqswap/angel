@@ -1,4 +1,8 @@
 import SearchHigherComponent from "../../components/SearchHigherComponent";
+import {
+  ENDPOINT_CONFIG_RI,
+  ENDPOINT_CONFIG_RI_LIST,
+} from "../../constants/endpoint";
 import { Filter } from "../../settings";
 
 const columns = [
@@ -62,8 +66,8 @@ const filterBy = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/api/v1/config/ri/list`,
-  updateEndpoint: `/api/v1/config/ri`,
+  endpoint: ENDPOINT_CONFIG_RI_LIST,
+  updateEndpoint: ENDPOINT_CONFIG_RI,
   createFields: [
     new Filter({
       key: "nftType",
@@ -160,7 +164,7 @@ export default SearchHigherComponent({
       col: 12,
     }),
   ],
-  deleteEndpoint: `/api/v1/config/ri`,
+  deleteEndpoint: ENDPOINT_CONFIG_RI,
   title: "RI",
   columns,
   filterBy,

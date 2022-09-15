@@ -19,6 +19,7 @@ const columns = [
     label: "Address",
     isAddress: true,
   },
+  { key: "limitRiSlot", label: "R-I slot" },
   {
     key: "referralId",
     label: "Referral",
@@ -37,7 +38,7 @@ const columns = [
 
 const filterBy = [
   new Filter({
-    key: "userId",
+    key: "id",
     type: "input",
     text: "User ID",
   }),

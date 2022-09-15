@@ -1,4 +1,5 @@
 import SearchHigherComponent from "../../components/SearchHigherComponent";
+import { ENDPOINT_MINTING_BOX_TRANSACTION } from "../../constants/endpoint";
 import { Filter } from "../../settings";
 
 const columns = [
@@ -72,7 +73,7 @@ const filterBy = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/api/v1/presale/transaction/get-list`,
+  endpoint: ENDPOINT_MINTING_BOX_TRANSACTION,
   title: "Transaction",
   columns,
   getRoles: true,

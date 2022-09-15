@@ -2,6 +2,7 @@ import {
   FETCH_CONTRACTS,
   FETCH_PROFILE,
   FETCH_ROLE,
+  FETCH_USER,
   FETCH_USER_LIST,
 } from "../constants";
 
@@ -10,15 +11,14 @@ const initialState = {
   userList: null,
   roleList: null,
   contracts: null,
+  currentUser: null,
 };
 
 export const AdminReducer = (state = initialState, action) => {
   const { type, payload } = action;
-  console.log({
-    type,
-    payload,
-  });
   switch (type) {
+    case FETCH_USER:
+      return { ...state, currentUser: payload };
     case FETCH_CONTRACTS:
       return { ...state, contracts: payload };
     case FETCH_ROLE:

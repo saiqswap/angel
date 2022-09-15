@@ -2,6 +2,7 @@ export const FETCH_PROFILE = `FETCH_PROFILE`;
 export const FETCH_USER_LIST = `FETCH_USER_LIST`;
 export const FETCH_CONFIG = `FETCH_CONFIG`;
 export const FETCH_CONTRACTS = `FETCH_CONTRACTS`;
+export const FETCH_USER = `FETCH_USER`;
 
 export const INTERNAL = `INTERNAL`;
 export const ACTIVE = `ACTIVE`;
@@ -40,3 +41,34 @@ export const ANGEL_BOXES = [
   },
 ];
 export const TYPE_LEVEL = ["TIER_1", "TIER_2", "TIER_3", "TIER_4", "TIER_5"];
+
+export const BOX_LIST = [
+  {
+    value: "ANGEL",
+    text: "Angel",
+  },
+  {
+    value: "MINION_PARTS_COMMON",
+    text: "Minion Parts Common",
+  },
+  {
+    value: "MINION_PARTS_EPIC",
+    text: "Minion Parts Epic",
+  },
+  {
+    value: "COSTUME_COMMON",
+    text: "Costume Common",
+  },
+  {
+    value: "COSTUME_EPIC",
+    text: "Costume Epic",
+  },
+];
+
+export const TIER_LIST = [
+  { value: "TIER_1", text: "Tier 1" },
+  { value: "TIER_1", text: "Tier 2" },
+  { value: "TIER_3", text: "Tier 3" },
+  { value: "TIER_4", text: "Tier 4" },
+  { value: "TIER_5", text: "Tier 5" },
+];

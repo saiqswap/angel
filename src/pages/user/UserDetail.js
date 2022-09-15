@@ -5,7 +5,7 @@ import CustomLoading from "../../components/CustomLoading";
 import ItemDetail from "../../components/ItemDetail";
 import Actions from "../../components/user-detail/Actions";
 import Info from "../../components/user-detail/Info";
-import Transactions from "../../components/user-detail/Transactions";
+import Transactions from "../../components/user-detail/UserTransactions";
 import UserBalances from "../../components/user-detail/UserBalances";
 import { ENDPOINT_POST_USER_LIST } from "../../constants/endpoint";
 import { post } from "../../utils/api";

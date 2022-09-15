@@ -21,7 +21,8 @@ function Toolbar({
   _handleShowCreate,
   defaultFilter,
   note,
-  _handleExport
+  isProfile,
+  _handleExport,
 }) {
   const [filters, setFilters] = useState({});
   const [showToolbar, setShowToolbar] = useState(true);
@@ -59,9 +60,11 @@ function Toolbar({
               <Grid container spacing={1}>
                 {filterBy.map((item, index) => {
                   if (
-                    userId &&
-                    note !== "referrals" &&
-                    (item.key === "userId" || item.key === "username")
+                    ((userId && note !== "referrals") || isProfile) &&
+                    (item.key === "userId" ||
+                      item.key === "username" ||
+                      item.key === "email" ||
+                      item.key === "wallet")
                   ) {
                     return null;
                   } else {

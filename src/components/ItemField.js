@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { API } from "../settings";
+import { formatAddress_1 } from "../settings/format";
 import { getAccessToken } from "../utils/auth";
 
 function isFileImage(file) {
@@ -26,7 +27,7 @@ const _handleUploadWeb3 = (e, callback) => {
       if (e.target.files[0].size < 5000000) {
         var fd = new FormData();
         fd.append("image", e.target.files[0]);
-        fetch(`${API}/api/v1/upload/file`, {
+        fetch(`${API}/adm-api/v1/upload/file`, {
           headers: {
             Authorization: "bearer " + getAccessToken(),
           },
@@ -96,7 +97,6 @@ export default function ItemField({
 
   //set list for select box
   useEffect(() => {
-    console.log(contracts);
     if (enums && contracts) {
       let list = [];
       if (selectName === "Coin") {
@@ -137,9 +137,7 @@ export default function ItemField({
           `COSTUME_EPIC`,
         ];
       if (selectName === "PAYMENT_CONTRACTS") {
-        contracts.forEach((element) => {
-          list.push(element.contractAddress);
-        });
+        list = contracts;
       }
       setList(list);
     }
@@ -205,6 +203,34 @@ export default function ItemField({
           {list.map((item, index) => (
             <MenuItem value={item} key={index}>
               {item}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Grid>
+    );
+  } else if (type === "SELECT_PAYMENT_CONTRACT") {
+    return (
+      <Grid item xs={col ? col : 2}>
+        <TextField
+          label={text}
+          inputProps={{
+            name: key,
+          }}
+          select
+          variant="outlined"
+          fullWidth
+          size="small"
+          defaultValue={defaultValue}
+          required={require}
+          disabled={disabled}
+          {...props}
+        >
+          <MenuItem value="">
+            <em>NONE</em>
+          </MenuItem>
+          {list.map((item, index) => (
+            <MenuItem value={item.contractAddress} key={index}>
+              {item.symbol} - {formatAddress_1(item.contractAddress, 18)}
             </MenuItem>
           ))}
         </TextField>

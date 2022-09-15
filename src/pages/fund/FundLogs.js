@@ -2,15 +2,10 @@ import SearchHigherComponent from "../../components/SearchHigherComponent";
 import { ENDPOINT_POST_FUND_LOGS } from "../../constants/endpoint";
 import { Filter } from "../../settings";
 const columns = [
-  // {
-  //   key: "userId",
-  //   label: "User ID",
-  //   isId: true
-  // },
   {
     key: "amount",
     label: "Amount",
-    isAmount: true,
+    // isAmount: true,
   },
   {
     key: "blockAmount",
@@ -36,27 +31,32 @@ const columns = [
   },
 ];
 
-export default SearchHigherComponent({
-  endpoint: ENDPOINT_POST_FUND_LOGS,
-  columns,
-  requireFilter: "userId",
-  title: "Fund logs",
-  filterBy: [
-    new Filter({
-      key: "userId",
-      type: "input",
-      text: "User ID",
-    }),
-    new Filter({
-      key: "type",
-      type: "input",
-      text: "Type",
-    }),
-    new Filter({
-      key: "asset",
-      type: "select",
-      text: "Asset",
-      selectName: "Coin",
-    }),
-  ],
-});
+export default function FundLogs(props) {
+  const Component = new SearchHigherComponent({
+    ...props,
+    endpoint: ENDPOINT_POST_FUND_LOGS,
+    columns,
+    requireFilter: "userId",
+    title: "Fund logs",
+    filterBy: [
+      new Filter({
+        key: "userId",
+        type: "input",
+        text: "User ID",
+      }),
+      new Filter({
+        key: "type",
+        type: "input",
+        text: "Type",
+      }),
+      new Filter({
+        key: "asset",
+        type: "select",
+        text: "Asset",
+        selectName: "Coin",
+      }),
+    ],
+  });
+
+  return <Component />;
+}

@@ -1,4 +1,8 @@
 import SearchHigherComponent from "../components/SearchHigherComponent";
+import {
+  ENDPOINT_CONTRACT,
+  ENDPOINT_CONTRACT_LIST,
+} from "../constants/endpoint";
 import { Filter } from "../settings";
 
 const columns = [
@@ -31,11 +35,11 @@ const columns = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/api/v1/config/contract/list`,
+  endpoint: ENDPOINT_CONTRACT_LIST,
   title: "Contract list",
   columns,
-  updateEndpoint: `/api/v1/config/contract`,
-  //   deleteEndpoint: `/api/v1/config/contract`,
+  updateEndpoint: ENDPOINT_CONTRACT,
+  //   deleteEndpoint: `/adm-api/v1/config/contract`,
   getRoles: true,
   createFields: [
     new Filter({

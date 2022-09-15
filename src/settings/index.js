@@ -9,18 +9,20 @@ const hostname = window.location.hostname.replace("www.", "");
 //   ? APIs[hostname]
 //   : `https://marketplace_api.megdev.co`;
 
-export const API = ``;
-export const USER_API = ``;
-
 // const USER_APIs = [];
 // export const USER_API = APIs[hostname]
 //   ? USER_APIs[hostname]
 //   : `https://nftcapi.ganet.io/api`;
 
+export const API = `https://marketplace_api.megdev.co`;
+// export const API = ``;
+
+export const USER_API = ``;
+
 const domains = {
-  localhost: "http://localhost:3000",
-  "mininggerer.spdev.co": "https://mining.spdev.co",
-  "dodo.miningclub.org": "https://miningclub.org",
+  // localhost: "http://localhost:3000",
+  // "mininggerer.spdev.co": "https://mining.spdev.co",
+  // "dodo.miningclub.org": "https://miningclub.org",
 };
 export const USER_DOMAIN = domains[hostname];
 

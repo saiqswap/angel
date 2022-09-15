@@ -9,9 +9,11 @@ import {
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { ENDPOINT_NFT_GET_LIST } from "../../constants/endpoint";
 import { baseUrl } from "../../pages/S3Component";
 import { _getImage } from "../../settings";
 import { post } from "../../utils/api";
+import { _formatNameToLink } from "../../utils/format";
 
 const CustomImage = styled("img")(({ theme }) => ({
   width: 80,
@@ -28,10 +30,9 @@ const MinionSkill = ({ data }) => {
     <div className="passive-skill">
       <div>
         <CustomImage
-          src={`${baseUrl}/effect_${data.properties.effect
-            .toLowerCase()
-            .split(" ")
-            .join("_")}.png`}
+          src={`${baseUrl}/effect_${_formatNameToLink(
+            data.properties.effect
+          )}.png`}
           alt=""
         />
         <div>{data.properties.effect}</div>
@@ -45,7 +46,7 @@ export default function MinionImages() {
 
   useEffect(() => {
     post(
-      `/api/v1/nft/get-list`,
+      ENDPOINT_NFT_GET_LIST,
       {
         page: 1,
         pageSize: 1000,
@@ -82,6 +83,16 @@ export default function MinionImages() {
                   )}
                   alt=""
                   key={index}
+                />
+                <CustomImage
+                  src={_getImage(
+                    `thumbnail_${item.name.toLowerCase().replace(" ", "_")}.png`
+                  )}
+                  alt=""
+                  key={index}
+                  style={{
+                    objectFit: "cover",
+                  }}
                 />
                 <Divider />
                 <MinionSkill data={item} />

@@ -8,13 +8,12 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { _switchPopup } from "../../actions/settingActions";
 import { TYPE_LEVEL } from "../../constants";
+import { ENDPOINT_CONFIG_BOX_OPEN_RATE } from "../../constants/endpoint";
 import { get, post, put, _delete } from "../../utils/api";
 
 export default function AngelBoxes() {
@@ -25,7 +24,7 @@ export default function AngelBoxes() {
 
   const loadData = () => {
     setData(null);
-    get(`/api/v1/config/box-open-rate?boxType=ANGEL`, (data) => {
+    get(`${ENDPOINT_CONFIG_BOX_OPEN_RATE}?boxType=ANGEL`, (data) => {
       setData(data);
     });
   };
@@ -46,7 +45,7 @@ export default function AngelBoxes() {
     const rate = e.target.rate.value;
     if (selected) {
       put(
-        `/api/v1/config/box-open-rate`,
+        `${ENDPOINT_CONFIG_BOX_OPEN_RATE}`,
         {
           id: selected.id,
           nftLevel,
@@ -62,7 +61,7 @@ export default function AngelBoxes() {
       );
     } else {
       post(
-        `/api/v1/config/box-open-rate`,
+        `${ENDPOINT_CONFIG_BOX_OPEN_RATE}`,
         {
           nftLevel,
           rate,
@@ -86,7 +85,7 @@ export default function AngelBoxes() {
         title: "Notification",
         content: "Are you for this action",
         _handleSubmit: () => {
-          _delete(`/api/v1/config/box-open-rate?id=${id}`, {}, () => {
+          _delete(`${ENDPOINT_CONFIG_BOX_OPEN_RATE}?id=${id}`, {}, () => {
             loadData();
           });
         },
@@ -215,36 +214,3 @@ export default function AngelBoxes() {
     </div>
   );
 }
-
-const AngelImage = ({ id }) => {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    post(
-      `/api/v1/nft/get-list`,
-      {
-        page: 1,
-        pageSize: 1,
-        filters: {
-          tokenId: id,
-        },
-      },
-      (data) => setData(data.items[0]),
-      (error) => toast.error(error.msg)
-    );
-  }, [id]);
-
-  return data && data.fileUri ? (
-    <img
-      src={data.fileUri}
-      alt=""
-      style={{
-        width: "calc(100% - 32px)",
-        objectFit: "contain",
-        position: "absolute",
-        bottom: 16,
-        left: 16,
-      }}
-    />
-  ) : null;
-};

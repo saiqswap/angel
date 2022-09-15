@@ -1,4 +1,8 @@
 import SearchHigherComponent from "../../components/SearchHigherComponent";
+import {
+  ENDPOINT_NFT_GET_LIST,
+  ENDPOINT_NFT_MINT,
+} from "../../constants/endpoint";
 import { Filter } from "../../settings";
 
 const columns = [
@@ -9,7 +13,7 @@ const columns = [
   {
     key: "tokenId",
     label: "ID",
-    isFeedToken: true,
+    isId: true,
   },
   {
     key: "name",
@@ -28,6 +32,12 @@ const columns = [
     key: "ownerAddress",
     label: "Owner address",
     isAddress: true,
+  },
+  {
+    key: "userId",
+    label: "User ID",
+    isEmail: true,
+    userId: "userId",
   },
   {
     key: "status",
@@ -56,10 +66,10 @@ const filterBy = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/api/v1/nft/get-list`,
+  endpoint: ENDPOINT_NFT_GET_LIST,
   title: "NFTs",
   columns,
   filterBy,
-  reMintEndpoint: `/api/v1/nft/mint`,
+  reMintEndpoint: ENDPOINT_NFT_MINT,
   component: "nfts",
 });

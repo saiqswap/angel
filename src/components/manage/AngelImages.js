@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { ENDPOINT_NFT_GET_LIST } from "../../constants/endpoint";
 import { baseUrl } from "../../pages/S3Component";
 import { post } from "../../utils/api";
 import { formatNftName } from "../../utils/format";
@@ -46,7 +47,7 @@ export default function AngelImages() {
 
   useEffect(() => {
     post(
-      `/api/v1/nft/get-list`,
+      ENDPOINT_NFT_GET_LIST,
       {
         page: 1,
         pageSize: 1000,

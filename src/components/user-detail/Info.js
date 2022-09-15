@@ -1,4 +1,4 @@
-import { Avatar, Grid, Paper, Typography } from "@material-ui/core";
+import { Avatar, Box, Grid, Paper, Typography } from "@material-ui/core";
 import { CheckCircleOutline } from "@material-ui/icons";
 import moment from "moment";
 import React from "react";
@@ -36,7 +36,7 @@ function stringAvatar(name) {
   };
 }
 
-export default function Info({ data, _selectItem }) {
+export default function Info({ data }) {
   return (
     <Grid item xs={12}>
       <Paper
@@ -45,16 +45,24 @@ export default function Info({ data, _selectItem }) {
         }}
         variant="outlined"
       >
-        <Grid container spacing={2} alignItems="center">
+        <Grid container spacing={2} alignItems="flex-start">
           <Grid item xs={1}>
             {data && <Avatar {...stringAvatar(data.email)} />}
           </Grid>
-          <Grid item xs={4}>
-            <Typography variant="body2">ID: #{data && data.id}</Typography>
-            <Typography variant="body2">Email: {data && data.email}</Typography>
-            <Typography variant="body2">
-              Address: {data && formatAddress(data.address)}
-            </Typography>
+          <Grid item xs={5}>
+            <Box pl={2}>
+              <Typography variant="body2">ID: #{data && data.id}</Typography>
+              <Typography variant="body2">
+                Email: {data && data.email}
+              </Typography>
+              <Typography variant="body2">
+                Address: {data && formatAddress(data.address)}
+              </Typography>
+              <Typography variant="body2">
+                Join time:{" "}
+                {data && moment(data.createdTime).format("YYYY-MM-DD")}
+              </Typography>
+            </Box>
           </Grid>
           <Grid item xs={3}>
             <Typography variant="body2">
@@ -73,23 +81,21 @@ export default function Info({ data, _selectItem }) {
                   color={data.gaEnable ? "primary" : "inherit"}
                   style={{ fontSize: "1.1em" }}
                 />
-              )}{" "}
+              )}
             </Typography>
-            <Typography variant="body2">
-              Join time: {data && moment(data.createdTime).format("YYYY-MM-DD")}
-            </Typography>
-          </Grid>
-          <Grid item xs={3}>
             <Typography variant="body2">
               Affiliate ID: #{data && data.referralId}
             </Typography>
             <Typography variant="body2">
               Affiliate: {data && data.sponsorUsername}
             </Typography>
+          </Grid>
+          <Grid item xs={3}>
             <Typography variant="body2">
-              <Link to="#" onClick={_selectItem}>
-                Show more
-              </Link>
+              Game status: {data.gameStatus}
+            </Typography>
+            <Typography variant="body2">
+              R-I slot: {data.limitRiSlot}
             </Typography>
           </Grid>
         </Grid>

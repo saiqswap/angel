@@ -15,12 +15,11 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { Add, Close, Edit, Remove } from "@material-ui/icons";
+import { Add, Close, Edit } from "@material-ui/icons";
 import moment from "moment";
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { ENDPOINT_NFT_GET_LIST } from "../../constants/endpoint";
 import { _getImage } from "../../settings";
 import { post, put } from "../../utils/api";
 import AddListComponent from "../AddListComponent";
@@ -94,7 +93,7 @@ export default function AngelTemplates() {
 
   useEffect(() => {
     post(
-      `/api/v1/nft/get-list`,
+      ENDPOINT_NFT_GET_LIST,
       {
         filters: {
           category: "ROOT",
@@ -169,7 +168,7 @@ export default function AngelTemplates() {
   const _handleCreateTemplate = () => {
     defaultData.properties.skills = skills;
     if (defaultData.tokenId) {
-      put(`/api/v1/nft`, defaultData, () => {
+      put(`/adm-api/v1/nft`, defaultData, () => {
         toast.success("Update");
         setOpen(false);
         setRefresh(!refresh);
@@ -178,7 +177,7 @@ export default function AngelTemplates() {
       });
     } else {
       defaultData.type = "ANGEL";
-      post(`/api/v1/nft`, defaultData, () => {
+      post(`/adm-api/v1/nft`, defaultData, () => {
         toast.success("Created");
         setOpen(false);
         setRefresh(!refresh);

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Grid, Paper, Box, Divider, Typography } from "@material-ui/core";
 import { post } from "../utils/api";
 import {
+  ENDPOINT_NFT_GET_LIST,
+  ENDPOINT_NFT_TRANSACTION_LIST,
   ENDPOINT_POST_DEPOSIT_HISTORY,
   ENDPOINT_POST_LOT,
   ENDPOINT_POST_USER_LIST,
@@ -20,7 +22,7 @@ export default function NewDashboard() {
 
   useState(() => {
     post(
-      `/api/v1/nft/get-list`,
+      ENDPOINT_NFT_GET_LIST,
       {
         page: 1,
         pageSize: 5,
@@ -55,7 +57,7 @@ export default function NewDashboard() {
     //   (data) => setRecentWithdraws(data ? data.items : null)
     // );
     post(
-      `/api/v1/nft-transaction/get-list`,
+      ENDPOINT_NFT_TRANSACTION_LIST,
       {
         page: 1,
         pageSize: 5,

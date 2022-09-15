@@ -9,8 +9,11 @@ import {
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { ENDPOINT_NFT_GET_LIST } from "../../constants/endpoint";
+import { baseUrl } from "../../pages/S3Component";
 import { _getImage } from "../../settings";
 import { post } from "../../utils/api";
+import { formatNftName, _formatNameToLink } from "../../utils/format";
 
 const CustomImage = styled("img")(({ theme }) => ({
   width: 80,
@@ -28,10 +31,9 @@ const SkinPassiveSkin = ({ data }) => {
       <div>
         <CustomImage
           alt=""
-          src={`https://marketplace.megdev.co/images/effect-icons/${data.properties.costumeEffect
-            .toLowerCase()
-            .split(" ")
-            .join("_")}.png`}
+          src={`${baseUrl}/effect_${_formatNameToLink(
+            data.properties.costumeEffect
+          )}.png`}
         />
         <Typography>{data.properties.costumeEffect}</Typography>
         {/* <Box sx={{ height: 100 }}>
@@ -49,7 +51,7 @@ export default function SkinImages() {
 
   useEffect(() => {
     post(
-      `/api/v1/nft/get-list`,
+      ENDPOINT_NFT_GET_LIST,
       {
         page: 1,
         pageSize: 1000,

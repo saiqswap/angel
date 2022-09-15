@@ -18,6 +18,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { TYPE_LEVEL } from "../../constants";
+import { ENDPOINT_CONFIG_BOX_OPEN_RATE } from "../../constants/endpoint";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -77,11 +78,11 @@ export default function SkinBoxes() {
 
   return (
     <>
-      <Box mb={2}>
+      {/* <Box mb={2}>
         <Typography variant="h5" style={{ fontWeight: 500 }}>
-          Costume Boxes
+        Costume Boxes
         </Typography>
-      </Box>
+      </Box> */}
       <div className={classes.root}>
         <Tabs
           orientation="vertical"
@@ -113,7 +114,7 @@ const Boxes = ({ type }) => {
 
   const loadData = () => {
     setData(null);
-    get(`/api/v1/config/box-open-rate?boxType=${type}`, (data) => {
+    get(`${ENDPOINT_CONFIG_BOX_OPEN_RATE}?boxType=${type}`, (data) => {
       setData(data);
     });
   };
@@ -135,7 +136,7 @@ const Boxes = ({ type }) => {
     setOpen(false);
     if (selected) {
       put(
-        `/api/v1/config/box-open-rate`,
+        `${ENDPOINT_CONFIG_BOX_OPEN_RATE}`,
         {
           id: selected.id,
           boxType: type,
@@ -152,7 +153,7 @@ const Boxes = ({ type }) => {
       );
     } else {
       post(
-        `/api/v1/config/box-open-rate`,
+        `${ENDPOINT_CONFIG_BOX_OPEN_RATE}`,
         {
           boxType: type,
           nftType: "COSTUME",
@@ -175,7 +176,7 @@ const Boxes = ({ type }) => {
         title: "Notification",
         content: "Are you for this action",
         _handleSubmit: () => {
-          _delete(`/api/v1/config/box-open-rate?id=${id}`, {}, () => {
+          _delete(`${ENDPOINT_CONFIG_BOX_OPEN_RATE}?id=${id}`, {}, () => {
             loadData();
           });
         },

@@ -14,7 +14,7 @@ const hostname = window.location.hostname.replace("www.", "");
 //   ? USER_APIs[hostname]
 //   : `https://nftcapi.ganet.io/api`;
 
-// export const API = `https://marketplace_api.megdev.co/adm-api`;
+// export const API = `https://marketplace_api.megdev.co`;
 export const API = ``;
 
 export const USER_API = ``;

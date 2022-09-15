@@ -1,5 +1,5 @@
-// const adminUrl = `/adm-api`;
-const adminUrl = ``;
+const adminUrl = `/adm-api`;
+// const adminUrl = ``;
 
 export const ENDPOINT_LOGIN = `${adminUrl}/v1/admin/login`;
 export const ENDPOINT_GET_PROFILE = `${adminUrl}/v1/admin/profile`;

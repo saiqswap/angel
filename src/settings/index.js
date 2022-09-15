@@ -17,7 +17,7 @@ const hostname = window.location.hostname.replace("www.", "");
 // export const API = `https://marketplace_api.megdev.co`;
 // export const API_EXTENSION =`/adm-api`
 export const API = ``;
-export const API_EXTENSION = ``;
+export const API_EXTENSION = `/api`;
 
 export const USER_API = ``;
 

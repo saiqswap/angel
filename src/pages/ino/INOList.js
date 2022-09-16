@@ -10,6 +10,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TableRow,
   TextField,
@@ -42,7 +43,7 @@ export default function INOList() {
   ]);
 
   useEffect(() => {
-    post(ENDPOINT_INO_LIST, {}, (data) => setData(data));
+    post(ENDPOINT_INO_LIST, {}, (data) => setData(data.items));
   }, [flag]);
 
   const _handleRefresh = () => {
@@ -92,10 +93,24 @@ export default function INOList() {
   const _handleSend = (id) => {
     var answer = window.confirm("Are you sure ?");
     if (answer) {
-      post(ENDPOINT_INO_SEND_TRANSFER, { id }, () =>
-        toast.success("Success", (error) => {
+      const tempData = [...data];
+      const index = tempData.findIndex((d) => d.id === id);
+      if (index > 0) tempData[index].clicked = true;
+      setData(tempData);
+      post(
+        ENDPOINT_INO_SEND_TRANSFER,
+        { id },
+        () => {
+          toast.success("Success");
+          // _handleRefresh();
+        },
+        (error) => {
+          const tempData = [...data];
+          const index = tempData.findIndex((d) => d.id === id);
+          if (index > 0) tempData[index].clicked = false;
+          setData(tempData);
           toast.error(`${error.code}:  ${error.msg}`);
-        })
+        }
       );
     }
   };
@@ -118,85 +133,93 @@ export default function INOList() {
           </Button>
         </Box>
         <Paper variant="outlined">
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>Address</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Boxes</TableCell>
-                <TableCell>Minted/Total</TableCell>
-                <TableCell>Sended/Total</TableCell>
-                <TableCell>Created time</TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data?.items.map((item, index) => {
-                let mintCount = 0;
-                let sendedCount = 0;
-                item.items.forEach((e) => {
-                  if (e.box.mintTxHash) {
-                    mintCount++;
-                  }
-                  if (
-                    e.box.ownerAddress.toUpperCase() ===
-                    item.address.toUpperCase()
-                  ) {
-                    sendedCount++;
-                  }
-                });
-                return (
-                  <TableRow key={index}>
-                    <TableCell>#{item.id}</TableCell>
-                    <TableCell>{formatAddress(item.address)}</TableCell>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>
-                      {[
-                        `ANGEL`,
-                        `MINION_PARTS_COMMON`,
-                        `MINION_PARTS_EPIC`,
-                        `COSTUME_COMMON`,
-                        `COSTUME_EPIC`,
-                      ].map((i, index) => {
-                        const { items } = item;
-                        const count = items.filter((i1) => i1.boxType === i);
-                        return (
-                          count.length > 0 && (
-                            <Typography variant="body2" key={index}>
-                              {i}: {count.length}
-                            </Typography>
-                          )
-                        );
-                      })}
-                    </TableCell>
-                    <TableCell>
-                      {mintCount}/{item.items.length}
-                    </TableCell>
-                    <TableCell>
-                      {sendedCount}/{item.items.length}
-                    </TableCell>
-                    <TableCell>
-                      {moment(data.createdTime).format("YYYY-MM-DD HH:mm:ss")}
-                    </TableCell>
-                    <TableCell>
-                      {mintCount > 0 &&
-                        mintCount === item.items.length &&
-                        sendedCount === 0 && (
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => _handleSend(item.id)}
-                          >
-                            Send
-                          </Button>
-                        )}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+          <TableContainer
+            style={{
+              whiteSpace: "nowrap",
+              overflow: "auto",
+            }}
+          >
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell>Address</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Boxes</TableCell>
+                  <TableCell>Minted/Total</TableCell>
+                  <TableCell>Sended/Total</TableCell>
+                  <TableCell>Created time</TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data?.map((item, index) => {
+                  let mintCount = 0;
+                  let sendedCount = 0;
+                  item.items.forEach((e) => {
+                    if (e.box.mintTxHash) {
+                      mintCount++;
+                    }
+                    if (
+                      e.box.ownerAddress.toUpperCase() ===
+                      item.address.toUpperCase()
+                    ) {
+                      sendedCount++;
+                    }
+                  });
+                  return (
+                    <TableRow key={index}>
+                      <TableCell>#{item.id}</TableCell>
+                      <TableCell>{formatAddress(item.address)}</TableCell>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>
+                        {[
+                          `ANGEL`,
+                          `MINION_PARTS_COMMON`,
+                          `MINION_PARTS_EPIC`,
+                          `COSTUME_COMMON`,
+                          `COSTUME_EPIC`,
+                        ].map((i, index) => {
+                          const { items } = item;
+                          const count = items.filter((i1) => i1.boxType === i);
+                          return (
+                            count.length > 0 && (
+                              <Typography variant="body2" key={index}>
+                                {i}: {count.length}
+                              </Typography>
+                            )
+                          );
+                        })}
+                      </TableCell>
+                      <TableCell>
+                        {mintCount}/{item.items.length}
+                      </TableCell>
+                      <TableCell>
+                        {sendedCount}/{item.items.length}
+                      </TableCell>
+                      <TableCell>
+                        {moment(item.createdTime).format("YYYY-MM-DD HH:mm:ss")}
+                      </TableCell>
+                      <TableCell>
+                        {mintCount > 0 &&
+                          mintCount === item.items.length &&
+                          sendedCount === 0 && (
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={() => _handleSend(item.id)}
+                              disabled={item.clicked}
+                            >
+                              Send
+                            </Button>
+                          )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Paper>
       </Box>
       <Drawer anchor="right" open={open}>

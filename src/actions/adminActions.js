@@ -5,6 +5,7 @@ import {
   FETCH_USER_LIST,
 } from "../constants";
 import {
+  ENDPOINT_CONTRACT_LIST,
   ENDPOINT_GET_PROFILE,
   ENDPOINT_GET_ROLE,
   ENDPOINT_POST_USER_LIST,
@@ -57,7 +58,7 @@ export const _getRoles = () => (dispatch) => {
 
 export const _getContracts = () => (dispatch) => {
   post(
-    `/adm-api/v1/config/contract/list`,
+    ENDPOINT_CONTRACT_LIST,
     {},
     (data) =>
       dispatch({

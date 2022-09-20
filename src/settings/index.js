@@ -7,7 +7,7 @@ const hostname = window.location.hostname.replace("www.", "");
 const domains = {};
 const envConfigs = {
   localhost: devConfig,
-  "marketplace_admin.megdev.co": devConfig,
+  "https://apiinfinity.feliciastation.com": devConfig,
 };
 const envConfig = envConfigs[hostname]
   ? envConfigs[hostname]

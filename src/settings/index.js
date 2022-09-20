@@ -16,7 +16,6 @@ const envConfig = envConfigs[hostname]
 export const { API, API_EXTENSION, ENV_NAME } = envConfig;
 export const USER_API = ``;
 export const USER_DOMAIN = domains[hostname];
-
 export function Filter({
   key,
   type,

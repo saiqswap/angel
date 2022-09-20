@@ -35,6 +35,7 @@ import DepositHistory from "./fund/DepositHistory";
 import FundLogs from "./fund/FundLogs";
 import WithdrawHistory from "./fund/WithdrawHistory";
 import INOList from "./ino/INOList";
+import Whitelist from "./ino/Whitelist";
 import MintingBoxCombo from "./minting-box/MintingBoxCombo";
 import MintingBoxProducts from "./minting-box/MintingBoxProducts";
 import MintingBoxTransactions from "./minting-box/MintingBoxTransactions";
@@ -207,6 +208,11 @@ const routes = [
         name: "List",
         component: INOList,
         path: "/ino/list",
+      },
+      {
+        name: "Whitelist",
+        component: Whitelist,
+        path: "/ino/Whitelist",
       },
     ],
   },

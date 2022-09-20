@@ -6,8 +6,8 @@ export const SCOPES_KEY = "AhBcmvr1EkMdPnL5";
 const hostname = window.location.hostname.replace("www.", "");
 const domains = {};
 const envConfigs = {
-  localhost: stagingConfig,
-  "marketplace_admin.megdev.co": stagingConfig,
+  localhost: devConfig,
+  "marketplace_admin.megdev.co": devConfig,
 };
 const envConfig = envConfigs[hostname]
   ? envConfigs[hostname]

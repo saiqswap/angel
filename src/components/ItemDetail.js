@@ -75,6 +75,9 @@ export default function ItemDetail({ data, _onClose }) {
                           </TableRow>
                         );
                       }
+                      if (key === "products") {
+                        return null;
+                      }
                       return (
                         key !== "properties" && (
                           <TableRow key={index}>

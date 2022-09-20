@@ -7,6 +7,11 @@ import { Filter } from "../../settings";
 
 const columns = [
   {
+    key: "id",
+    label: "",
+    isId: true,
+  },
+  {
     key: "boxType",
     label: "Box Type",
   },
@@ -38,11 +43,6 @@ const columns = [
     isAmount: true,
   },
   {
-    key: "supply",
-    label: "Total Sell",
-    isAmount: true,
-  },
-  {
     key: "minOrder",
     label: "Min",
   },
@@ -53,12 +53,12 @@ const columns = [
   {
     key: "startTime",
     label: "Start",
-    isTime: true,
+    // isTime: true,
   },
   {
     key: "endTime",
     label: "End",
-    isTime: true,
+    // isTime: true,
   },
   {
     key: "isActive",
@@ -100,6 +100,13 @@ export default SearchHigherComponent({
       key: "supply",
       type: "input",
       text: "Total Sell",
+      col: 12,
+      require: true,
+    }),
+    new Filter({
+      key: "available",
+      type: "input",
+      text: "Available",
       col: 12,
       require: true,
     }),
@@ -164,6 +171,13 @@ export default SearchHigherComponent({
       require: true,
       selectName: "BOX_TYPES",
     }),
+    // new Filter({
+    //   key: "name",
+    //   type: "input",
+    //   text: "Name",
+    //   col: 12,
+    //   require: true,
+    // }),
     new Filter({
       key: "unitPrice",
       type: "input",
@@ -175,6 +189,13 @@ export default SearchHigherComponent({
       key: "supply",
       type: "input",
       text: "Total Sell",
+      col: 12,
+      require: true,
+    }),
+    new Filter({
+      key: "available",
+      type: "input",
+      text: "Available",
       col: 12,
       require: true,
     }),

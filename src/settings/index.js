@@ -1,33 +1,21 @@
+import { devConfig, productionConfig, stagingConfig } from "../env";
+
 export const ACCESS_TOKEN_KEY = "CBt3gpbqeMdWPNG1";
 export const DEVICE_KEY = "uU5tEUmAgvBWArsv";
 export const SCOPES_KEY = "AhBcmvr1EkMdPnL5";
-
 const hostname = window.location.hostname.replace("www.", "");
-
-// const APIs = [];
-// export const API = APIs[hostname]
-//   ? APIs[hostname]
-//   : `https://marketplace_api.megdev.co`;
-
-// const USER_APIs = [];
-// export const USER_API = APIs[hostname]
-//   ? USER_APIs[hostname]
-//   : `https://nftcapi.ganet.io/api`;
-
-export const API = `https://marketplace_api.megdev.co`;
-export const API_EXTENSION = `/adm-api`;
-// export const API = ``;
-// export const API_EXTENSION = ``;
-
-export const USER_API = ``;
-
-const domains = {
-  // localhost: "http://localhost:3000",
-  // "mininggerer.spdev.co": "https://mining.spdev.co",
-  // "dodo.miningclub.org": "https://miningclub.org",
+const domains = {};
+const envConfigs = {
+  localhost: devConfig,
+  "admininfinity.feliciastation.com": devConfig,
+  "marketplace_admin.megdev.co": stagingConfig,
 };
+const envConfig = envConfigs[hostname]
+  ? envConfigs[hostname]
+  : productionConfig;
+export const { API, API_EXTENSION, ENV_NAME } = envConfig;
+export const USER_API = ``;
 export const USER_DOMAIN = domains[hostname];
-
 export function Filter({
   key,
   type,
@@ -49,8 +37,6 @@ export function Filter({
   this.disabled = disabled;
   this.selectName = selectName;
 }
-
-console.log("Version: 0.0.1");
 
 export function _getImage(image) {
   return `https://6f7daba956414f5fa57231546ac07221.s3.ap-southeast-1.amazonaws.com/${image}`;

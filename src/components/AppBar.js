@@ -1,20 +1,21 @@
 import {
   AppBar,
   Avatar,
+  Chip,
   Grid,
   IconButton,
   makeStyles,
   Popover,
   Toolbar,
 } from "@material-ui/core";
-import React, { useEffect } from "react";
-import clsx from "clsx";
 import MenuIcon from "@material-ui/icons/Menu";
-import { useSelector } from "react-redux";
-import Notify from "./Notify";
-import { useDispatch } from "react-redux";
+import clsx from "clsx";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { _getContracts, _getProfile } from "../actions/adminActions";
 import { _getConfig } from "../actions/settingActions";
+import { ENV_NAME } from "../settings";
+import Notify from "./Notify";
 
 function emailToName(email) {
   const index = email.indexOf("@");
@@ -56,7 +57,7 @@ export default function CustomAppBar({ open, _handleDrawerOpen }) {
       <Toolbar>
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
-            <Grid container>
+            <Grid container alignItems="center">
               <Grid item>
                 <IconButton
                   color="inherit"
@@ -72,6 +73,13 @@ export default function CustomAppBar({ open, _handleDrawerOpen }) {
               </Grid>
               <Grid item>
                 <Avatar src="/logo.png" />
+              </Grid>
+              <Grid item>
+                <Chip
+                  label={ENV_NAME}
+                  color="secondary"
+                  style={{ fontWeight: 900 }}
+                />
               </Grid>
             </Grid>
           </Grid>

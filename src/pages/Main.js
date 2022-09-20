@@ -52,6 +52,9 @@ import Transactions from "./Transactions";
 import MemberCount from "./user/MemberCount";
 import UserList from "./user/UserList";
 import TelegramIcon from "@material-ui/icons/Telegram";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { _getMintingBoxes } from "../actions/adminActions";
 
 const routes = [
   //user
@@ -158,29 +161,29 @@ const routes = [
       },
     ],
   },
-  {
-    name: "Minting Box",
-    icon: <Star />,
-    // scope: "AIRDROP_WRITE_SUPPORT",
-    routes: [
-      {
-        name: "Products",
-        component: MintingBoxProducts,
-        path: "/minting-box/products",
-      },
-      {
-        name: "Combo",
-        component: MintingBoxCombo,
-        path: "/minting-box/combo",
-      },
-      {
-        name: "Transactions",
-        component: MintingBoxTransactions,
-        path: "/minting-box/boxes",
-      },
-    ],
-  },
-  //airdrop
+  // {
+  //   name: "Minting Box",
+  //   icon: <Star />,
+  //   // scope: "AIRDROP_WRITE_SUPPORT",
+  //   routes: [
+  //     {
+  //       name: "Products",
+  //       component: MintingBoxProducts,
+  //       path: "/minting-box/products",
+  //     },
+  //     {
+  //       name: "Combo",
+  //       component: MintingBoxCombo,
+  //       path: "/minting-box/combo",
+  //     },
+  //     {
+  //       name: "Transactions",
+  //       component: MintingBoxTransactions,
+  //       path: "/minting-box/boxes",
+  //     },
+  //   ],
+  // },
+  // airdrop
   {
     name: "Airdrop",
     icon: <Share />,
@@ -198,22 +201,23 @@ const routes = [
       },
     ],
   },
-  //airdrop
+  // airdrop
   {
     name: "INO",
     icon: <TelegramIcon />,
     scope: "ADMIN_FULL",
     routes: [
-      {
-        name: "List",
-        component: INOList,
-        path: "/ino/list",
-      },
+      // {
+      //   name: "List",
+      //   component: INOList,
+      //   path: "/ino/list",
+      // },
       {
         name: "Whitelist",
         component: Whitelist,
         path: "/ino/Whitelist",
       },
+
     ],
   },
   {
@@ -287,6 +291,11 @@ const routes = [
 export default function Main() {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(_getMintingBoxes());
+  }, [dispatch]);
 
   const _handleDrawerOpen = () => {
     setOpen(true);

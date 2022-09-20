@@ -1,5 +1,6 @@
 import {
   FETCH_CONTRACTS,
+  FETCH_MINTING_BOX,
   FETCH_PROFILE,
   FETCH_ROLE,
   FETCH_USER,
@@ -12,11 +13,14 @@ const initialState = {
   roleList: null,
   contracts: null,
   currentUser: null,
+  mintingBoxes: null,
 };
 
 export const AdminReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
+    case FETCH_MINTING_BOX:
+      return { ...state, mintingBoxes: payload };
     case FETCH_USER:
       return { ...state, currentUser: payload };
     case FETCH_CONTRACTS:

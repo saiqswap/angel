@@ -3,6 +3,7 @@ export const FETCH_USER_LIST = `FETCH_USER_LIST`;
 export const FETCH_CONFIG = `FETCH_CONFIG`;
 export const FETCH_CONTRACTS = `FETCH_CONTRACTS`;
 export const FETCH_USER = `FETCH_USER`;
+export const FETCH_MINTING_BOX = `FETCH_MINTING_BOX`;
 
 export const INTERNAL = `INTERNAL`;
 export const ACTIVE = `ACTIVE`;

@@ -16,6 +16,7 @@ import { _switchPopup } from "../actions/settingActions";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
+import moment from "moment/moment";
 export default function ItemCreate({
   open,
   createFields,
@@ -46,6 +47,17 @@ export default function ItemCreate({
       fields.forEach((element) => {
         if (element.type === "checkbox") {
           body[element.key] = defaultScopes;
+        } else if (element.type === "date-time") {
+          body[element.key] = moment(defaultScopes).valueOf();
+        } else if (element.type === "MINTING_BOX") {
+          const data = [];
+          for (let index = 0; index < defaultScopes.length; index++) {
+            data.push({
+              productId: parseInt(defaultScopes[index]),
+              unitPrice: 0.198,
+            });
+          }
+          body[element.key] = data;
         } else if (element.type === "singleCheckbox") {
           const checked = e.target[element.key].checked;
           body[element.key] = checked;
@@ -61,6 +73,7 @@ export default function ItemCreate({
           }
         }
       });
+      console.log(body);
       setLoading(true);
       dispatch(
         _switchPopup({
@@ -111,6 +124,7 @@ export default function ItemCreate({
 
   const _handleCheck = (e) => {
     const { checked, name } = e.target;
+
     let temp = [...defaultScopes];
     if (checked) {
       temp.push(name);

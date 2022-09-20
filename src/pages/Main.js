@@ -51,6 +51,9 @@ import Transactions from "./Transactions";
 import MemberCount from "./user/MemberCount";
 import UserList from "./user/UserList";
 import TelegramIcon from "@material-ui/icons/Telegram";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { _getMintingBoxes } from "../actions/adminActions";
 
 const routes = [
   //user
@@ -281,6 +284,11 @@ const routes = [
 export default function Main() {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(_getMintingBoxes());
+  }, [dispatch]);
 
   const _handleDrawerOpen = () => {
     setOpen(true);

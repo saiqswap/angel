@@ -1,5 +1,6 @@
 import {
   FETCH_CONTRACTS,
+  FETCH_MINTING_BOX,
   FETCH_PROFILE,
   FETCH_ROLE,
   FETCH_USER_LIST,
@@ -8,6 +9,7 @@ import {
   ENDPOINT_CONTRACT_LIST,
   ENDPOINT_GET_PROFILE,
   ENDPOINT_GET_ROLE,
+  ENDPOINT_MINTING_BOX_PRODUCT_LIST,
   ENDPOINT_POST_USER_LIST,
 } from "../constants/endpoint";
 import { get, post } from "../utils/api";
@@ -67,4 +69,13 @@ export const _getContracts = () => (dispatch) => {
       }),
     (error) => console.error(error)
   );
+};
+
+export const _getMintingBoxes = () => (dispatch) => {
+  post(ENDPOINT_MINTING_BOX_PRODUCT_LIST, {}, (data) => {
+    dispatch({
+      type: FETCH_MINTING_BOX,
+      payload: data.items,
+    });
+  });
 };

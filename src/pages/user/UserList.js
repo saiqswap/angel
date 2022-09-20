@@ -32,7 +32,7 @@ const columns = [
   {
     key: "createdTime",
     label: "Join time",
-    isDate: true,
+    isTime: true,
   },
 ];
 

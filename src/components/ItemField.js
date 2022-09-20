@@ -7,6 +7,7 @@ import {
   MenuItem,
   Paper,
   TextField,
+  Typography,
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -72,7 +73,7 @@ export default function ItemField({
   const { type, col, text, key, require, disabled, selectName } = data;
   const { setting, admin } = useSelector((state) => state);
   const { enums, scopes } = setting;
-  const { roleList, contracts } = admin;
+  const { roleList, contracts, mintingBoxes } = admin;
   const [imagePreview, setImagePreview] = useState(
     defaultData ? defaultData : ""
   );
@@ -97,7 +98,7 @@ export default function ItemField({
 
   //set list for select box
   useEffect(() => {
-    if (enums && contracts) {
+    if (enums && contracts && mintingBoxes) {
       let list = [];
       if (selectName === "Coin") {
         list = ["USDT", "BTC", "FIL", "INC", "BNB"];
@@ -139,9 +140,12 @@ export default function ItemField({
       if (selectName === "PAYMENT_CONTRACTS") {
         list = contracts;
       }
+      if (selectName === "MINTING_BOX") {
+        list = mintingBoxes;
+      }
       setList(list);
     }
-  }, [contracts, enums, roleList, scopes, selectName]);
+  }, [contracts, enums, mintingBoxes, roleList, scopes, selectName]);
 
   let defaultValue = "";
   if (defaultData) defaultValue = defaultData;
@@ -255,6 +259,25 @@ export default function ItemField({
         />
       </Grid>
     );
+  } else if (type === "date-time") {
+    return (
+      <Grid item xs={col ? col : 2}>
+        <TextField
+          label={text}
+          variant="outlined"
+          size="small"
+          fullWidth
+          name={key}
+          type="datetime-local"
+          required={require}
+          disabled={disabled}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          {...props}
+        />
+      </Grid>
+    );
   } else if (type === "checkbox") {
     return (
       <Grid item xs={12}>
@@ -276,6 +299,33 @@ export default function ItemField({
                   />
                 }
                 label={item}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Grid>
+    );
+  } else if (type === "MINTING_BOX") {
+    return (
+      <Grid item xs={12}>
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <FormLabel component="legend">{text}</FormLabel>
+          </Grid>
+          {list.map((item, index) => (
+            <Grid item xs={12} key={index}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={defaultScopes.includes(item.id.toString())}
+                    onChange={_handleCheck}
+                    name={item.id.toString()}
+                    size="small"
+                    disabled={disabled}
+                    {...props}
+                  />
+                }
+                label={`${item.boxType} - Round ${item.roundNumber} - Price ${item.unitPrice} ${item.paymentCurrency}`}
               />
             </Grid>
           ))}

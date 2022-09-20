@@ -182,37 +182,37 @@ const routes = [
   //     },
   //   ],
   // },
-  //airdrop
-  // {
-  //   name: "Airdrop",
-  //   icon: <Share />,
-  //   scope: "ADMIN_FULL",
-  //   routes: [
-  //     {
-  //       name: "Box",
-  //       component: BoxByType,
-  //       path: "/airdrop/box-by-type",
-  //     },
-  //     {
-  //       name: "Box With Tier",
-  //       component: BoxByTypeAndTier,
-  //       path: "/airdrop/box-by-type-and-tier",
-  //     },
-  //   ],
-  // },
-  //airdrop
+  // airdrop
   {
-    name: "INO",
-    icon: <TelegramIcon />,
+    name: "Airdrop",
+    icon: <Share />,
     scope: "ADMIN_FULL",
     routes: [
       {
-        name: "List",
-        component: INOList,
-        path: "/ino/list",
+        name: "Box",
+        component: BoxByType,
+        path: "/airdrop/box-by-type",
+      },
+      {
+        name: "Box With Tier",
+        component: BoxByTypeAndTier,
+        path: "/airdrop/box-by-type-and-tier",
       },
     ],
   },
+  // airdrop
+  // {
+  //   name: "INO",
+  //   icon: <TelegramIcon />,
+  //   scope: "ADMIN_FULL",
+  //   routes: [
+  //     {
+  //       name: "List",
+  //       component: INOList,
+  //       path: "/ino/list",
+  //     },
+  //   ],
+  // },
   {
     name: "Transactions",
     icon: <HistoryIcon />,

@@ -6,7 +6,7 @@ export const SCOPES_KEY = "AhBcmvr1EkMdPnL5";
 const hostname = window.location.hostname.replace("www.", "");
 const domains = {};
 const envConfigs = {
-  localhost: devConfig,
+  localhost: stagingConfig,
   "marketplace_admin.megdev.co": stagingConfig,
 };
 const envConfig = envConfigs[hostname]
@@ -15,7 +15,6 @@ const envConfig = envConfigs[hostname]
 export const { API, API_EXTENSION, ENV_NAME } = envConfig;
 export const USER_API = ``;
 export const USER_DOMAIN = domains[hostname];
-
 export function Filter({
   key,
   type,

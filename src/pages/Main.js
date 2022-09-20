@@ -160,46 +160,46 @@ const routes = [
       },
     ],
   },
-  {
-    name: "Minting Box",
-    icon: <Star />,
-    // scope: "AIRDROP_WRITE_SUPPORT",
-    routes: [
-      {
-        name: "Products",
-        component: MintingBoxProducts,
-        path: "/minting-box/products",
-      },
-      {
-        name: "Combo",
-        component: MintingBoxCombo,
-        path: "/minting-box/combo",
-      },
-      {
-        name: "Transactions",
-        component: MintingBoxTransactions,
-        path: "/minting-box/boxes",
-      },
-    ],
-  },
+  // {
+  //   name: "Minting Box",
+  //   icon: <Star />,
+  //   // scope: "AIRDROP_WRITE_SUPPORT",
+  //   routes: [
+  //     {
+  //       name: "Products",
+  //       component: MintingBoxProducts,
+  //       path: "/minting-box/products",
+  //     },
+  //     {
+  //       name: "Combo",
+  //       component: MintingBoxCombo,
+  //       path: "/minting-box/combo",
+  //     },
+  //     {
+  //       name: "Transactions",
+  //       component: MintingBoxTransactions,
+  //       path: "/minting-box/boxes",
+  //     },
+  //   ],
+  // },
   //airdrop
-  {
-    name: "Airdrop",
-    icon: <Share />,
-    scope: "ADMIN_FULL",
-    routes: [
-      {
-        name: "Box",
-        component: BoxByType,
-        path: "/airdrop/box-by-type",
-      },
-      {
-        name: "Box With Tier",
-        component: BoxByTypeAndTier,
-        path: "/airdrop/box-by-type-and-tier",
-      },
-    ],
-  },
+  // {
+  //   name: "Airdrop",
+  //   icon: <Share />,
+  //   scope: "ADMIN_FULL",
+  //   routes: [
+  //     {
+  //       name: "Box",
+  //       component: BoxByType,
+  //       path: "/airdrop/box-by-type",
+  //     },
+  //     {
+  //       name: "Box With Tier",
+  //       component: BoxByTypeAndTier,
+  //       path: "/airdrop/box-by-type-and-tier",
+  //     },
+  //   ],
+  // },
   //airdrop
   {
     name: "INO",

@@ -35,6 +35,7 @@ import DetailsIcon from "@material-ui/icons/Details";
 import ItemDetail from "../../components/ItemDetail";
 import { useSelector } from "react-redux";
 import { AddBox } from "@material-ui/icons";
+import { Filter } from "../../settings";
 
 const columns = [
   {
@@ -98,6 +99,88 @@ const columns = [
   },
 ];
 
+const createFields = [
+  new Filter({
+    key: "roundNumber",
+    type: "input",
+    text: "Round",
+    col: 12,
+    require: true,
+  }),
+  new Filter({
+    key: "boxType",
+    type: "select",
+    text: "Box Type",
+    col: 12,
+    require: true,
+    selectName: "BOX_TYPES",
+  }),
+  new Filter({
+    key: "unitPrice",
+    type: "input",
+    text: "Price",
+    col: 12,
+    require: true,
+  }),
+  new Filter({
+    key: "supply",
+    type: "input",
+    text: "Total Sell",
+    col: 12,
+    require: true,
+  }),
+  new Filter({
+    key: "available",
+    type: "input",
+    text: "Available",
+    col: 12,
+    require: true,
+  }),
+  new Filter({
+    key: "minOrder",
+    type: "input",
+    text: "Min",
+    col: 6,
+    require: true,
+  }),
+  new Filter({
+    key: "maxOrder",
+    type: "input",
+    text: "Max",
+    col: 6,
+    require: true,
+  }),
+  new Filter({
+    key: "paymentContract",
+    type: "SELECT_PAYMENT_CONTRACT",
+    text: "Asset",
+    col: 12,
+    require: true,
+    selectName: "PAYMENT_CONTRACTS",
+  }),
+  new Filter({
+    key: "startTime",
+    type: "input",
+    text: "Start",
+    col: 6,
+    require: true,
+  }),
+  new Filter({
+    key: "endTime",
+    type: "input",
+    text: "End",
+    col: 6,
+    require: true,
+  }),
+  new Filter({
+    key: "isActive",
+    type: "singleCheckbox",
+    text: "Active",
+    col: 12,
+    require: true,
+  }),
+];
+
 export default function MintingBoxCombo() {
   const [data, setData] = useState(null);
   const [flag, setFlag] = useState(false);
@@ -114,39 +197,6 @@ export default function MintingBoxCombo() {
 
   const _onClose = () => setCreating(false);
   const _onOpen = () => setCreating(true);
-
-  const _onChange = (e, index) => {
-    // const tempItems = [...items];
-    // tempItems[index].amount = parseInt(e.target.value)
-    //   ? parseInt(e.target.value)
-    //   : 0;
-    // setItems(tempItems);
-  };
-
-  const _handleSend = (id) => {
-    var answer = window.confirm("Are you sure ?");
-    if (answer) {
-      const tempData = [...data];
-      const index = tempData.findIndex((d) => d.id === id);
-      if (index > 0) tempData[index].clicked = true;
-      setData(tempData);
-      post(
-        ENDPOINT_INO_SEND_TRANSFER,
-        { id },
-        () => {
-          toast.success("Success");
-          // _handleRefresh();
-        },
-        (error) => {
-          const tempData = [...data];
-          const index = tempData.findIndex((d) => d.id === id);
-          if (index > 0) tempData[index].clicked = false;
-          setData(tempData);
-          toast.error(`${error.code}:  ${error.msg}`);
-        }
-      );
-    }
-  };
 
   return (
     <>
@@ -229,20 +279,18 @@ const UpdateComponent = ({ open, _onClose }) => {
   }, [mintingBoxes, paymentContract]);
 
   const _handleCheck = (e) => {
-    const { name, checked } = e.target;
+    const { value, checked } = e.target;
     setSelectedBoxList((oldList) => {
-      const temp = [...oldList];
+      let temp = [...oldList];
       if (checked) {
-        temp.push(name);
+        temp.push({ productId: parseInt(value), unitPrice: 0 });
       } else {
-        const index = temp.findIndex(name);
-        temp.slice(index, 1);
+        const index = temp.findIndex((i) => i.productId.toString() === value);
+        temp.splice(index, 1);
       }
       return temp;
     });
   };
-
-  console.log(selectedBoxList);
 
   const _handleCreate = (e) => {
     e.preventDefault();
@@ -291,24 +339,9 @@ const UpdateComponent = ({ open, _onClose }) => {
           </AppBar>
           <form style={{ padding: 16 }} onSubmit={_handleCreate}>
             <Grid container spacing={2}>
-              <ItemField
-                data={{
-                  key: "address",
-                  type: "input",
-                  col: 12,
-                  text: "Address",
-                  require: true,
-                }}
-              />
-              <ItemField
-                data={{
-                  key: "name",
-                  type: "input",
-                  col: 12,
-                  text: "Name",
-                  require: true,
-                }}
-              />
+              {createFields.map((field, index) => (
+                <ItemField data={field} key={index} />
+              ))}
               <ItemField
                 data={{
                   key: "paymentContract",
@@ -321,22 +354,28 @@ const UpdateComponent = ({ open, _onClose }) => {
                 onChange={(e) => setPaymentContract(e.target.value)}
               />
               <Grid item xs={12}>
-                {boxList?.map((box, index) => (
-                  <FormControlLabel
-                    key={index}
-                    control={
-                      <Checkbox
-                        // checked={defaultScopes.includes(item.id.toString())}
-                        onChange={_handleCheck}
-                        name={box.id.toString()}
-                        size="small"
-                        // disabled={disabled}
-                        // {...props}
+                {boxList?.map((box, index) => {
+                  let checked = selectedBoxList.findIndex(
+                    (e) => e.productId === box.id
+                  );
+                  console.log(checked);
+                  checked = checked > -1 ? true : false;
+                  return (
+                    <Box key={index}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            onChange={_handleCheck}
+                            value={box.id}
+                            size="small"
+                            checked={checked}
+                          />
+                        }
+                        label={`${box.boxType} - Round ${box.roundNumber} - Price ${box.unitPrice} ${box.paymentCurrency}`}
                       />
-                    }
-                    label={`${box.boxType} - Round ${box.roundNumber} - Price ${box.unitPrice} ${box.paymentCurrency}`}
-                  />
-                ))}
+                    </Box>
+                  );
+                })}
               </Grid>
               <Grid item xs={12}>
                 <Button type="submit" variant="contained" color="primary">

@@ -7,6 +7,7 @@ const hostname = window.location.hostname.replace("www.", "");
 const domains = {};
 const envConfigs = {
   localhost: devConfig,
+  "admininfinity.feliciastation.com": devConfig,
   "marketplace_admin.megdev.co": stagingConfig,
 };
 const envConfig = envConfigs[hostname]

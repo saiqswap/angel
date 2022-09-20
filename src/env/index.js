@@ -1,6 +1,6 @@
 export const devConfig = {
-  // API: `https://apiinfinity.feliciastation.com`,
-  API: `https://marketplace_api.megdev.co`,
+  API: `https://apiinfinity.feliciastation.com`,
+  // API: `https://marketplace_api.megdev.co`,
   API_EXTENSION: `/adm-api`,
   ENV_NAME: "DEVELOP",
   EVN_COLOR: "green",

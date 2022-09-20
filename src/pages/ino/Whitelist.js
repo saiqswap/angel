@@ -57,7 +57,6 @@ export default function BoxByTypeAndTier() {
   };
 
   const _handleAirdrop = () => {
-    console.log("list upload",list)
     post(
       ENDPOINT_AIRDROP_WHITELIST,
       list,
@@ -76,12 +75,6 @@ export default function BoxByTypeAndTier() {
     const reader = new FileReader();
     reader.onload = (e) => {
       let array = _convertCsvToArray(e.target.result);
-      console.log("array",array)
-      // const newProjects = projects.map(p =>
-      //   p.value === 'jquery-ui'
-      //     ? { ...p, desc: 'new description' }
-      //     : p
-      // );
       const newArray = array.map (p=>{
         p.Type === "INO" ? p.Type = "0" :  console.log("fail convert Type")
       }
@@ -148,14 +141,6 @@ export default function BoxByTypeAndTier() {
         <Button
           variant="contained"
           fullWidth
-          onClick={_handleAddSlot}
-          style={{ marginBottom: 16 }}
-        >
-          Add
-        </Button>
-        <Button
-          variant="contained"
-          fullWidth
           component="label"
           color="primary"
           onChange={_handleUpload}
@@ -163,16 +148,6 @@ export default function BoxByTypeAndTier() {
         >
           Upload
           <input type="file" hidden />
-        </Button>
-        <Button
-          variant="contained"
-          fullWidth
-          component="label"
-          color="default"
-          style={{ marginBottom: 16 }}
-          onClick={_handleClear}
-        >
-          Clear
         </Button>
         <Button
           variant="contained"
@@ -189,7 +164,6 @@ export default function BoxByTypeAndTier() {
 }
 
 const Helper = (props) => {
-  console.log("dataWhitelist",props.dataWhitelist)
   return (
     <>
       <Paper variant="outlined">

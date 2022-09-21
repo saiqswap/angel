@@ -24,20 +24,22 @@ import {
   ENDPOINT_INO_CREATE_TRANSFER,
   ENDPOINT_INO_LIST,
   ENDPOINT_INO_SEND_TRANSFER,
+  ENDPOINT_MINTING_BOX_COMBO,
   ENDPOINT_MINTING_BOX_COMBO_LIST,
 } from "../../constants/endpoint";
 import { formatAddress } from "../../settings/format";
-import { post } from "../../utils/api";
+import { post, put } from "../../utils/api";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ItemField from "../../components/ItemField";
 import { toast } from "react-toastify";
 import DetailsIcon from "@material-ui/icons/Details";
 import ItemDetail from "../../components/ItemDetail";
 import { useSelector } from "react-redux";
-import { AddBox } from "@material-ui/icons";
+import { AddBox, Edit } from "@material-ui/icons";
 import { Filter } from "../../settings";
 
 const columns = [
+  { key: "id", label: "", isId: true },
   {
     key: "name",
     label: "Name",
@@ -108,12 +110,18 @@ const createFields = [
     require: true,
   }),
   new Filter({
-    key: "boxType",
-    type: "select",
-    text: "Box Type",
+    key: "name",
+    type: "input",
+    text: "Name",
     col: 12,
     require: true,
-    selectName: "BOX_TYPES",
+  }),
+  new Filter({
+    key: "location",
+    type: "input",
+    text: "Location",
+    col: 12,
+    require: true,
   }),
   new Filter({
     key: "unitPrice",
@@ -151,14 +159,6 @@ const createFields = [
     require: true,
   }),
   new Filter({
-    key: "paymentContract",
-    type: "SELECT_PAYMENT_CONTRACT",
-    text: "Asset",
-    col: 12,
-    require: true,
-    selectName: "PAYMENT_CONTRACTS",
-  }),
-  new Filter({
     key: "startTime",
     type: "input",
     text: "Start",
@@ -185,6 +185,7 @@ export default function MintingBoxCombo() {
   const [data, setData] = useState(null);
   const [flag, setFlag] = useState(false);
   const [creating, setCreating] = useState(false);
+  const [updatingItem, setUpdatingItem] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
@@ -245,6 +246,12 @@ export default function MintingBoxCombo() {
                         >
                           <DetailsIcon fontSize="small" />
                         </IconButton>
+                        <IconButton
+                          size="small"
+                          onClick={() => setUpdatingItem(item)}
+                        >
+                          <Edit fontSize="small" />
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   );
@@ -254,13 +261,22 @@ export default function MintingBoxCombo() {
           </TableContainer>
         </Paper>
       </Box>
-      <UpdateComponent open={creating} _onClose={_onClose} />
+      <CreateComponent
+        open={creating}
+        _onClose={_onClose}
+        __handleRefresh={_handleRefresh}
+      />
+      <UpdateComponent
+        data={updatingItem}
+        _onClose={() => setUpdatingItem(null)}
+        __handleRefresh={_handleRefresh}
+      />
       <ItemDetail data={selectedItem} _onClose={() => setSelectedItem(null)} />
     </>
   );
 }
 
-const UpdateComponent = ({ open, _onClose }) => {
+const CreateComponent = ({ open, _onClose, _handleRefresh }) => {
   const [loading, setLoading] = useState(false);
   const [paymentContract, setPaymentContract] = useState(null);
   const { admin } = useSelector((state) => state);
@@ -294,33 +310,36 @@ const UpdateComponent = ({ open, _onClose }) => {
 
   const _handleCreate = (e) => {
     e.preventDefault();
-    console.log(e);
-
-    // const address = e.target.address.value;
-    // const name = e.target.name.value;
-    // const paymentContract = e.target.paymentContract.value;
-    // const tempItems = items.filter((e) => e.amount > 0);
-    // if (tempItems.length === 0) {
-    //   toast.error("Please enter amount of box");
-    // } else {
-    //   var answer = window.confirm("Are you sure ?");
-    //   if (answer) {
-    //     setOpen(false);
-    //     post(
-    //       ENDPOINT_INO_CREATE_TRANSFER,
-    //       { address, name, paymentContract, items: tempItems },
-    //       () => {
-    //         toast.success("Success");
-    //         _handleRefresh();
-    //       },
-    //       (error) => {
-    //         console.log(error);
-    //         toast.error("Fail");
-    //       }
-    //     );
-    //   }
-    // }
+    const body = {};
+    createFields.map((item) => {
+      if (item.type === "singleCheckbox") {
+        body[item.key] = e.target[item.key].checked;
+      } else {
+        body[item.key] = e.target[item.key].value;
+      }
+      return null;
+    });
+    body.products = selectedBoxList;
+    body.paymentContract = paymentContract;
+    var answer = window.confirm("Are you sure ?");
+    if (answer) {
+      post(
+        ENDPOINT_MINTING_BOX_COMBO,
+        body,
+        () => {
+          _onClose();
+          toast.success("Success");
+          _handleRefresh();
+        },
+        (error) => {
+          console.log(error);
+          toast.error("Fail");
+        }
+      );
+    }
+    console.log(body);
   };
+
   return (
     <Drawer anchor="right" open={open}>
       <div className="item-detail">
@@ -358,7 +377,6 @@ const UpdateComponent = ({ open, _onClose }) => {
                   let checked = selectedBoxList.findIndex(
                     (e) => e.productId === box.id
                   );
-                  console.log(checked);
                   checked = checked > -1 ? true : false;
                   return (
                     <Box key={index}>
@@ -385,6 +403,158 @@ const UpdateComponent = ({ open, _onClose }) => {
             </Grid>
           </form>
         </div>
+      </div>
+    </Drawer>
+  );
+};
+
+const UpdateComponent = ({ data, _onClose, _handleRefresh }) => {
+  const [loading, setLoading] = useState(false);
+  const [paymentContract, setPaymentContract] = useState(null);
+  const { admin } = useSelector((state) => state);
+  const { mintingBoxes } = admin;
+  const [boxList, setBoxList] = useState(null);
+  const [selectedBoxList, setSelectedBoxList] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      setPaymentContract(data.paymentContract);
+      const temp = [];
+      data.products.forEach((product) => {
+        temp.push({
+          productId: product.product.id,
+          unitPrice: 0,
+        });
+      });
+      setSelectedBoxList(temp);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    let tempBoxList = null;
+    if (paymentContract && mintingBoxes) {
+      tempBoxList = mintingBoxes.filter(
+        (box) => box.paymentContract === paymentContract
+      );
+    }
+    setBoxList(tempBoxList);
+  }, [mintingBoxes, paymentContract]);
+
+  const _handleCheck = (e) => {
+    const { value, checked } = e.target;
+    setSelectedBoxList((oldList) => {
+      let temp = [...oldList];
+      if (checked) {
+        temp.push({ productId: parseInt(value), unitPrice: 0 });
+      } else {
+        const index = temp.findIndex((i) => i.productId.toString() === value);
+        temp.splice(index, 1);
+      }
+      return temp;
+    });
+  };
+
+  const _handleCreate = (e) => {
+    e.preventDefault();
+    const body = {};
+    createFields.map((item) => {
+      if (item.type === "singleCheckbox") {
+        body[item.key] = e.target[item.key].checked;
+      } else {
+        body[item.key] = e.target[item.key].value;
+      }
+      return null;
+    });
+    body.products = selectedBoxList;
+    body.paymentContract = paymentContract;
+    var answer = window.confirm("Are you sure ?");
+    if (answer) {
+      put(
+        ENDPOINT_MINTING_BOX_COMBO,
+        body,
+        () => {
+          _onClose();
+          toast.success("Success");
+          _handleRefresh();
+        },
+        (error) => {
+          console.log(error);
+          toast.error(error.code, error.msg);
+        }
+      );
+    }
+  };
+
+  return (
+    <Drawer anchor="right" open={data !== null}>
+      <div className="item-detail">
+        {data && (
+          <div>
+            <AppBar position="sticky">
+              <Grid container alignItems="center">
+                <Grid item>
+                  <IconButton onClick={_onClose} disabled={loading}>
+                    <ArrowBackIcon fontSize="small" />
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <Typography variant="body1">Back</Typography>
+                </Grid>
+              </Grid>
+            </AppBar>
+            <form style={{ padding: 16 }} onSubmit={_handleCreate}>
+              <Grid container spacing={2}>
+                {createFields.map((field, index) => (
+                  <ItemField
+                    data={field}
+                    key={index}
+                    defaultData={data[field.key]}
+                  />
+                ))}
+                <ItemField
+                  data={{
+                    key: "paymentContract",
+                    type: "SELECT_PAYMENT_CONTRACT",
+                    col: 12,
+                    text: "Payment contract",
+                    selectName: "PAYMENT_CONTRACTS",
+                    require: true,
+                  }}
+                  onChange={(e) => setPaymentContract(e.target.value)}
+                  defaultData={paymentContract}
+                />
+                <Grid item xs={12}>
+                  {boxList?.map((box, index) => {
+                    let checked = selectedBoxList.findIndex(
+                      (e) => e.productId === box.id
+                    );
+                    checked = checked > -1 ? true : false;
+                    return (
+                      <Box key={index}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              onChange={_handleCheck}
+                              value={box.id}
+                              size="small"
+                              checked={checked}
+                            />
+                          }
+                          label={`${box.boxType} - Round ${box.roundNumber} - Price ${box.unitPrice} ${box.paymentCurrency}`}
+                        />
+                      </Box>
+                    );
+                  })}
+                </Grid>
+                <Grid item xs={12}>
+                  <Button type="submit" variant="contained" color="primary">
+                    Submit
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </div>
+        )}
       </div>
     </Drawer>
   );

@@ -160,28 +160,28 @@ const routes = [
       },
     ],
   },
-  // {
-  //   name: "Minting Box",
-  //   icon: <Star />,
-  //   // scope: "AIRDROP_WRITE_SUPPORT",
-  //   routes: [
-  //     {
-  //       name: "Products",
-  //       component: MintingBoxProducts,
-  //       path: "/minting-box/products",
-  //     },
-  //     {
-  //       name: "Combo",
-  //       component: MintingBoxCombo,
-  //       path: "/minting-box/combo",
-  //     },
-  //     {
-  //       name: "Transactions",
-  //       component: MintingBoxTransactions,
-  //       path: "/minting-box/boxes",
-  //     },
-  //   ],
-  // },
+  {
+    name: "Minting Box",
+    icon: <Star />,
+    // scope: "AIRDROP_WRITE_SUPPORT",
+    routes: [
+      {
+        name: "Products",
+        component: MintingBoxProducts,
+        path: "/minting-box/products",
+      },
+      {
+        name: "Combo",
+        component: MintingBoxCombo,
+        path: "/minting-box/combo",
+      },
+      {
+        name: "Transactions",
+        component: MintingBoxTransactions,
+        path: "/minting-box/boxes",
+      },
+    ],
+  },
   // airdrop
   {
     name: "Airdrop",

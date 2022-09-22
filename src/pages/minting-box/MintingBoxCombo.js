@@ -457,6 +457,7 @@ const UpdateComponent = ({ data, _onClose, _handleRefresh }) => {
   const _handleCreate = (e) => {
     e.preventDefault();
     const body = {};
+    body.id = data.id;
     createFields.map((item) => {
       if (item.type === "singleCheckbox") {
         body[item.key] = e.target[item.key].checked;

@@ -207,17 +207,16 @@ const routes = [
     icon: <TelegramIcon />,
     scope: "ADMIN_FULL",
     routes: [
-      // {
-      //   name: "List",
-      //   component: INOList,
-      //   path: "/ino/list",
-      // },
+      {
+        name: "List",
+        component: INOList,
+        path: "/ino/list",
+      },
       {
         name: "Whitelist",
         component: Whitelist,
         path: "/ino/Whitelist",
       },
-
     ],
   },
   {

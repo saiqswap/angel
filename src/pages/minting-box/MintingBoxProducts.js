@@ -20,6 +20,10 @@ const columns = [
     label: "Round",
   },
   {
+    key: "location",
+    label: "Location",
+  },
+  {
     key: "unitPrice",
     label: "Price",
   },
@@ -53,12 +57,12 @@ const columns = [
   {
     key: "startTime",
     label: "Start",
-    // isTime: true,
+    isTime: true,
   },
   {
     key: "endTime",
     label: "End",
-    // isTime: true,
+    isTime: true,
   },
   {
     key: "isActive",
@@ -88,6 +92,13 @@ export default SearchHigherComponent({
       col: 12,
       require: true,
       selectName: "BOX_TYPES",
+    }),
+    new Filter({
+      key: "location",
+      type: "input",
+      text: "Location",
+      col: 12,
+      require: true,
     }),
     new Filter({
       key: "unitPrice",
@@ -171,13 +182,13 @@ export default SearchHigherComponent({
       require: true,
       selectName: "BOX_TYPES",
     }),
-    // new Filter({
-    //   key: "name",
-    //   type: "input",
-    //   text: "Name",
-    //   col: 12,
-    //   require: true,
-    // }),
+    new Filter({
+      key: "location",
+      type: "input",
+      text: "Location",
+      col: 12,
+      require: true,
+    }),
     new Filter({
       key: "unitPrice",
       type: "input",

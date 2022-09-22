@@ -15,28 +15,22 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
   Typography,
 } from "@material-ui/core";
-import moment from "moment";
+import { Edit } from "@material-ui/icons";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import DetailsIcon from "@material-ui/icons/Details";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import ItemDetail from "../../components/ItemDetail";
+import ItemField from "../../components/ItemField";
 import {
-  ENDPOINT_INO_CREATE_TRANSFER,
-  ENDPOINT_INO_LIST,
-  ENDPOINT_INO_SEND_TRANSFER,
   ENDPOINT_MINTING_BOX_COMBO,
   ENDPOINT_MINTING_BOX_COMBO_LIST,
 } from "../../constants/endpoint";
-import { formatAddress } from "../../settings/format";
-import { post, put } from "../../utils/api";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import ItemField from "../../components/ItemField";
-import { toast } from "react-toastify";
-import DetailsIcon from "@material-ui/icons/Details";
-import ItemDetail from "../../components/ItemDetail";
-import { useSelector } from "react-redux";
-import { AddBox, Edit } from "@material-ui/icons";
 import { Filter } from "../../settings";
+import { post, put } from "../../utils/api";
 
 const columns = [
   { key: "id", label: "", isId: true },

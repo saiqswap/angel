@@ -201,18 +201,18 @@ const routes = [
     ],
   },
   // airdrop
-  // {
-  //   name: "INO",
-  //   icon: <TelegramIcon />,
-  //   scope: "ADMIN_FULL",
-  //   routes: [
-  //     {
-  //       name: "List",
-  //       component: INOList,
-  //       path: "/ino/list",
-  //     },
-  //   ],
-  // },
+  {
+    name: "INO",
+    icon: <TelegramIcon />,
+    scope: "ADMIN_FULL",
+    routes: [
+      {
+        name: "List",
+        component: INOList,
+        path: "/ino/list",
+      },
+    ],
+  },
   {
     name: "Transactions",
     icon: <HistoryIcon />,

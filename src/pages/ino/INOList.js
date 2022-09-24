@@ -90,30 +90,30 @@ export default function INOList() {
     setItems(tempItems);
   };
 
-  const _handleSend = (id) => {
-    var answer = window.confirm("Are you sure ?");
-    if (answer) {
-      const tempData = [...data];
-      const index = tempData.findIndex((d) => d.id === id);
-      if (index > 0) tempData[index].clicked = true;
-      setData(tempData);
-      post(
-        ENDPOINT_INO_SEND_TRANSFER,
-        { id },
-        () => {
-          toast.success("Success");
-          // _handleRefresh();
-        },
-        (error) => {
-          const tempData = [...data];
-          const index = tempData.findIndex((d) => d.id === id);
-          if (index > 0) tempData[index].clicked = false;
-          setData(tempData);
-          toast.error(`${error.code}:  ${error.msg}`);
-        }
-      );
-    }
-  };
+  // const _handleSend = (id) => {
+  //   var answer = window.confirm("Are you sure ?");
+  //   if (answer) {
+  //     const tempData = [...data];
+  //     const index = tempData.findIndex((d) => d.id === id);
+  //     if (index > 0) tempData[index].clicked = true;
+  //     setData(tempData);
+  //     post(
+  //       ENDPOINT_INO_SEND_TRANSFER,
+  //       { id },
+  //       () => {
+  //         toast.success("Success");
+  //         // _handleRefresh();
+  //       },
+  //       (error) => {
+  //         const tempData = [...data];
+  //         const index = tempData.findIndex((d) => d.id === id);
+  //         if (index > 0) tempData[index].clicked = false;
+  //         setData(tempData);
+  //         toast.error(`${error.code}:  ${error.msg}`);
+  //       }
+  //     );
+  //   }
+  // };
 
   return (
     <>
@@ -201,7 +201,7 @@ export default function INOList() {
                         {moment(item.createdTime).format("YYYY-MM-DD HH:mm:ss")}
                       </TableCell>
                       <TableCell>
-                        {mintCount > 0 &&
+                        {/* {mintCount > 0 &&
                           mintCount === item.items.length &&
                           sendedCount === 0 && (
                             <Button
@@ -212,7 +212,7 @@ export default function INOList() {
                             >
                               Send
                             </Button>
-                          )}
+                          )} */}
                       </TableCell>
                     </TableRow>
                   );

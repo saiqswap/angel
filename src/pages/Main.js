@@ -13,9 +13,9 @@ import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import GavelIcon from "@material-ui/icons/Gavel";
 import HistoryIcon from "@material-ui/icons/History";
 import InboxIcon from "@material-ui/icons/Inbox";
-import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import PersonIcon from "@material-ui/icons/Person";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import TelegramIcon from "@material-ui/icons/Telegram";
 import React, { useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import AppBar from "../components/AppBar";
@@ -38,12 +38,12 @@ import INOList from "./ino/INOList";
 import Whitelist from "./ino/Whitelist";
 import MintingBoxCombo from "./minting-box/MintingBoxCombo";
 import MintingBoxProducts from "./minting-box/MintingBoxProducts";
+import MintingBoxSetting from "./minting-box/MintingBoxSetting";
 import MintingBoxTransactions from "./minting-box/MintingBoxTransactions";
 import Equipment from "./nft/Equipment";
 import NewTemplates from "./nft/NewTemplates";
 import NFTs from "./nft/NFTs";
 import RI from "./nft/RI";
-import PresaleSetting from "./PresaleSetting";
 import RoleList from "./RoleList";
 import S3Component from "./S3Component";
 import ChangePassword from "./setting/ChangePassword";
@@ -51,11 +51,6 @@ import GoogleAuthenticator from "./setting/GoogleAuthenticator";
 import Transactions from "./Transactions";
 import MemberCount from "./user/MemberCount";
 import UserList from "./user/UserList";
-import TelegramIcon from "@material-ui/icons/Telegram";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { _getMintingBoxes } from "../actions/adminActions";
-import MintingBoxSetting from "./minting-box/MintingBoxSetting";
 
 const routes = [
   //user
@@ -173,7 +168,7 @@ const routes = [
         path: "/minting-box/products",
       },
       {
-        name: "Combo",
+        name: "Combos",
         component: MintingBoxCombo,
         path: "/minting-box/combo",
       },
@@ -296,11 +291,6 @@ const routes = [
 export default function Main() {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(_getMintingBoxes());
-  }, [dispatch]);
 
   const _handleDrawerOpen = () => {
     setOpen(true);

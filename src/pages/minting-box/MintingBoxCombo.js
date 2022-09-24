@@ -21,8 +21,10 @@ import { Edit } from "@material-ui/icons";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import DetailsIcon from "@material-ui/icons/Details";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { _getMintingBoxes } from "../../actions/adminActions";
 import ItemDetail from "../../components/ItemDetail";
 import ItemField from "../../components/ItemField";
 import {
@@ -193,13 +195,19 @@ export default function MintingBoxCombo() {
   const [creating, setCreating] = useState(false);
   const [updatingItem, setUpdatingItem] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(_getMintingBoxes());
+  }, [dispatch]);
 
   useEffect(() => {
     post(ENDPOINT_MINTING_BOX_COMBO_LIST, {}, (data) => setData(data.items));
   }, [flag]);
 
   const _handleRefresh = () => {
-    setFlag((oldFlag) => !oldFlag);
+    console.log("xxxx", flag);
+    setFlag(!flag);
   };
 
   const _onClose = () => setCreating(false);
@@ -208,7 +216,7 @@ export default function MintingBoxCombo() {
   return (
     <>
       <Box>
-        <Typography variant="h5">Minting Combo Box</Typography>
+        <Typography variant="h5">Minting Combos Box</Typography>
         <Divider />
         <Box mt={2} mb={2}>
           <Button
@@ -270,12 +278,12 @@ export default function MintingBoxCombo() {
       <CreateComponent
         open={creating}
         _onClose={_onClose}
-        __handleRefresh={_handleRefresh}
+        _handleRefresh={_handleRefresh}
       />
       <UpdateComponent
         data={updatingItem}
         _onClose={() => setUpdatingItem(null)}
-        __handleRefresh={_handleRefresh}
+        _handleRefresh={_handleRefresh}
       />
       <ItemDetail data={selectedItem} _onClose={() => setSelectedItem(null)} />
     </>
@@ -352,7 +360,6 @@ const CreateComponent = ({ open, _onClose, _handleRefresh }) => {
         }
       );
     }
-    console.log(body);
   };
 
   return (
@@ -520,7 +527,6 @@ const UpdateComponent = ({ data, _onClose, _handleRefresh }) => {
     });
     body.products = selectedBoxList;
     body.paymentContract = paymentContract;
-    console.log(body);
     var answer = window.confirm("Are you sure ?");
     if (answer) {
       put(

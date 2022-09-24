@@ -49,6 +49,8 @@ export default function ItemCreate({
           body[element.key] = defaultScopes;
         } else if (element.type === "date-time") {
           body[element.key] = moment(defaultScopes).valueOf();
+        } else if (element.key === "roundNumber") {
+          body[element.key] = parseInt(e.target.roundNumber.value);
         } else if (element.type === "MINTING_BOX") {
           const data = [];
           for (let index = 0; index < defaultScopes.length; index++) {

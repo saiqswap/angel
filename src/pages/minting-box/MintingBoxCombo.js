@@ -33,14 +33,21 @@ import { Filter } from "../../settings";
 import { post, put } from "../../utils/api";
 
 const columns = [
-  { key: "id", label: "", isId: true },
   {
-    key: "name",
-    label: "Name",
+    key: "location",
+    label: "Location",
   },
   {
     key: "roundNumber",
     label: "Round",
+  },
+  {
+    key: "comboType",
+    label: "Combo type",
+  },
+  {
+    key: "name",
+    label: "Name",
   },
   {
     key: "unitPrice",
@@ -63,11 +70,6 @@ const columns = [
   {
     key: "sold",
     label: "Sold",
-    isAmount: true,
-  },
-  {
-    key: "supply",
-    label: "Total Sell",
     isAmount: true,
   },
   {
@@ -98,8 +100,17 @@ const columns = [
 const createFields = [
   new Filter({
     key: "roundNumber",
-    type: "input",
+    type: "select",
     text: "Round",
+    col: 12,
+    require: true,
+    selectName: "MINTING_ROUND",
+  }),
+  new Filter({
+    key: "comboType",
+    type: "select",
+    text: "Combo type",
+    selectName: "COMBO_TYPE",
     col: 12,
     require: true,
   }),
@@ -112,10 +123,11 @@ const createFields = [
   }),
   new Filter({
     key: "location",
-    type: "input",
+    type: "select",
     text: "Location",
     col: 12,
     require: true,
+    selectName: "LOCATION",
   }),
   new Filter({
     key: "unitPrice",
@@ -277,16 +289,25 @@ const CreateComponent = ({ open, _onClose, _handleRefresh }) => {
   const { mintingBoxes } = admin;
   const [boxList, setBoxList] = useState(null);
   const [selectedBoxList, setSelectedBoxList] = useState([]);
+  const [roundNumber, setRoundNumber] = useState(0);
+  const [location, setLocation] = useState(null);
+
+  useEffect(() => {
+    return () => setSelectedBoxList([]);
+  }, []);
 
   useEffect(() => {
     let tempBoxList = null;
     if (paymentContract && mintingBoxes) {
       tempBoxList = mintingBoxes.filter(
-        (box) => box.paymentContract === paymentContract
+        (box) =>
+          box.paymentContract === paymentContract &&
+          box.roundNumber === roundNumber &&
+          box.location === location
       );
     }
     setBoxList(tempBoxList);
-  }, [mintingBoxes, paymentContract]);
+  }, [location, mintingBoxes, paymentContract, roundNumber]);
 
   const _handleCheck = (e) => {
     const { value, checked } = e.target;
@@ -353,7 +374,19 @@ const CreateComponent = ({ open, _onClose, _handleRefresh }) => {
           <form style={{ padding: 16 }} onSubmit={_handleCreate}>
             <Grid container spacing={2}>
               {createFields.map((field, index) => (
-                <ItemField data={field} key={index} />
+                <ItemField
+                  data={field}
+                  key={index}
+                  onChange={(e) => {
+                    if (field.key === "roundNumber") {
+                      setRoundNumber(e.target.value);
+                    }
+                    if (field.key === "location") {
+                      setLocation(e.target.value);
+                    }
+                    return null;
+                  }}
+                />
               ))}
               <ItemField
                 data={{
@@ -383,7 +416,21 @@ const CreateComponent = ({ open, _onClose, _handleRefresh }) => {
                             checked={checked}
                           />
                         }
-                        label={`${box.boxType} - Round ${box.roundNumber} - Price ${box.unitPrice} ${box.paymentCurrency}`}
+                        sx={{
+                          alignItems: "",
+                        }}
+                        label={
+                          <Box>
+                            <Box>
+                              {`${box.boxType} - Location: ${box.location} -
+                              Round ${box.roundNumber}`}
+                            </Box>
+                            <Box>
+                              {`Price ${box.unitPrice} -
+                              ${box.paymentCurrency}`}
+                            </Box>
+                          </Box>
+                        }
                       />
                     </Box>
                   );
@@ -409,10 +456,18 @@ const UpdateComponent = ({ data, _onClose, _handleRefresh }) => {
   const { mintingBoxes } = admin;
   const [boxList, setBoxList] = useState(null);
   const [selectedBoxList, setSelectedBoxList] = useState([]);
+  const [roundNumber, setRoundNumber] = useState(0);
+  const [location, setLocation] = useState(null);
+
+  useEffect(() => {
+    return () => setSelectedBoxList([]);
+  }, []);
 
   useEffect(() => {
     if (data) {
       setPaymentContract(data.paymentContract);
+      setRoundNumber(data.roundNumber);
+      setLocation(data.location);
       const temp = [];
       data.products.forEach((product) => {
         temp.push({
@@ -428,11 +483,14 @@ const UpdateComponent = ({ data, _onClose, _handleRefresh }) => {
     let tempBoxList = null;
     if (paymentContract && mintingBoxes) {
       tempBoxList = mintingBoxes.filter(
-        (box) => box.paymentContract === paymentContract
+        (box) =>
+          box.paymentContract === paymentContract &&
+          box.roundNumber === roundNumber &&
+          box.location === location
       );
     }
     setBoxList(tempBoxList);
-  }, [mintingBoxes, paymentContract]);
+  }, [location, mintingBoxes, paymentContract, roundNumber]);
 
   const _handleCheck = (e) => {
     const { value, checked } = e.target;
@@ -462,6 +520,7 @@ const UpdateComponent = ({ data, _onClose, _handleRefresh }) => {
     });
     body.products = selectedBoxList;
     body.paymentContract = paymentContract;
+    console.log(body);
     var answer = window.confirm("Are you sure ?");
     if (answer) {
       put(
@@ -504,6 +563,15 @@ const UpdateComponent = ({ data, _onClose, _handleRefresh }) => {
                     data={field}
                     key={index}
                     defaultData={data[field.key]}
+                    onChange={(e) => {
+                      if (field.key === "roundNumber") {
+                        setRoundNumber(e.target.value);
+                      }
+                      if (field.key === "location") {
+                        setLocation(e.target.value);
+                      }
+                      return null;
+                    }}
                   />
                 ))}
                 <ItemField

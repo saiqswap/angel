@@ -66,3 +66,7 @@ export const ENDPOINT_CONFIG_EQUIPMENT_LIST = `${API_EXTENSION}/v1/config/equipm
 export const ENDPOINT_CONFIG_EQUIPMENT = `${API_EXTENSION}/v1/config/equipment`;
 export const ENDPOINT_CONFIG_RI_LIST = `${API_EXTENSION}/v1/config/ri/list`;
 export const ENDPOINT_CONFIG_RI = `${API_EXTENSION}/v1/config/ri`;
+
+export const ENDPOINT_MINTING_BOX_SETTING_GET_LIST = `${API_EXTENSION}/v1/presale/settings/get-list`;
+export const ENDPOINT_MINTING_BOX_SETTING_CREATE = `${API_EXTENSION}/v1/presale/settings`;
+export const ENDPOINT_MINTING_BOX_SETTING_UPDATE = `${API_EXTENSION}/v1/presale/settings/update`;

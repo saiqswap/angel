@@ -19,6 +19,10 @@ const columns = [
     label: "Product ID",
   },
   {
+    key: "comboId",
+    label: "Combo ID",
+  },
+  {
     key: "txHash",
     label: "TX Hash",
     isAddress: true,

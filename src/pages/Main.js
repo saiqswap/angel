@@ -55,6 +55,7 @@ import TelegramIcon from "@material-ui/icons/Telegram";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { _getMintingBoxes } from "../actions/adminActions";
+import MintingBoxSetting from "./minting-box/MintingBoxSetting";
 
 const routes = [
   //user
@@ -179,7 +180,12 @@ const routes = [
       {
         name: "Transactions",
         component: MintingBoxTransactions,
-        path: "/minting-box/boxes",
+        path: "/minting-box/transactions",
+      },
+      {
+        name: "Settings",
+        component: MintingBoxSetting,
+        path: "/minting-box/settings",
       },
     ],
   },

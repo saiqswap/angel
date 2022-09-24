@@ -7,22 +7,23 @@ import { Filter } from "../../settings";
 
 const columns = [
   {
-    key: "id",
-    label: "",
-    isId: true,
-  },
-  {
-    key: "boxType",
-    label: "Box Type",
+    key: "location",
+    label: "Location",
   },
   {
     key: "roundNumber",
     label: "Round",
   },
+  // {
+  //   key: "id",
+  //   label: "",
+  //   isId: true,
+  // },
   {
-    key: "location",
-    label: "Location",
+    key: "boxType",
+    label: "Box Type",
   },
+
   {
     key: "unitPrice",
     label: "Price",
@@ -80,10 +81,11 @@ export default SearchHigherComponent({
   createFields: [
     new Filter({
       key: "roundNumber",
-      type: "input",
+      type: "select",
       text: "Round",
       col: 12,
       require: true,
+      selectName: "MINTING_ROUND",
     }),
     new Filter({
       key: "boxType",
@@ -95,9 +97,10 @@ export default SearchHigherComponent({
     }),
     new Filter({
       key: "location",
-      type: "input",
+      type: "select",
       text: "Location",
       col: 12,
+      selectName: "LOCATION",
       require: true,
     }),
     new Filter({
@@ -168,9 +171,10 @@ export default SearchHigherComponent({
   updateFields: [
     new Filter({
       key: "roundNumber",
-      type: "input",
+      type: "select",
       text: "Round",
       col: 12,
+      selectName: "MINTING_ROUND",
       require: true,
       disabled: true,
     }),
@@ -184,9 +188,10 @@ export default SearchHigherComponent({
     }),
     new Filter({
       key: "location",
-      type: "input",
+      type: "select",
       text: "Location",
       col: 12,
+      selectName: "LOCATION",
       require: true,
     }),
     new Filter({

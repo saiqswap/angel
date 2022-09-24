@@ -143,6 +143,15 @@ export default function ItemField({
       if (selectName === "MINTING_BOX") {
         list = mintingBoxes;
       }
+      if (selectName === "COMBO_TYPE") {
+        list = enums.ComboType;
+      }
+      if (selectName === "LOCATION") {
+        list = ["GLOBAL", "JAPAN"];
+      }
+      if (selectName === "MINTING_ROUND") {
+        list = [0, 1, 2, 3];
+      }
       setList(list);
     }
   }, [contracts, enums, mintingBoxes, roleList, scopes, selectName]);

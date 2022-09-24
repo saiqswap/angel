@@ -186,7 +186,7 @@ function CustomTable({
                     });
                     result = `${mintCount}/${items.length}`;
                   }
-                  if (!row[col.key]) {
+                  if (!row[col.key] && row[col.key] !== 0) {
                     result = "--/--";
                   }
                   if (isId) {

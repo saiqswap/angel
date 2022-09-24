@@ -39,6 +39,7 @@ function SearchHigherComponent({
   endpoint,
   component,
   updateEndpoint,
+  createEndpoint,
   filterBy,
   showCheckbox,
   getRoles,
@@ -379,7 +380,7 @@ function SearchHigherComponent({
               type="create"
               defaultData={{}}
               createFields={createFields}
-              updateEndpoint={updateEndpoint}
+              updateEndpoint={createEndpoint ? createEndpoint : updateEndpoint}
               _onClose={() => setShowCreate(false)}
               _onReload={_onReload}
             />

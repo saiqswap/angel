@@ -176,7 +176,6 @@ export default SearchHigherComponent({
       col: 12,
       selectName: "MINTING_ROUND",
       require: true,
-      disabled: true,
     }),
     new Filter({
       key: "boxType",

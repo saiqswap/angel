@@ -98,7 +98,7 @@ export default function ItemField({
 
   //set list for select box
   useEffect(() => {
-    if (enums && contracts && mintingBoxes) {
+    if (enums && contracts) {
       let list = [];
       if (selectName === "Coin") {
         list = ["USDT", "BTC", "FIL", "INC", "BNB"];
@@ -140,7 +140,7 @@ export default function ItemField({
       if (selectName === "PAYMENT_CONTRACTS") {
         list = contracts;
       }
-      if (selectName === "MINTING_BOX") {
+      if (mintingBoxes && selectName === "MINTING_BOX") {
         list = mintingBoxes;
       }
       if (selectName === "COMBO_TYPE") {

@@ -1,7 +1,5 @@
 import SearchHigherComponent from "../../components/SearchHigherComponent";
 import {
-  ENDPOINT_MINTING_BOX_PRODUCT,
-  ENDPOINT_MINTING_BOX_PRODUCT_LIST,
   ENDPOINT_MINTING_BOX_SETTING_CREATE,
   ENDPOINT_MINTING_BOX_SETTING_GET_LIST,
   ENDPOINT_MINTING_BOX_SETTING_UPDATE,
@@ -9,6 +7,10 @@ import {
 import { Filter } from "../../settings";
 
 const columns = [
+  {
+    key: "location",
+    label: "Location",
+  },
   {
     key: "roundNumber",
     label: "Round",
@@ -41,6 +43,14 @@ export default SearchHigherComponent({
       selectName: "MINTING_ROUND",
     }),
     new Filter({
+      key: "location",
+      type: "select",
+      text: "Location",
+      col: 12,
+      require: true,
+      selectName: "LOCATION",
+    }),
+    new Filter({
       key: "boxes",
       type: "input",
       text: "Boxes",
@@ -63,6 +73,14 @@ export default SearchHigherComponent({
       col: 12,
       require: true,
       selectName: "MINTING_ROUND",
+    }),
+    new Filter({
+      key: "location",
+      type: "select",
+      text: "Location",
+      col: 12,
+      require: true,
+      selectName: "LOCATION",
     }),
     new Filter({
       key: "boxes",

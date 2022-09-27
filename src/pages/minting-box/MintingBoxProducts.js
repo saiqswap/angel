@@ -125,6 +125,13 @@ export default SearchHigherComponent({
       require: true,
     }),
     new Filter({
+      key: "sold",
+      type: "input",
+      text: "Sold",
+      col: 12,
+      require: true,
+    }),
+    new Filter({
       key: "minOrder",
       type: "input",
       text: "Min",
@@ -207,10 +214,18 @@ export default SearchHigherComponent({
       col: 12,
       require: true,
     }),
+
     new Filter({
       key: "available",
       type: "input",
       text: "Available",
+      col: 12,
+      require: true,
+    }),
+    new Filter({
+      key: "sold",
+      type: "input",
+      text: "Sold",
       col: 12,
       require: true,
     }),

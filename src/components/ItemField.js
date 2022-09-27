@@ -157,7 +157,7 @@ export default function ItemField({
   }, [contracts, enums, mintingBoxes, roleList, scopes, selectName]);
 
   let defaultValue = "";
-  if (defaultData) defaultValue = defaultData;
+  if (defaultData || defaultData === 0) defaultValue = defaultData;
   if (defaultFilter && defaultFilter[key]) defaultValue = defaultFilter[key];
 
   const _handleUploadAvatar = async (e) => {
@@ -194,6 +194,7 @@ export default function ItemField({
       </Grid>
     );
   } else if (type === "select") {
+    console.log(defaultValue, list);
     return (
       <Grid item xs={col ? col : 2}>
         <TextField

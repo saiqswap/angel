@@ -20,6 +20,7 @@ import {
 import { Edit } from "@material-ui/icons";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import DetailsIcon from "@material-ui/icons/Details";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -85,17 +86,22 @@ const columns = [
   {
     key: "startTime",
     label: "Start",
-    // isTime: true,
+    format: (value) => moment(value).format("YYYY-MM-DD HH:mm:ss"),
   },
   {
     key: "endTime",
     label: "End",
-    // isTime: true,
+    format: (value) => moment(value).format("YYYY-MM-DD HH:mm:ss"),
   },
   {
     key: "isActive",
     label: "Status",
-    isBool: true,
+    format: (value) =>
+      value ? (
+        <span className="text-green">ACTIVE</span>
+      ) : (
+        <span className="text-red">INACTIVE</span>
+      ),
   },
 ];
 
@@ -149,6 +155,13 @@ const createFields = [
     key: "available",
     type: "input",
     text: "Available",
+    col: 12,
+    require: true,
+  }),
+  new Filter({
+    key: "sold",
+    type: "input",
+    text: "Sold",
     col: 12,
     require: true,
   }),
@@ -251,7 +264,11 @@ export default function MintingBoxCombo() {
                   return (
                     <TableRow key={index}>
                       {columns.map((col, index) => (
-                        <TableCell key={index}>{item[col.key]}</TableCell>
+                        <TableCell key={index}>
+                          {col.format
+                            ? col.format(item[col.key])
+                            : item[col.key]}
+                        </TableCell>
                       ))}
                       <TableCell>
                         <IconButton

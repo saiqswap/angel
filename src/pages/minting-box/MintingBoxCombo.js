@@ -37,6 +37,11 @@ import { post, put } from "../../utils/api";
 
 const columns = [
   {
+    key: "id",
+    label: "",
+    isId: true,
+  },
+  {
     key: "location",
     label: "Location",
   },

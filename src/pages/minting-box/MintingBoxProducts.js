@@ -7,6 +7,11 @@ import { Filter } from "../../settings";
 
 const columns = [
   {
+    key: "id",
+    label: "",
+    isId: true,
+  },
+  {
     key: "location",
     label: "Location",
   },
@@ -14,11 +19,6 @@ const columns = [
     key: "roundNumber",
     label: "Round",
   },
-  // {
-  //   key: "id",
-  //   label: "",
-  //   isId: true,
-  // },
   {
     key: "boxType",
     label: "Box Type",

@@ -50,7 +50,6 @@ function CustomTable({
   //remint
   reMintEndpoint,
   _handleReMint,
-
   isProfile,
 }) {
   const [rows, setRows] = useState(null);

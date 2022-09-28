@@ -38,6 +38,7 @@ import INOList from "./ino/INOList";
 import Whitelist from "./ino/Whitelist";
 import MintingBoxCombo from "./minting-box/MintingBoxCombo";
 import MintingBoxProducts from "./minting-box/MintingBoxProducts";
+import MintingBoxPushSold from "./minting-box/MintingBoxPushSold";
 import MintingBoxSetting from "./minting-box/MintingBoxSetting";
 import MintingBoxTransactions from "./minting-box/MintingBoxTransactions";
 import Equipment from "./nft/Equipment";
@@ -181,6 +182,11 @@ const routes = [
         name: "Settings",
         component: MintingBoxSetting,
         path: "/minting-box/settings",
+      },
+      {
+        name: "Sold Job",
+        component: MintingBoxPushSold,
+        path: "/minting-box/sold-job",
       },
     ],
   },

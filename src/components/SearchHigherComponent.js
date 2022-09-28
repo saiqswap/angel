@@ -47,6 +47,7 @@ function SearchHigherComponent({
   //re mint
   reMintEndpoint,
   isNFTTemplate,
+  NoticeComponent,
   ...props
 }) {
   function WrappedComponent() {
@@ -191,17 +192,29 @@ function SearchHigherComponent({
           title: "Delete item # " + id,
           content: "Are you for this action",
           _handleSubmit: () => {
-            _delete(
-              `${deleteEndpoint}?${
-                component === "nfts" ? "tokenId" : "id"
-              }=${id}`,
-              {},
-              () => {
-                toast.success("Deleted");
-                setIsReload(!isReload);
-              },
-              (error) => toast.error(error.msg)
-            );
+            if (component === "MINTING_BOX_PUSH_SOLD") {
+              _delete(
+                `${deleteEndpoint}/${id}`,
+                {},
+                () => {
+                  toast.success("Deleted");
+                  setIsReload(!isReload);
+                },
+                (error) => toast.error(error.msg)
+              );
+            } else {
+              _delete(
+                `${deleteEndpoint}?${
+                  component === "nfts" ? "tokenId" : "id"
+                }=${id}`,
+                {},
+                () => {
+                  toast.success("Deleted");
+                  setIsReload(!isReload);
+                },
+                (error) => toast.error(error.msg)
+              );
+            }
           },
         })
       );
@@ -313,6 +326,7 @@ function SearchHigherComponent({
           </Grid>
         )}
         <Grid item xs={12}>
+          {NoticeComponent && <NoticeComponent />}
           <Paper variant="outlined">
             {SpecialComponent && (
               <SpecialComponent

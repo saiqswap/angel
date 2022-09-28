@@ -11,7 +11,7 @@
     "crypto-js": "^4.1.1",
     "ethers": "^5.7.0",
     "moment": "^2.29.1",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.3",
     "react": "^17.0.2",
     "react-csv": "^2.0.3",
     "react-datepicker": "^4.1.1",

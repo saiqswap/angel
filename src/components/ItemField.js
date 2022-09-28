@@ -98,7 +98,7 @@ export default function ItemField({
 
   //set list for select box
   useEffect(() => {
-    if (enums && contracts && mintingBoxes) {
+    if (enums && contracts) {
       let list = [];
       if (selectName === "Coin") {
         list = ["USDT", "BTC", "FIL", "INC", "BNB"];
@@ -140,7 +140,7 @@ export default function ItemField({
       if (selectName === "PAYMENT_CONTRACTS") {
         list = contracts;
       }
-      if (selectName === "MINTING_BOX") {
+      if (mintingBoxes && selectName === "MINTING_BOX") {
         list = mintingBoxes;
       }
       if (selectName === "COMBO_TYPE") {
@@ -157,7 +157,7 @@ export default function ItemField({
   }, [contracts, enums, mintingBoxes, roleList, scopes, selectName]);
 
   let defaultValue = "";
-  if (defaultData) defaultValue = defaultData;
+  if (defaultData || defaultData === 0) defaultValue = defaultData;
   if (defaultFilter && defaultFilter[key]) defaultValue = defaultFilter[key];
 
   const _handleUploadAvatar = async (e) => {
@@ -194,6 +194,7 @@ export default function ItemField({
       </Grid>
     );
   } else if (type === "select") {
+    console.log(defaultValue, list);
     return (
       <Grid item xs={col ? col : 2}>
         <TextField

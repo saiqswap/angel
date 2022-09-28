@@ -7,6 +7,11 @@ import { Filter } from "../../settings";
 
 const columns = [
   {
+    key: "id",
+    label: "",
+    isId: true,
+  },
+  {
     key: "location",
     label: "Location",
   },
@@ -14,11 +19,6 @@ const columns = [
     key: "roundNumber",
     label: "Round",
   },
-  // {
-  //   key: "id",
-  //   label: "",
-  //   isId: true,
-  // },
   {
     key: "boxType",
     label: "Box Type",
@@ -125,6 +125,13 @@ export default SearchHigherComponent({
       require: true,
     }),
     new Filter({
+      key: "sold",
+      type: "input",
+      text: "Sold",
+      col: 12,
+      require: true,
+    }),
+    new Filter({
       key: "minOrder",
       type: "input",
       text: "Min",
@@ -176,7 +183,6 @@ export default SearchHigherComponent({
       col: 12,
       selectName: "MINTING_ROUND",
       require: true,
-      disabled: true,
     }),
     new Filter({
       key: "boxType",
@@ -208,10 +214,18 @@ export default SearchHigherComponent({
       col: 12,
       require: true,
     }),
+
     new Filter({
       key: "available",
       type: "input",
       text: "Available",
+      col: 12,
+      require: true,
+    }),
+    new Filter({
+      key: "sold",
+      type: "input",
+      text: "Sold",
       col: 12,
       require: true,
     }),

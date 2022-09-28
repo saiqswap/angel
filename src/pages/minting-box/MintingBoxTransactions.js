@@ -15,6 +15,10 @@ const columns = [
     userId: "userId",
   },
   {
+    key: "ref",
+    label: "Ref ID",
+  },
+  {
     key: "productId",
     label: "Product ID",
   },

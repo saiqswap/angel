@@ -37,6 +37,7 @@ import WithdrawHistory from "./fund/WithdrawHistory";
 import INOList from "./ino/INOList";
 import Whitelist from "./ino/Whitelist";
 import MintingBoxCombo from "./minting-box/MintingBoxCombo";
+import MintingBoxExport from "./minting-box/MintingBoxExport";
 import MintingBoxProducts from "./minting-box/MintingBoxProducts";
 import MintingBoxPushSold from "./minting-box/MintingBoxPushSold";
 import MintingBoxSetting from "./minting-box/MintingBoxSetting";
@@ -187,6 +188,11 @@ const routes = [
         name: "Sold Job",
         component: MintingBoxPushSold,
         path: "/minting-box/sold-job",
+      },
+      {
+        name: "Export",
+        component: MintingBoxExport,
+        path: "/minting-box/export",
       },
     ],
   },

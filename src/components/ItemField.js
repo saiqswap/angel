@@ -194,7 +194,6 @@ export default function ItemField({
       </Grid>
     );
   } else if (type === "select") {
-    console.log(defaultValue, list);
     return (
       <Grid item xs={col ? col : 2}>
         <TextField

@@ -72,3 +72,4 @@ export const ENDPOINT_MINTING_BOX_SETTING_CREATE = `${API_EXTENSION}/v1/presale/
 export const ENDPOINT_MINTING_BOX_SETTING_UPDATE = `${API_EXTENSION}/v1/presale/settings/update`;
 export const ENDPOINT_MINTING_BOX_PUSH_SOLD_UPDATE = `${API_EXTENSION}/v1/presale/sold-job/update`;
 export const ENDPOINT_MINTING_BOX_PUSH_SOLD_CREATE = `${API_EXTENSION}/v1/presale/sold-job`;
+export const ENDPOINT_MINTING_BOX_EXPORT = `${API_EXTENSION}/v1/reporting/minting`;

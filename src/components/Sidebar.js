@@ -16,10 +16,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import { useHistory } from "react-router-dom";
-import {
-  ExpandLess,
-  ExpandMore,
-} from "@material-ui/icons";
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { checkScope, logout } from "../utils/auth";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -27,6 +24,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 export default function Sidebar({
   open,
   routes,
+  subRoutes,
   _handleDrawerClose,
   _handleDrawerOpen,
 }) {
@@ -66,7 +64,17 @@ export default function Sidebar({
             <ListItemText primary={"Dashboard"} />
           </ListItem>
         </Link>
+        <Divider />
         {routes.map((item, index) => (
+          <RenderMenu
+            item={item}
+            key={index}
+            openMenu={open}
+            _handleDrawerOpen={_handleDrawerOpen}
+          />
+        ))}
+        <Divider />
+        {subRoutes.map((item, index) => (
           <RenderMenu
             item={item}
             key={index}

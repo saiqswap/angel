@@ -101,7 +101,7 @@ export default function ItemField({
     if (enums && contracts) {
       let list = [];
       if (selectName === "Coin") {
-        list = ["USDT", "BTC", "FIL", "INC", "BNB"];
+        list = ["USDT", "BTC", "FIL", "INC", "BNB", "ING"];
       }
       if (selectName === "GAME_ITEM_TYPE") {
         list = ["ANGEL", "COSTUME", "MINION_PARTS"];

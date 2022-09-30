@@ -73,3 +73,6 @@ export const ENDPOINT_MINTING_BOX_SETTING_UPDATE = `${API_EXTENSION}/v1/presale/
 export const ENDPOINT_MINTING_BOX_PUSH_SOLD_UPDATE = `${API_EXTENSION}/v1/presale/sold-job/update`;
 export const ENDPOINT_MINTING_BOX_PUSH_SOLD_CREATE = `${API_EXTENSION}/v1/presale/sold-job`;
 export const ENDPOINT_MINTING_BOX_EXPORT = `${API_EXTENSION}/v1/reporting/minting`;
+//swap
+export const ENDPOINT_SWAP_CONFIG_LIST = `${API_EXTENSION}/v1/fund/swap-config/get-list`;
+export const ENDPOINT_SWAP_CONFIG = `${API_EXTENSION}/v1/fund/swap-config`;

@@ -53,8 +53,101 @@ import GoogleAuthenticator from "./setting/GoogleAuthenticator";
 import Transactions from "./Transactions";
 import MemberCount from "./user/MemberCount";
 import UserList from "./user/UserList";
+import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
+import SwapConfig from "./swap/SwapConfig";
 
 const routes = [
+  {
+    name: "Affiliate Commission",
+    icon: <Grain />,
+    scope: "ADMIN_FULL",
+    component: AffiliateCommission,
+    path: "/affiliate-commission",
+  },
+  // airdrop
+  {
+    name: "Airdrop",
+    icon: <Share />,
+    scope: "ADMIN_FULL",
+    routes: [
+      {
+        name: "Box",
+        component: BoxByType,
+        path: "/airdrop/box-by-type",
+      },
+      {
+        name: "Box With Tier",
+        component: BoxByTypeAndTier,
+        path: "/airdrop/box-by-type-and-tier",
+      },
+    ],
+  },
+  //box
+  {
+    name: "Box",
+    icon: <InboxIcon />,
+    routes: [
+      { name: "List", path: "/box/list", component: BoxList },
+      { name: "Box Rate", path: "/box/rate", component: BoxRate },
+      {
+        name: "Box Price",
+        path: "/box/price",
+        component: Boxes,
+      },
+    ],
+  },
+  //contracts
+  {
+    name: "Contracts",
+    icon: <GavelIcon />,
+    scope: "ADMIN_FULL",
+    component: Contracts,
+    path: "/contracts",
+  },
+  //fund
+  {
+    name: "Fund",
+    icon: <AccountBalanceWallet />,
+    scope: "FUND_READ",
+    routes: [
+      {
+        name: "Deposits",
+        path: "/fund/deposits",
+        component: DepositHistory,
+        // scope: "FUND_FULL",
+      },
+      {
+        name: "Withdraws",
+        path: "/fund/withdraws",
+        component: WithdrawHistory,
+        // scope: "FUND_FULL",
+      },
+      // {
+      //   name: "Pending withdrawals",
+      //   path: "/fund/pending-withdraws",
+      //   component: PendingWithdraws,
+      //   // scope: "FUND_FULL",
+      // },
+      // {
+      //   name: "Approved withdrawals",
+      //   path: "/fund/approved-withdraws",
+      //   component: ApprovedWithdraws,
+      //   // scope: "FUND_FULL",
+      // },
+      {
+        name: "Coins",
+        path: "/fund/coins",
+        component: CoinList,
+        scope: "COIN_FULL",
+      },
+      {
+        name: "Logs",
+        path: "/fund/logs",
+        component: FundLogs,
+        // scope: "FUND_FULL",
+      },
+    ],
+  },
   //user
   {
     name: "User",
@@ -101,64 +194,6 @@ const routes = [
       },
     ],
   },
-  //box
-  {
-    name: "Box",
-    icon: <InboxIcon />,
-    routes: [
-      { name: "List", path: "/box/list", component: BoxList },
-      { name: "Box Rate", path: "/box/rate", component: BoxRate },
-      {
-        name: "Box Price",
-        path: "/box/price",
-        component: Boxes,
-      },
-    ],
-  },
-  //fund
-  {
-    name: "Fund",
-    icon: <AccountBalanceWallet />,
-    scope: "FUND_READ",
-    routes: [
-      {
-        name: "Deposits",
-        path: "/fund/deposits",
-        component: DepositHistory,
-        // scope: "FUND_FULL",
-      },
-      {
-        name: "Withdraws",
-        path: "/fund/withdraws",
-        component: WithdrawHistory,
-        // scope: "FUND_FULL",
-      },
-      // {
-      //   name: "Pending withdrawals",
-      //   path: "/fund/pending-withdraws",
-      //   component: PendingWithdraws,
-      //   // scope: "FUND_FULL",
-      // },
-      // {
-      //   name: "Approved withdrawals",
-      //   path: "/fund/approved-withdraws",
-      //   component: ApprovedWithdraws,
-      //   // scope: "FUND_FULL",
-      // },
-      {
-        name: "Coins",
-        path: "/fund/coins",
-        component: CoinList,
-        scope: "COIN_FULL",
-      },
-      {
-        name: "Logs",
-        path: "/fund/logs",
-        component: FundLogs,
-        // scope: "FUND_FULL",
-      },
-    ],
-  },
   {
     name: "Minting Box",
     icon: <Star />,
@@ -198,24 +233,6 @@ const routes = [
   },
   // airdrop
   {
-    name: "Airdrop",
-    icon: <Share />,
-    scope: "ADMIN_FULL",
-    routes: [
-      {
-        name: "Box",
-        component: BoxByType,
-        path: "/airdrop/box-by-type",
-      },
-      {
-        name: "Box With Tier",
-        component: BoxByTypeAndTier,
-        path: "/airdrop/box-by-type-and-tier",
-      },
-    ],
-  },
-  // airdrop
-  {
     name: "INO",
     icon: <TelegramIcon />,
     scope: "ADMIN_FULL",
@@ -239,24 +256,18 @@ const routes = [
     component: Transactions,
     path: "/transactions",
   },
+  //swap
   {
-    name: "Affiliate Commission",
-    icon: <Grain />,
-    scope: "ADMIN_FULL",
-    component: AffiliateCommission,
-    path: "/affiliate-commission",
+    name: "Swap",
+    icon: <SwapHorizIcon />,
+    routes: [{ name: "Config", path: "/swap/config", component: SwapConfig }],
   },
-  {
-    name: "Contracts",
-    icon: <GavelIcon />,
-    scope: "ADMIN_FULL",
-    component: Contracts,
-    path: "/contracts",
-  },
+];
+
+const subRoutes = [
   {
     name: "Role",
     icon: <FormatListBulletedIcon />,
-    isBreak: true,
     component: RoleList,
     path: "/role",
     scope: "ROLE_FULL",
@@ -318,7 +329,8 @@ export default function Main() {
         <CssBaseline />
         <AppBar open={open} _handleDrawerOpen={_handleDrawerOpen} />
         <Sidebar
-          routes={routes}
+          routes={routes.sort((a, b) => a.name.localeCompare(b.name))}
+          subRoutes={subRoutes.sort((a, b) => a.name.localeCompare(b.name))}
           _handleDrawerClose={_handleDrawerClose}
           _handleDrawerOpen={_handleDrawerOpen}
           open={open}

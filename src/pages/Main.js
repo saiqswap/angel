@@ -335,7 +335,7 @@ export default function Main() {
           _handleDrawerOpen={_handleDrawerOpen}
           open={open}
         />
-        <Content routes={routes} />
+        <Content routes={routes} subRoutes={subRoutes} />
       </div>
       <CurrentUserProfile />
     </Router>

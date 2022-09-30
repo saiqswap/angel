@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import NewDashboard from "../pages/NewDashboard";
 import UserDetail from "../pages/user/UserDetail";
 
-export default function Routes({ routes }) {
+export default function Routes({ routes, subRoutes }) {
   const classes = useStyles();
 
   return (
@@ -12,6 +12,25 @@ export default function Routes({ routes }) {
       <div className={classes.toolbar} />
       <Switch>
         {routes.map((route, i) =>
+          route.routes ? (
+            route.routes.map((route, i) => (
+              <Route
+                path={route.path}
+                key={i}
+                component={route.component}
+                exact={route.exact}
+              />
+            ))
+          ) : (
+            <Route
+              path={route.path}
+              key={i}
+              component={route.component}
+              exact={route.exact}
+            />
+          )
+        )}
+        {subRoutes.map((route, i) =>
           route.routes ? (
             route.routes.map((route, i) => (
               <Route

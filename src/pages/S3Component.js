@@ -19,6 +19,7 @@ import { API } from "../settings";
 import { getAccessToken } from "../utils/auth";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
+import { ENDPOINT_UPLOAD } from "../constants/endpoint";
 
 export const baseUrl = `https://6f7daba956414f5fa57231546ac07221.s3.ap-southeast-1.amazonaws.com`;
 
@@ -46,7 +47,7 @@ const _handleUpload = (server, e, callback) => {
         if (image.size < 50000000) {
           var fd = new FormData();
           fd.append("image", image);
-          fetch(`${API}/adm-api/v1/upload/${endpoint}?isRandomName=false`, {
+          fetch(`${API}/${ENDPOINT_UPLOAD}/${endpoint}?isRandomName=false`, {
             headers: {
               Authorization: "bearer " + getAccessToken(),
             },

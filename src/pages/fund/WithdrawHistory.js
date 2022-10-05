@@ -109,6 +109,7 @@ export default function WithdrawHistory(props) {
     title: "Withdraw history",
     columns,
     filterBy,
+    isResend: true,
   });
   return <Component />;
 }

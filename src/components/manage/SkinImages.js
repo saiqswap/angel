@@ -77,7 +77,7 @@ export default function SkinImages() {
     <Grid container spacing={1}>
       {data &&
         filteredArr.map((item, index) => (
-          <Grid item xs={3} key={index}>
+          <Grid item xs={4} key={index}>
             <Paper variant="outlined">
               <Box p={1}>
                 <Typography>{item.name.toUpperCase()}</Typography>
@@ -89,6 +89,19 @@ export default function SkinImages() {
                   alt=""
                   key={index}
                 />
+                <Divider />
+                <Grid container>
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <Grid item xs={4}>
+                      <CustomImage
+                        src={`${baseUrl}/nft_costume_${formatNftName(
+                          item.name
+                        )}_tier${n}.png`}
+                        alt=""
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
                 <Divider />
                 <SkinPassiveSkin data={item} />
               </Box>

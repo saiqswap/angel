@@ -13,7 +13,7 @@ import { ENDPOINT_NFT_GET_LIST } from "../../constants/endpoint";
 import { baseUrl } from "../../pages/S3Component";
 import { _getImage } from "../../settings";
 import { post } from "../../utils/api";
-import { _formatNameToLink } from "../../utils/format";
+import { formatNftName, _formatNameToLink } from "../../utils/format";
 
 const CustomImage = styled("img")(({ theme }) => ({
   width: 80,
@@ -72,7 +72,7 @@ export default function MinionImages() {
     <Grid container spacing={1}>
       {data &&
         filteredArr.map((item, index) => (
-          <Grid item xs={3} key={index}>
+          <Grid item xs={4} key={index}>
             <Paper variant="outlined">
               <Box p={1}>
                 <Typography>{item.name.toUpperCase()}</Typography>
@@ -94,6 +94,19 @@ export default function MinionImages() {
                     objectFit: "cover",
                   }}
                 />
+                <Divider />
+                <Grid container>
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <Grid item xs={3}>
+                      <CustomImage
+                        src={`${baseUrl}/nft_minion_parts_${formatNftName(
+                          item.name
+                        )}_tier${n}.png`}
+                        alt=""
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
                 <Divider />
                 <MinionSkill data={item} />
               </Box>

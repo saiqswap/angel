@@ -24,13 +24,18 @@ import {
   Close,
   RestorePage,
 } from "@material-ui/icons";
-import { get } from "../utils/api";
-import { ENDPOINT_GET_HOT_WALLET } from "../constants/endpoint";
+import { get, put } from "../utils/api";
+import {
+  ENDPOINT_GET_HOT_WALLET,
+  ENDPOINT_RESEND_WITHDRAW,
+} from "../constants/endpoint";
 import { Link } from "react-router-dom";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { checkScope } from "../utils/auth";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import { _getImage } from "../settings";
+import SendIcon from "@material-ui/icons/Send";
+import { toast } from "react-toastify";
 
 function CustomTable({
   columns,
@@ -51,6 +56,7 @@ function CustomTable({
   reMintEndpoint,
   _handleReMint,
   isProfile,
+  isResend,
 }) {
   const [rows, setRows] = useState(null);
 
@@ -99,6 +105,18 @@ function CustomTable({
   };
 
   const isSelected = (id) => selectedIds.indexOf(id) !== -1;
+
+  const _handleResendWithdraw = (row) => {
+    console.log(row);
+    put(
+      `${ENDPOINT_RESEND_WITHDRAW}/${row.id}`,
+      {},
+      () => {
+        toast.success("Success");
+      },
+      () => toast.error("Fail")
+    );
+  };
 
   return (
     <Table stickyHeader aria-label="sticky table" size="small">
@@ -297,6 +315,15 @@ function CustomTable({
                   >
                     <DetailsIcon fontSize="small" />
                   </IconButton>
+                  {/* Has re-send for withdraw fail */}
+                  {isResend && (
+                    <IconButton
+                      size="small"
+                      onClick={() => _handleResendWithdraw(row)}
+                    >
+                      <SendIcon fontSize="small" />
+                    </IconButton>
+                  )}
                   {updateFields && (
                     <IconButton
                       size="small"

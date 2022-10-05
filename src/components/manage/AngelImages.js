@@ -85,6 +85,16 @@ export default function AngelImages() {
                     alt=""
                   />
                 </Grid>
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <Grid item xs={4}>
+                    <CustomImage
+                      src={`${baseUrl}/nft_angel_${formatNftName(
+                        item.name
+                      )}_tier${n}.png`}
+                      alt=""
+                    />
+                  </Grid>
+                ))}
                 <Grid item xs={4}>
                   <CustomImage
                     src={`${baseUrl}/class_${item.properties.class.toLowerCase()}.png`}

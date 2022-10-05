@@ -48,6 +48,7 @@ function SearchHigherComponent({
   reMintEndpoint,
   isNFTTemplate,
   NoticeComponent,
+  isResend,
   ...props
 }) {
   function WrappedComponent() {
@@ -363,6 +364,7 @@ function SearchHigherComponent({
                 reMintEndpoint={reMintEndpoint}
                 _handleReMint={_handleReMint}
                 isProfile={props.isProfile}
+                isResend={isResend}
               />
             </TableContainer>
             <CustomPagination

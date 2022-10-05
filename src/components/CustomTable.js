@@ -316,7 +316,7 @@ function CustomTable({
                     <DetailsIcon fontSize="small" />
                   </IconButton>
                   {/* Has re-send for withdraw fail */}
-                  {isResend && (
+                  {isResend && row.status !== "SUCCESS" && (
                     <IconButton
                       size="small"
                       onClick={() => _handleResendWithdraw(row)}

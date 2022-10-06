@@ -100,7 +100,7 @@ export default function MinionImages() {
                       <CustomImage
                         src={`${baseUrl}/nft_minion_parts_${formatNftName(
                           item.name
-                        )}_tier${n}.png`}
+                        )}_tier_${n}.png`}
                         alt=""
                       />
                     </Grid>

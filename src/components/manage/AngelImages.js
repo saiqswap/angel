@@ -90,7 +90,7 @@ export default function AngelImages() {
                     <CustomImage
                       src={`${baseUrl}/nft_angel_${formatNftName(
                         item.name
-                      )}_tier${n}.png`}
+                      )}_tier_${n}.png`}
                       alt=""
                     />
                   </Grid>

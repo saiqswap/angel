@@ -95,7 +95,7 @@ export default function SkinImages() {
                       <CustomImage
                         src={`${baseUrl}/nft_costume_${formatNftName(
                           item.name
-                        )}_tier${n}.png`}
+                        )}_tier_${n}.png`}
                         alt=""
                       />
                     </Grid>

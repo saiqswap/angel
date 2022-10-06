@@ -36,6 +36,8 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import { _getImage } from "../settings";
 import SendIcon from "@material-ui/icons/Send";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { _switchPopup } from "../actions/settingActions";
 
 function CustomTable({
   columns,
@@ -59,6 +61,7 @@ function CustomTable({
   isResend,
 }) {
   const [rows, setRows] = useState(null);
+  const dispatch = useDispatch();
 
   if (isProfile) {
     const index = columns.findIndex((object) => {
@@ -107,14 +110,21 @@ function CustomTable({
   const isSelected = (id) => selectedIds.indexOf(id) !== -1;
 
   const _handleResendWithdraw = (row) => {
-    console.log(row);
-    put(
-      `${ENDPOINT_RESEND_WITHDRAW}/${row.id}`,
-      {},
-      () => {
-        toast.success("Success");
-      },
-      () => toast.error("Fail")
+    dispatch(
+      _switchPopup({
+        title: "Resend withdraw # " + row.id,
+        content: "Are you for this action",
+        _handleSubmit: () => {
+          put(
+            `${ENDPOINT_RESEND_WITHDRAW}/${row.id}`,
+            {},
+            () => {
+              toast.success("Success");
+            },
+            () => toast.error("Fail")
+          );
+        },
+      })
     );
   };
 

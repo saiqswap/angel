@@ -15,13 +15,11 @@ import { toast } from "react-toastify";
 import AngelImages from "../components/manage/AngelImages";
 import MinionImages from "../components/manage/MinionImages";
 import SkinImages from "../components/manage/SkinImages";
-import { API } from "../settings";
+import { API, baseUrl } from "../settings";
 import { getAccessToken } from "../utils/auth";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { ENDPOINT_UPLOAD } from "../constants/endpoint";
-
-export const baseUrl = `https://6f7daba956414f5fa57231546ac07221.s3.ap-southeast-1.amazonaws.com`;
 
 function isFileImage(file) {
   const acceptedImageTypes = [

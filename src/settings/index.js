@@ -13,7 +13,7 @@ const envConfigs = {
 const envConfig = envConfigs[hostname]
   ? envConfigs[hostname]
   : productionConfig;
-export const { API, API_EXTENSION, ENV_NAME } = envConfig;
+export const { API, API_EXTENSION, ENV_NAME, baseUrl } = envConfig;
 export const USER_API = ``;
 export const USER_DOMAIN = domains[hostname];
 export function Filter({
@@ -39,5 +39,5 @@ export function Filter({
 }
 
 export function _getImage(image) {
-  return `https://6f7daba956414f5fa57231546ac07221.s3.ap-southeast-1.amazonaws.com/${image}`;
+  return `${baseUrl}/${image}`;
 }

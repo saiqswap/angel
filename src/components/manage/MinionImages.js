@@ -10,8 +10,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { ENDPOINT_NFT_GET_LIST } from "../../constants/endpoint";
-import { baseUrl } from "../../pages/S3Component";
-import { _getImage } from "../../settings";
+import { baseUrl, _getImage } from "../../settings";
 import { post } from "../../utils/api";
 import { formatNftName, _formatNameToLink } from "../../utils/format";
 

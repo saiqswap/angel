@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { ENDPOINT_NFT_GET_LIST } from "../../constants/endpoint";
-import { baseUrl } from "../../pages/S3Component";
+import { baseUrl } from "../../settings";
 import { post } from "../../utils/api";
 import { formatNftName } from "../../utils/format";
 

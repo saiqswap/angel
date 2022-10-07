@@ -19,7 +19,10 @@ import { Add, Close, Edit } from "@material-ui/icons";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { ENDPOINT_NFT_GET_LIST } from "../../constants/endpoint";
+import {
+  EndPointConstant,
+  ENDPOINT_NFT_GET_LIST,
+} from "../../constants/endpoint";
 import { _getImage } from "../../settings";
 import { post, put } from "../../utils/api";
 import AddListComponent from "../AddListComponent";
@@ -168,7 +171,7 @@ export default function AngelTemplates() {
   const _handleCreateTemplate = () => {
     defaultData.properties.skills = skills;
     if (defaultData.tokenId) {
-      put(`/adm-api/v1/nft`, defaultData, () => {
+      put(EndPointConstant.NFT_POST, defaultData, () => {
         toast.success("Update");
         setOpen(false);
         setRefresh(!refresh);
@@ -177,7 +180,7 @@ export default function AngelTemplates() {
       });
     } else {
       defaultData.type = "ANGEL";
-      post(`/adm-api/v1/nft`, defaultData, () => {
+      post(EndPointConstant.NFT_POST, defaultData, () => {
         toast.success("Created");
         setOpen(false);
         setRefresh(!refresh);

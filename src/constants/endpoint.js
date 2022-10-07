@@ -81,4 +81,5 @@ export const ENDPOINT_UPLOAD = `${API_EXTENSION}/v1/upload`;
 
 export const EndPointConstant = {
   USER_GET_DEBT_BALANCES: `${API_EXTENSION}/v1/fund/balancedeb`,
+  NFT_POST: `${API_EXTENSION}/v1/nft`,
 };

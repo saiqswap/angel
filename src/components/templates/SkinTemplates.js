@@ -22,7 +22,10 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { TYPE_LEVEL } from "../../constants";
-import { ENDPOINT_NFT_GET_LIST } from "../../constants/endpoint";
+import {
+  EndPointConstant,
+  ENDPOINT_NFT_GET_LIST,
+} from "../../constants/endpoint";
 import { _getImage } from "../../settings";
 import { post, put } from "../../utils/api";
 import AddListComponent from "../AddListComponent";
@@ -212,14 +215,14 @@ export default function SkinTemplates() {
     defaultData.properties.passiveSkills = skills;
     defaultData.type = "COSTUME";
     if (defaultData.tokenId) {
-      put(`/adm-api/v1/nft`, defaultData, () => {
+      put(EndPointConstant.NFT_POST, defaultData, () => {
         toast.success("Update");
         setOpen(false);
         setRefresh(!refresh);
         setDefaultData(model);
       });
     } else {
-      post(`/adm-api/v1/nft`, defaultData, () => {
+      post(EndPointConstant.NFT_POST, defaultData, () => {
         toast.success("Created");
         setOpen(false);
         setRefresh(!refresh);

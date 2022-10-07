@@ -28,13 +28,13 @@ const MinionSkill = ({ data }) => {
   return (
     <div className="passive-skill">
       <div>
+        <div>Skill: {data.properties.effect}</div>
         <CustomImage
           src={`${baseUrl}/effect_${_formatNameToLink(
             data.properties.effect
           )}.png`}
           alt=""
         />
-        <div>{data.properties.effect}</div>
       </div>
     </div>
   );
@@ -80,7 +80,6 @@ export default function MinionImages() {
                   src={_getImage(
                     `body_${item.name.toLowerCase().replace(" ", "_")}.png`
                   )}
-                  alt=""
                   key={index}
                 />
                 <CustomImage
@@ -95,16 +94,15 @@ export default function MinionImages() {
                 />
                 <Divider />
                 <Grid container>
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <Grid item xs={3}>
-                      <CustomImage
-                        src={`${baseUrl}/nft_minion_parts_${formatNftName(
-                          item.name
-                        )}_tier_${n}.png`}
-                        alt=""
-                      />
-                    </Grid>
-                  ))}
+                  <Grid item xs={3}>
+                    <div>{item.level}</div>
+                    <CustomImage
+                      src={`${baseUrl}/nft_minion_parts_${formatNftName(
+                        item.name
+                      )}_${item.level.toLowerCase()}.png`}
+                      alt=""
+                    />
+                  </Grid>
                 </Grid>
                 <Divider />
                 <MinionSkill data={item} />

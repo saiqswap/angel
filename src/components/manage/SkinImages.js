@@ -28,13 +28,13 @@ const SkinPassiveSkin = ({ data }) => {
   return (
     <div className="passive-skill">
       <div>
+        <Typography>Skill: {data.properties.costumeEffect}</Typography>
         <CustomImage
           alt=""
           src={`${baseUrl}/effect_${_formatNameToLink(
             data.properties.costumeEffect
           )}.png`}
         />
-        <Typography>{data.properties.costumeEffect}</Typography>
         {/* <Box sx={{ height: 100 }}>
           {data.properties.passiveSkills.map((item, i) => (
             <Typography variant="caption" key={i}>{`- ${item}`}</Typography>
@@ -90,16 +90,15 @@ export default function SkinImages() {
                 />
                 <Divider />
                 <Grid container>
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <Grid item xs={4}>
-                      <CustomImage
-                        src={`${baseUrl}/nft_costume_${formatNftName(
-                          item.name
-                        )}_tier_${n}.png`}
-                        alt=""
-                      />
-                    </Grid>
-                  ))}
+                  <Grid item xs={4}>
+                    <div>{item.level}</div>
+                    <CustomImage
+                      src={`${baseUrl}/nft_costume_${formatNftName(
+                        item.name
+                      )}_${item.level.toLowerCase()}.png`}
+                      alt=""
+                    />
+                  </Grid>
                 </Grid>
                 <Divider />
                 <SkinPassiveSkin data={item} />

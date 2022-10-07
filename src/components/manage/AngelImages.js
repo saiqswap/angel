@@ -85,25 +85,33 @@ export default function AngelImages() {
                     alt=""
                   />
                 </Grid>
-                {[1, 2, 3, 4, 5].map((n) => (
-                  <Grid item xs={4}>
-                    <CustomImage
-                      src={`${baseUrl}/nft_angel_${formatNftName(
-                        item.name
-                      )}_tier_${n}.png`}
-                      alt=""
-                    />
+                <Grid xs={12}>
+                  <Divider />
+                  Tiers
+                  <Grid container>
+                    {[1, 2, 3, 4, 5].map((n) => (
+                      <Grid item xs={4}>
+                        <CustomImage
+                          src={`${baseUrl}/nft_angel_${formatNftName(
+                            item.name
+                          )}_tier_${n}.png`}
+                          alt=""
+                        />
+                      </Grid>
+                    ))}
                   </Grid>
-                ))}
+                  <Divider />
+                </Grid>
                 <Grid item xs={4}>
+                  <div>Class:{item.properties.class}</div>
                   <CustomImage
                     src={`${baseUrl}/class_${item.properties.class.toLowerCase()}.png`}
                     alt=""
                   />
-                  <div>{item.properties.class}</div>
                 </Grid>
               </Grid>
               <Divider />
+              <div>Skills</div>
               <AngelSkill data={item} />
             </Box>
           </Paper>

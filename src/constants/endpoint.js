@@ -78,3 +78,7 @@ export const ENDPOINT_SWAP_CONFIG_LIST = `${API_EXTENSION}/v1/fund/swap-config/g
 export const ENDPOINT_SWAP_CONFIG = `${API_EXTENSION}/v1/fund/swap-config`;
 export const ENDPOINT_RESEND_WITHDRAW = `${API_EXTENSION}/v1/fund/withdraw/re-send`;
 export const ENDPOINT_UPLOAD = `${API_EXTENSION}/v1/upload`;
+
+export const EndPointConstant = {
+  USER_GET_DEBT_BALANCES: `${API_EXTENSION}/v1/fund/balancedeb`,
+};

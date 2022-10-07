@@ -28,10 +28,10 @@ export default function UserTransaction({ userId }) {
       title: "Logs",
       component: <FundLogs isProfile={true} profileUserId={userId} />,
     },
-    {
-      title: "Deposit",
-      component: <DepositHistory isProfile={true} profileUserId={userId} />,
-    },
+    // {
+    //   title: "Deposit",
+    //   component: <DepositHistory isProfile={true} profileUserId={userId} />,
+    // },
     {
       title: "Withdraw/Transfer",
       component: <WithdrawHistory isProfile={true} profileUserId={userId} />,

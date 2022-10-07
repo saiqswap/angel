@@ -110,12 +110,12 @@ const routes = [
     icon: <AccountBalanceWallet />,
     scope: "FUND_READ",
     routes: [
-      {
-        name: "Deposits",
-        path: "/fund/deposits",
-        component: DepositHistory,
-        // scope: "FUND_FULL",
-      },
+      // {
+      //   name: "Deposits",
+      //   path: "/fund/deposits",
+      //   component: DepositHistory,
+      //   // scope: "FUND_FULL",
+      // },
       {
         name: "Withdraws",
         path: "/fund/withdraws",

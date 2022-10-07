@@ -28,6 +28,7 @@ import {
 } from "../../constants/endpoint";
 import { _getImage } from "../../settings";
 import { post, put } from "../../utils/api";
+import { formatNftName } from "../../utils/format";
 import AddListComponent from "../AddListComponent";
 
 const model = {
@@ -138,22 +139,6 @@ export default function SkinTemplates() {
   }, [page, pageSize, refresh]);
 
   const columns = [
-    {
-      id: "name",
-      label: "",
-      format: (value) => (
-        <img
-          src={_getImage(
-            `body_${value
-              .replaceAll(" ", "_")
-              .replaceAll("-", "_")
-              .toLowerCase()}.png`
-          )}
-          alt=""
-          width={50}
-        />
-      ),
-    },
     { id: "tokenId", label: "Token ID", align: "left" },
     {
       id: "name",
@@ -266,6 +251,7 @@ export default function SkinTemplates() {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
+              <TableCell></TableCell>
               {columns.map((column, index) => (
                 <TableCell key={index} align={column.align}>
                   {column.label}
@@ -279,6 +265,17 @@ export default function SkinTemplates() {
               data.items.map((row) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                    <TableCell>
+                      <img
+                        src={_getImage(
+                          `nft_costume_${formatNftName(
+                            row.name
+                          )}_${row.level.toLowerCase()}.png`
+                        )}
+                        alt=""
+                        width={50}
+                      />
+                    </TableCell>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (

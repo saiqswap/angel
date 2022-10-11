@@ -174,8 +174,8 @@ export default function INOList() {
                   <TableCell>ID</TableCell>
                   <TableCell>Address</TableCell>
                   <TableCell>Name</TableCell>
-                  <TableCell>Boxes</TableCell>
-                  {/* <TableCell>Minted/Total</TableCell> */}
+                  {/* <TableCell>Boxes</TableCell> */}
+                  <TableCell>Minted/Total</TableCell>
                   <TableCell>Sended/Total</TableCell>
                   <TableCell>Created time</TableCell>
                   <TableCell></TableCell>
@@ -201,7 +201,7 @@ export default function INOList() {
                       <TableCell>#{item.id}</TableCell>
                       <TableCell>{formatAddress(item.address)}</TableCell>
                       <TableCell>{item.name}</TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         {[
                           `ANGEL`,
                           `MINION_PARTS_COMMON`,
@@ -219,10 +219,10 @@ export default function INOList() {
                             )
                           );
                         })}
-                      </TableCell>
-                      {/* <TableCell>
-                        {mintCount}/{item.items.length}
                       </TableCell> */}
+                      <TableCell>
+                        {mintCount}/{item.items.length}
+                      </TableCell>
                       <TableCell>
                         {sendedCount}/{item.items.length}
                       </TableCell>

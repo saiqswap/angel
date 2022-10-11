@@ -4,10 +4,9 @@ export const devConfig = {
   API_EXTENSION: `/adm-api`,
   ENV_NAME: "DEVELOP",
   EVN_COLOR: "green",
-  // baseUrl: "https://files.infinityangel.io",
-
-  baseUrl:
-    "https://6f7daba956414f5fa57231546ac07221.s3.ap-southeast-1.amazonaws.com",
+  baseUrl: "https://files.infinityangel.io",
+  // baseUrl:
+  //   "https://6f7daba956414f5fa57231546ac07221.s3.ap-southeast-1.amazonaws.com",
 };
 
 export const stagingConfig = {

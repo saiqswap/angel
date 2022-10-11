@@ -28,20 +28,18 @@ import { post } from "../../utils/api";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ItemField from "../../components/ItemField";
 import { toast } from "react-toastify";
+import { Add, Delete, PanoramaFishEye, Visibility } from "@material-ui/icons";
+import { useDispatch } from "react-redux";
+import { _switchPopup } from "../../actions/settingActions";
 
 export default function INOList() {
   const [data, setData] = useState(null);
   const [flag, setFlag] = useState(false);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [items, setItems] = useState([
-    { boxType: "ANGEL", amount: 0, price: 100 },
-    { boxType: "MINION_PARTS_COMMON", amount: 0, price: 100 },
-    { boxType: "MINION_PARTS_EPIC", amount: 0, price: 100 },
-    { boxType: "COSTUME_COMMON", amount: 0, price: 100 },
-    { boxType: "COSTUME_EPIC", amount: 0, price: 100 },
-  ]);
-
+  const [items, setItems] = useState([]);
+  const [showBoxList, setShowBoxList] = useState(null);
+  const dispatch = useDispatch();
   useEffect(() => {
     post(ENDPOINT_INO_LIST, {}, (data) => setData(data.items));
   }, [flag]);
@@ -55,38 +53,49 @@ export default function INOList() {
 
   const _handleCreate = (e) => {
     e.preventDefault();
-
-    const address = e.target.address.value;
-    const name = e.target.name.value;
-    const paymentContract = e.target.paymentContract.value;
-    const tempItems = items.filter((e) => e.amount > 0);
-    if (tempItems.length === 0) {
-      toast.error("Please enter amount of box");
-    } else {
-      var answer = window.confirm("Are you sure ?");
-      if (answer) {
-        setOpen(false);
-        post(
-          ENDPOINT_INO_CREATE_TRANSFER,
-          { address, name, paymentContract, items: tempItems },
-          () => {
-            toast.success("Success");
-            _handleRefresh();
+    if (items.length > 0) {
+      dispatch(
+        _switchPopup({
+          title: "Send Box NFT",
+          content: "Are you for this action",
+          _handleSubmit: () => {
+            const address = e.target.address.value;
+            const name = e.target.name.value;
+            const paymentContract = e.target.paymentContract.value;
+            const tempItems = items.filter((e) => e.amount > 0);
+            if (tempItems.length === 0) {
+              toast.error("Please enter amount of box");
+            } else {
+              setOpen(false);
+              post(
+                ENDPOINT_INO_CREATE_TRANSFER,
+                { address, name, paymentContract, items: tempItems },
+                () => {
+                  toast.success("Success");
+                  _handleRefresh();
+                },
+                (error) => {
+                  console.log(error);
+                  toast.error("Fail");
+                }
+              );
+            }
           },
-          (error) => {
-            console.log(error);
-            toast.error("Fail");
-          }
-        );
-      }
+        })
+      );
+    } else {
+      toast.error("Please select box for send airdrop");
     }
   };
 
   const _onChange = (e, index) => {
+    const { name, value } = e.target;
     const tempItems = [...items];
-    tempItems[index].amount = parseInt(e.target.value)
-      ? parseInt(e.target.value)
-      : 0;
+    if (name === "amount") {
+      tempItems[index].amount = parseInt(value) ? parseInt(value) : 0;
+    } else {
+      tempItems[index][name] = value;
+    }
     setItems(tempItems);
   };
 
@@ -114,6 +123,25 @@ export default function INOList() {
   //     );
   //   }
   // };
+
+  const _addSlot = () => {
+    const temp = [...items];
+    temp.push({
+      boxType: "",
+      amount: 0,
+      level: "",
+      price: 100,
+    });
+    setItems(temp);
+  };
+
+  const _handleDelete = (index) => {
+    const temp = [...items];
+    if (index > -1) {
+      temp.splice(index, 1);
+    }
+    setItems(temp);
+  };
 
   return (
     <>
@@ -146,7 +174,7 @@ export default function INOList() {
                   <TableCell>Address</TableCell>
                   <TableCell>Name</TableCell>
                   <TableCell>Boxes</TableCell>
-                  <TableCell>Minted/Total</TableCell>
+                  {/* <TableCell>Minted/Total</TableCell> */}
                   <TableCell>Sended/Total</TableCell>
                   <TableCell>Created time</TableCell>
                   <TableCell></TableCell>
@@ -191,9 +219,9 @@ export default function INOList() {
                           );
                         })}
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         {mintCount}/{item.items.length}
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell>
                         {sendedCount}/{item.items.length}
                       </TableCell>
@@ -213,6 +241,9 @@ export default function INOList() {
                               Send
                             </Button>
                           )} */}
+                        <IconButton onClick={() => setShowBoxList(item.items)}>
+                          <Visibility />
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   );
@@ -274,23 +305,57 @@ export default function INOList() {
                     borderRadius={7}
                   >
                     {items.map((item, index) => (
-                      <Box
-                        key={index}
-                        display="flex"
-                        justifyContent="space-between"
-                        mb={2}
-                        alignItems="center"
-                      >
-                        <Typography>{item.boxType}</Typography>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          label="Amount"
-                          value={item.amount}
-                          onChange={(e) => _onChange(e, index)}
-                        />
+                      <Box key={index} mb={2} alignItems="center">
+                        <Grid container spacing={1} alignItems="center">
+                          <ItemField
+                            data={{
+                              key: "boxType",
+                              type: "select",
+                              text: "Box",
+                              selectName: "BOX_TYPES",
+                              require: true,
+                              col: 5,
+                            }}
+                            id="boxType"
+                            onChange={(e) => _onChange(e, index)}
+                          />
+                          <ItemField
+                            data={{
+                              key: "level",
+                              type: "select",
+                              text: "Type",
+                              selectName: "GAME_TYPE_LEVEL",
+                              col: 4,
+                            }}
+                            id="level"
+                            onChange={(e) => _onChange(e, index)}
+                          />
+                          <Grid item xs={2}>
+                            <TextField
+                              variant="outlined"
+                              size="small"
+                              label="Amount"
+                              value={item.amount}
+                              onChange={(e) => _onChange(e, index)}
+                              name="amount"
+                              required
+                            />
+                          </Grid>
+                          <Grid item xs={1}>
+                            <IconButton
+                              onClick={() => {
+                                _handleDelete(index);
+                              }}
+                            >
+                              <Delete />
+                            </IconButton>
+                          </Grid>
+                        </Grid>
                       </Box>
                     ))}
+                    <Button variant="contained" onClick={_addSlot}>
+                      <Add />
+                    </Button>
                   </Box>
                 </Grid>
                 <Grid item xs={12}>
@@ -300,6 +365,52 @@ export default function INOList() {
                 </Grid>
               </Grid>
             </form>
+          </div>
+        </div>
+      </Drawer>
+      <Drawer anchor="right" open={Boolean(showBoxList)}>
+        <div className="item-detail">
+          <div>
+            <AppBar position="sticky">
+              <Grid container alignItems="center">
+                <Grid item>
+                  <IconButton
+                    onClick={() => setShowBoxList(null)}
+                    disabled={loading}
+                  >
+                    <ArrowBackIcon fontSize="small" />
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <Typography variant="body1">Back</Typography>
+                </Grid>
+              </Grid>
+            </AppBar>
+            <Box p={2}>
+              <Typography>Box List</Typography>
+              {showBoxList?.map((item, index) => (
+                <Paper variant="outlined" key={index} style={{ marginTop: 8 }}>
+                  <Box p={1}>
+                    <Typography variant="body2">#{item.boxTokenId}</Typography>
+                    <Typography variant="body2">
+                      Type: {item.box.type}
+                    </Typography>
+                    <Typography variant="body2">
+                      Level:{" "}
+                      {item.box.airdropNftLevel
+                        ? item.box.airdropNftLevel
+                        : "Random"}
+                    </Typography>
+                    <Typography variant="body2">
+                      Tx Hash: {item.box.mintTxHash}
+                    </Typography>
+                    <Typography variant="body2">
+                      Owner: {item.box.ownerAddress}
+                    </Typography>
+                  </Box>
+                </Paper>
+              ))}
+            </Box>
           </div>
         </div>
       </Drawer>

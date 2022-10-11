@@ -68,7 +68,7 @@ export const BOX_LIST = [
 
 export const TIER_LIST = [
   { value: "TIER_1", text: "Tier 1" },
-  { value: "TIER_1", text: "Tier 2" },
+  { value: "TIER_2", text: "Tier 2" },
   { value: "TIER_3", text: "Tier 3" },
   { value: "TIER_4", text: "Tier 4" },
   { value: "TIER_5", text: "Tier 5" },

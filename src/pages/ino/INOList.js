@@ -16,21 +16,20 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import { Add, Delete, Visibility } from "@material-ui/icons";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { _switchPopup } from "../../actions/settingActions";
+import ItemField from "../../components/ItemField";
 import {
   ENDPOINT_INO_CREATE_TRANSFER,
   ENDPOINT_INO_LIST,
-  ENDPOINT_INO_SEND_TRANSFER,
 } from "../../constants/endpoint";
 import { formatAddress } from "../../settings/format";
 import { post } from "../../utils/api";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import ItemField from "../../components/ItemField";
-import { toast } from "react-toastify";
-import { Add, Delete, PanoramaFishEye, Visibility } from "@material-ui/icons";
-import { useDispatch } from "react-redux";
-import { _switchPopup } from "../../actions/settingActions";
 
 export default function INOList() {
   const [data, setData] = useState(null);
@@ -93,6 +92,8 @@ export default function INOList() {
     const tempItems = [...items];
     if (name === "amount") {
       tempItems[index].amount = parseInt(value) ? parseInt(value) : 0;
+    } else if (name === "level") {
+      tempItems[index].level = value ? value : null;
     } else {
       tempItems[index][name] = value;
     }
@@ -129,7 +130,7 @@ export default function INOList() {
     temp.push({
       boxType: "",
       amount: 0,
-      level: "",
+      level: null,
       price: 100,
     });
     setItems(temp);

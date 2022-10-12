@@ -44,11 +44,6 @@ const columns = [
     key: `coin`,
     label: `Asset`,
   },
-  {
-    key: "createdTime",
-    label: "Created time",
-    isTime: true,
-  },
 ];
 const filterBy = [
   new Filter({

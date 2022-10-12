@@ -149,7 +149,7 @@ export default function INOList() {
   return (
     <>
       <Box>
-        <Typography variant="h5">Airdrop List</Typography>
+        <Typography variant="h5">Airdrop Box List</Typography>
         <Divider />
         <Box mt={2} mb={2}>
           <Button

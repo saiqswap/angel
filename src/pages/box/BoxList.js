@@ -1,3 +1,4 @@
+import { Box, Typography } from "@material-ui/core";
 import SearchHigherComponent from "../../components/SearchHigherComponent";
 import { ENDPOINT_BOX_LIST } from "../../constants/endpoint";
 import { Filter } from "../../settings";
@@ -17,6 +18,11 @@ const columns = [
   {
     key: "type",
     label: "Box Type",
+  },
+  {
+    key: "inDb",
+    label: "In Database",
+    isUsed: true,
   },
   {
     key: "isUsed",
@@ -65,4 +71,11 @@ export default SearchHigherComponent({
   columns,
   getRoles: true,
   filterBy,
+  NoticeComponent: () => (
+    <Box sx={{ mb: 2 }}>
+      <Typography variant="body2" color="error" style={{ fontWeight: 900 }}>
+        In database is box cannot mint, listing, delist, transfer, buy
+      </Typography>
+    </Box>
+  ),
 });

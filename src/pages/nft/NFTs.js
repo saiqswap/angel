@@ -1,3 +1,4 @@
+import { Box, Typography } from "@material-ui/core";
 import SearchHigherComponent from "../../components/SearchHigherComponent";
 import {
   ENDPOINT_NFT_GET_LIST,
@@ -8,13 +9,46 @@ import { Filter } from "../../settings";
 const columns = [
   {
     key: "fileUri",
-    isImage: true,
+    isNFTImage: true,
   },
   {
     key: "tokenId",
     label: "ID",
     isId: true,
   },
+  {
+    key: "inDb",
+    label: "In Database",
+    isUsed: true,
+  },
+  {
+    key: "isLockMinting",
+    label: "Lock minting",
+    isUsed: true,
+  },
+  {
+    key: "status",
+    label: "Status",
+    // isStatus: true,
+  },
+  {
+    key: "mintTxHash",
+    label: "Mint Tx Hash",
+    isAddress: true,
+  },
+  {
+    key: "ownerAddress",
+    label: "Owner address",
+    isOwnerAddress: true,
+    // isEmail: true,
+    userId: "userId",
+  },
+  // {
+  //   key: "userId",
+  //   label: "User ID",
+  //   isEmail: true,
+  //   userId: "userId",
+  // },
   {
     key: "name",
     label: "Name",
@@ -24,26 +58,15 @@ const columns = [
     label: "Type",
   },
   {
+    key: "level",
+    label: "Level",
+  },
+  {
     key: "listingPrice",
     label: "Price",
     isAmount: true,
   },
-  {
-    key: "ownerAddress",
-    label: "Owner address",
-    isAddress: true,
-  },
-  {
-    key: "userId",
-    label: "User ID",
-    isEmail: true,
-    userId: "userId",
-  },
-  {
-    key: "status",
-    label: "Status",
-    // isStatus: true,
-  },
+
   {
     key: "createTime",
     label: "Time",
@@ -72,4 +95,11 @@ export default SearchHigherComponent({
   filterBy,
   reMintEndpoint: ENDPOINT_NFT_MINT,
   component: "nfts",
+  NoticeComponent: () => (
+    <Box sx={{ mb: 2 }}>
+      <Typography variant="body2" color="error" style={{ fontWeight: 900 }}>
+        In database is item cannot mint, listing, delist, transfer, buy
+      </Typography>
+    </Box>
+  ),
 });

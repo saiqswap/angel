@@ -33,11 +33,13 @@ import { Link } from "react-router-dom";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { checkScope } from "../utils/auth";
 import RefreshIcon from "@material-ui/icons/Refresh";
-import { _getImage } from "../settings";
+import { baseUrl, _getImage } from "../settings";
 import SendIcon from "@material-ui/icons/Send";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { _switchPopup } from "../actions/settingActions";
+import { formatNftName } from "../utils/format";
+import LinkToOwnerAddress from "./LinkToOwnerAddress";
 
 function CustomTable({
   columns,
@@ -202,6 +204,8 @@ function CustomTable({
                     isImage,
                     isUsed,
                     isINOItems,
+                    isNFTImage,
+                    isOwnerAddress,
                   } = col;
                   if (isINOItems) {
                     const items = row[col.key];
@@ -227,6 +231,14 @@ function CustomTable({
                         item={row}
                         action={action}
                         _handleSelectKYC={() => _handleSelectKYC(row)}
+                      />
+                    );
+                  }
+                  if (isOwnerAddress) {
+                    result = (
+                      <LinkToOwnerAddress
+                        id={row[col.userId]}
+                        address={row[col.key]}
                       />
                     );
                   }
@@ -302,6 +314,18 @@ function CustomTable({
                             .replace(" ", "_")
                             .replace("-", "_")}.png`
                         )}
+                        alt=""
+                        height={25}
+                        width={25}
+                      />
+                    );
+                  }
+                  if (isNFTImage) {
+                    result = (
+                      <img
+                        src={`${baseUrl}/nft_${row.type.toLowerCase()}_${formatNftName(
+                          row.name
+                        )}_${row.level.toLowerCase()}.png`}
                         alt=""
                         height={25}
                         width={25}

@@ -72,14 +72,14 @@ const routes = [
     routes: [
       {
         name: "Box",
-        component: BoxByType,
-        path: "/airdrop/box-by-type",
+        component: INOList,
+        path: "/airdrop",
       },
-      {
-        name: "Box With Tier",
-        component: BoxByTypeAndTier,
-        path: "/airdrop/box-by-type-and-tier",
-      },
+      // {
+      //   name: "Box With Tier",
+      //   component: BoxByTypeAndTier,
+      //   path: "/airdrop/box-by-type-and-tier",
+      // },
     ],
   },
   //box
@@ -231,24 +231,24 @@ const routes = [
       },
     ],
   },
-  // airdrop
-  {
-    name: "INO",
-    icon: <TelegramIcon />,
-    scope: "ADMIN_FULL",
-    routes: [
-      {
-        name: "List",
-        component: INOList,
-        path: "/ino/list",
-      },
-      {
-        name: "Whitelist",
-        component: Whitelist,
-        path: "/ino/Whitelist",
-      },
-    ],
-  },
+  // // airdrop
+  // {
+  //   name: "INO",
+  //   icon: <TelegramIcon />,
+  //   scope: "ADMIN_FULL",
+  //   routes: [
+  //     {
+  //       name: "List",
+  //       component: INOList,
+  //       path: "/ino/list",
+  //     },
+  //     {
+  //       name: "Whitelist",
+  //       component: Whitelist,
+  //       path: "/ino/Whitelist",
+  //     },
+  //   ],
+  // },
   {
     name: "Transactions",
     icon: <HistoryIcon />,

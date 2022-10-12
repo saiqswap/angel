@@ -16,13 +16,14 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import { Add, Delete, Visibility } from "@material-ui/icons";
+import { Add, CheckCircle, Delete, Visibility } from "@material-ui/icons";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { _switchPopup } from "../../actions/settingActions";
+import CustomPagination from "../../components/CustomPagination";
 import ItemField from "../../components/ItemField";
 import {
   ENDPOINT_INO_CREATE_TRANSFER,
@@ -30,6 +31,8 @@ import {
 } from "../../constants/endpoint";
 import { formatAddress } from "../../settings/format";
 import { post } from "../../utils/api";
+import DetailsIcon from "@material-ui/icons/Details";
+import ItemDetail from "../../components/ItemDetail";
 
 export default function INOList() {
   const [data, setData] = useState(null);
@@ -39,9 +42,20 @@ export default function INOList() {
   const [items, setItems] = useState([]);
   const [showBoxList, setShowBoxList] = useState(null);
   const dispatch = useDispatch();
+  const [pageSize, setPageSize] = useState(10);
+  const [page, setPage] = useState(1);
+  const [selectedItem, setSelectedItem] = useState(null);
+
   useEffect(() => {
-    post(ENDPOINT_INO_LIST, {}, (data) => setData(data.items));
-  }, [flag]);
+    post(
+      ENDPOINT_INO_LIST,
+      {
+        pageSize,
+        page,
+      },
+      (data) => setData(data)
+    );
+  }, [flag, page, pageSize]);
 
   const _handleRefresh = () => {
     setFlag((oldFlag) => !oldFlag);
@@ -58,9 +72,11 @@ export default function INOList() {
           title: "Send Box NFT",
           content: "Are you for this action",
           _handleSubmit: () => {
+            setLoading(true);
             const address = e.target.address.value;
             const name = e.target.name.value;
             const paymentContract = e.target.paymentContract.value;
+            const inDb = e.target.inDb.checked;
             const tempItems = items.filter((e) => e.amount > 0);
             if (tempItems.length === 0) {
               toast.error("Please enter amount of box");
@@ -68,14 +84,16 @@ export default function INOList() {
               setOpen(false);
               post(
                 ENDPOINT_INO_CREATE_TRANSFER,
-                { address, name, paymentContract, items: tempItems },
+                { address, name, paymentContract, inDb, items: tempItems },
                 () => {
                   toast.success("Success");
                   _handleRefresh();
+                  setLoading(false);
                 },
                 (error) => {
                   console.log(error);
                   toast.error("Fail");
+                  setLoading(false);
                 }
               );
             }
@@ -100,31 +118,6 @@ export default function INOList() {
     setItems(tempItems);
   };
 
-  // const _handleSend = (id) => {
-  //   var answer = window.confirm("Are you sure ?");
-  //   if (answer) {
-  //     const tempData = [...data];
-  //     const index = tempData.findIndex((d) => d.id === id);
-  //     if (index > 0) tempData[index].clicked = true;
-  //     setData(tempData);
-  //     post(
-  //       ENDPOINT_INO_SEND_TRANSFER,
-  //       { id },
-  //       () => {
-  //         toast.success("Success");
-  //         // _handleRefresh();
-  //       },
-  //       (error) => {
-  //         const tempData = [...data];
-  //         const index = tempData.findIndex((d) => d.id === id);
-  //         if (index > 0) tempData[index].clicked = false;
-  //         setData(tempData);
-  //         toast.error(`${error.code}:  ${error.msg}`);
-  //       }
-  //     );
-  //   }
-  // };
-
   const _addSlot = () => {
     const temp = [...items];
     temp.push({
@@ -144,16 +137,26 @@ export default function INOList() {
     setItems(temp);
   };
 
+  const _handleChangePageSize = (pageSize) => {
+    setPageSize(pageSize);
+    setPage(1);
+  };
+
+  const _handleChangePage = (page) => {
+    setPage(page);
+  };
+
   return (
     <>
       <Box>
-        <Typography variant="h5">INO Box List</Typography>
+        <Typography variant="h5">Airdrop List</Typography>
         <Divider />
         <Box mt={2} mb={2}>
           <Button
             variant="contained"
             style={{ marginRight: 8 }}
             onClick={_onOpen}
+            color="primary"
           >
             Create
           </Button>
@@ -174,76 +177,38 @@ export default function INOList() {
                   <TableCell>ID</TableCell>
                   <TableCell>Address</TableCell>
                   <TableCell>Name</TableCell>
-                  <TableCell>Boxes</TableCell>
-                  <TableCell>Minted/Total</TableCell>
-                  <TableCell>Sended/Total</TableCell>
+                  <TableCell>In database</TableCell>
                   <TableCell>Created time</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data?.map((item, index) => {
-                  let mintCount = 0;
-                  let sendedCount = 0;
-                  item.items.forEach((e) => {
-                    if (e.box.mintTxHash) {
-                      mintCount++;
-                    }
-                    if (
-                      e.box.ownerAddress.toUpperCase() ===
-                      item.address.toUpperCase()
-                    ) {
-                      sendedCount++;
-                    }
-                  });
+                {data?.items?.map((item, index) => {
                   return (
                     <TableRow key={index}>
                       <TableCell>#{item.id}</TableCell>
                       <TableCell>{formatAddress(item.address)}</TableCell>
                       <TableCell>{item.name}</TableCell>
                       <TableCell>
-                        {[
-                          `ANGEL`,
-                          `MINION_PARTS_COMMON`,
-                          `MINION_PARTS_EPIC`,
-                          `COSTUME_COMMON`,
-                          `COSTUME_EPIC`,
-                        ].map((i, index) => {
-                          const { items } = item;
-                          const count = items.filter((i1) => i1.boxType === i);
-                          return (
-                            count.length > 0 && (
-                              <Typography variant="body2" key={index}>
-                                {i}: {count.length}
-                              </Typography>
-                            )
-                          );
-                        })}
-                      </TableCell>
-                      <TableCell>
-                        {mintCount}/{item.items.length}
-                      </TableCell>
-                      <TableCell>
-                        {sendedCount}/{item.items.length}
+                        {item.inDb ? (
+                          <CheckCircle color="primary" fontSize="small" />
+                        ) : null}
                       </TableCell>
                       <TableCell>
                         {moment(item.createdTime).format("YYYY-MM-DD HH:mm:ss")}
                       </TableCell>
                       <TableCell>
-                        {/* {mintCount > 0 &&
-                          mintCount === item.items.length &&
-                          sendedCount === 0 && (
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={() => _handleSend(item.id)}
-                              disabled={item.clicked}
-                            >
-                              Send
-                            </Button>
-                          )} */}
-                        <IconButton onClick={() => setShowBoxList(item.items)}>
-                          <Visibility />
+                        <IconButton
+                          onClick={() => setShowBoxList(item.items)}
+                          size="small"
+                        >
+                          <Visibility fontSize="small" />
+                        </IconButton>
+                        <IconButton
+                          size="small"
+                          onClick={() => setSelectedItem(item)}
+                        >
+                          <DetailsIcon fontSize="small" />
                         </IconButton>
                       </TableCell>
                     </TableRow>
@@ -251,10 +216,15 @@ export default function INOList() {
                 })}
               </TableBody>
             </Table>
+            <CustomPagination
+              data={data}
+              changePageSize={_handleChangePageSize}
+              changePage={_handleChangePage}
+            />
           </TableContainer>
         </Paper>
       </Box>
-      <Drawer anchor="right" open={open}>
+      <Drawer anchor="right" open={open} onClose={_onClose}>
         <div className="item-detail">
           <div>
             <AppBar position="sticky">
@@ -297,6 +267,14 @@ export default function INOList() {
                     text: "Payment contract",
                     selectName: "PAYMENT_CONTRACTS",
                     require: true,
+                  }}
+                />
+                <ItemField
+                  data={{
+                    key: "inDb",
+                    type: "singleCheckbox",
+                    text: "In database",
+                    col: 12,
                   }}
                 />
                 <Grid item xs={12}>
@@ -369,7 +347,11 @@ export default function INOList() {
           </div>
         </div>
       </Drawer>
-      <Drawer anchor="right" open={Boolean(showBoxList)}>
+      <Drawer
+        anchor="right"
+        open={Boolean(showBoxList)}
+        onClose={() => setShowBoxList(null)}
+      >
         <div className="item-detail">
           <div>
             <AppBar position="sticky">
@@ -415,79 +397,7 @@ export default function INOList() {
           </div>
         </div>
       </Drawer>
+      <ItemDetail data={selectedItem} _onClose={() => setSelectedItem(null)} />
     </>
   );
 }
-
-// import SearchHigherComponent from "../../components/SearchHigherComponent";
-// import { ENDPOINT_INO_LIST } from "../../constants/endpoint";
-// import { Filter } from "../../settings";
-
-// const columns = [
-//   {
-//     key: "id",
-//     label: "",
-//     isId: true,
-//   },
-//   {
-//     key: "address",
-//     label: "Address",
-//     isAddress: true,
-//   },
-//   {
-//     key: "name",
-//     label: "Name",
-//   },
-//   {
-//     key: "items",
-//     label: "Quality (Boxes)",
-//     isINOItems: true,
-//   },
-//   {
-//     key: "paymentContract",
-//     label: "Payment contract",
-//     isAddress: true,
-//   },
-//   {
-//     key: "createdTime",
-//     label: "Created time",
-//     isTime: true,
-//   },
-//   {
-//     key: "updatedTime",
-//     label: "Last updated",
-//     isTime: true,
-//   },
-// ];
-
-// const filterBy = [
-//   new Filter({
-//     key: "userId",
-//     text: "User ID",
-//     type: "input",
-//   }),
-//   new Filter({
-//     key: "txHash",
-//     text: "TX Hash",
-//     type: "input",
-//   }),
-//   new Filter({
-//     key: "productId",
-//     text: "Product ID",
-//     type: "input",
-//   }),
-//   new Filter({
-//     key: "status",
-//     text: "Status",
-//     type: "select",
-//     selectName: "PresaleTransactionStatus",
-//   }),
-// ];
-
-// export default SearchHigherComponent({
-//   endpoint: ENDPOINT_INO_LIST,
-//   title: "INO Box List",
-//   columns,
-//   getRoles: true,
-//   filterBy,
-// });

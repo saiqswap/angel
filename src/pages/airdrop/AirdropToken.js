@@ -76,20 +76,13 @@ export default function AirdropToken() {
         const list = [];
         const data = res.items;
         for (const element of data) {
-          const { items, address, inDb, name, createdTime } = element;
-          for (const item of items) {
-            list.push({
-              ownerAddress: address,
-              name,
-              inDb: inDb ? "Yes" : "No",
-              time: moment(createdTime).format("YYYY-MM-DD HH:mm:ss"),
-              type: item.boxType,
-              amount: 1,
-              boxTokenId: "#" + item.boxTokenId,
-              level: item.box.airdropNftLevel,
-              hash: item.box.mintTxHash,
-            });
-          }
+          const { amount, address, asset, createdTime } = element;
+          list.push({
+            address,
+            asset,
+            time: moment(createdTime).format("YYYY-MM-DD HH:mm:ss"),
+            amount,
+          });
         }
         setExportData(list);
       }
@@ -125,15 +118,10 @@ export default function AirdropToken() {
               <CSVLink
                 data={exportData}
                 headers={[
-                  { label: "Owner Address", key: "ownerAddress" },
-                  { label: "Name", key: "name" },
-                  { label: "In DB", key: "inDb" },
-                  { label: "Time", key: "time" },
-                  { label: "Type", key: "type" },
-                  { label: "Amount", key: "amount" },
-                  { label: "Box ID", key: "boxTokenId" },
-                  { label: "Level", key: "level" },
-                  { label: "Hash", key: "hash" },
+                  { label: "address", key: "address" },
+                  { label: "amount", key: "amount" },
+                  { label: "asset", key: "asset" },
+                  { label: "time", key: "time" },
                 ]}
                 //   hidden
                 id="export-btn"

@@ -125,7 +125,7 @@ export default function AirdropToken() {
                 ]}
                 //   hidden
                 id="export-btn"
-                filename={`export-airdrop-box-${moment().format(
+                filename={`export-airdrop-token-${moment().format(
                   "YYYY-MM-DD_hh-mm-ss"
                 )}.csv`}
               >

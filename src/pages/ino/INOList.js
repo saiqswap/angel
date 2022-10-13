@@ -30,9 +30,10 @@ import {
   ENDPOINT_INO_LIST,
 } from "../../constants/endpoint";
 import { formatAddress } from "../../settings/format";
-import { post } from "../../utils/api";
+import { get, post } from "../../utils/api";
 import DetailsIcon from "@material-ui/icons/Details";
 import ItemDetail from "../../components/ItemDetail";
+import { CSVLink } from "react-csv";
 
 export default function INOList() {
   const [data, setData] = useState(null);
@@ -45,6 +46,7 @@ export default function INOList() {
   const [pageSize, setPageSize] = useState(10);
   const [page, setPage] = useState(1);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [exportData, setExportData] = useState(null);
 
   useEffect(() => {
     post(
@@ -146,6 +148,37 @@ export default function INOList() {
     setPage(page);
   };
 
+  const _handleExport = () => {
+    post(
+      `${ENDPOINT_INO_LIST}`,
+      {
+        page: 1,
+        pageSize: 10000,
+      },
+      (res) => {
+        const list = [];
+        const data = res.items;
+        for (const element of data) {
+          const { items, address, inDb, name, createdTime } = element;
+          for (const item of items) {
+            list.push({
+              ownerAddress: address,
+              name,
+              inDb: inDb ? "Yes" : "No",
+              time: moment(createdTime).format("YYYY-MM-DD HH:mm:ss"),
+              type: item.boxType,
+              amount: 1,
+              boxTokenId: "#" + item.boxTokenId,
+              level: item.box.airdropNftLevel,
+              hash: item.box.mintTxHash,
+            });
+          }
+        }
+        setExportData(list);
+      }
+    );
+  };
+
   return (
     <>
       <Box>
@@ -160,9 +193,47 @@ export default function INOList() {
           >
             Create
           </Button>
-          <Button variant="contained" onClick={_handleRefresh}>
+          <Button
+            variant="contained"
+            onClick={_handleRefresh}
+            style={{ marginRight: 8 }}
+          >
             Refresh
           </Button>
+          <Button type="submit" variant="contained" onClick={_handleExport}>
+            Export
+          </Button>
+          {exportData && (
+            <>
+              <CSVLink
+                data={exportData}
+                headers={[
+                  { label: "Owner Address", key: "ownerAddress" },
+                  { label: "Name", key: "name" },
+                  { label: "In DB", key: "inDb" },
+                  { label: "Time", key: "time" },
+                  { label: "Type", key: "type" },
+                  { label: "Amount", key: "amount" },
+                  { label: "Box ID", key: "boxTokenId" },
+                  { label: "Level", key: "level" },
+                  { label: "Hash", key: "hash" },
+                ]}
+                //   hidden
+                id="export-btn"
+                filename={`export-airdrop-box-${moment().format(
+                  "YYYY-MM-DD_hh-mm-ss"
+                )}.csv`}
+              >
+                <Button
+                  color="primary"
+                  variant="contained"
+                  style={{ marginLeft: 8 }}
+                >
+                  Download
+                </Button>
+              </CSVLink>
+            </>
+          )}
         </Box>
         <Paper variant="outlined">
           <TableContainer

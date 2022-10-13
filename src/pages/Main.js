@@ -55,6 +55,7 @@ import MemberCount from "./user/MemberCount";
 import UserList from "./user/UserList";
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 import SwapConfig from "./swap/SwapConfig";
+import AirdropToken from "./airdrop/AirdropToken";
 
 const routes = [
   {
@@ -73,13 +74,13 @@ const routes = [
       {
         name: "Box",
         component: INOList,
-        path: "/airdrop",
+        path: "/airdrop/box",
       },
-      // {
-      //   name: "Box With Tier",
-      //   component: BoxByTypeAndTier,
-      //   path: "/airdrop/box-by-type-and-tier",
-      // },
+      {
+        name: "Token",
+        component: AirdropToken,
+        path: "/airdrop/token",
+      },
     ],
   },
   //box

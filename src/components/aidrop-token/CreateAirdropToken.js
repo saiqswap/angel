@@ -28,6 +28,7 @@ export default function CreateAirdropToken({ open, _onClose, _handleRefresh }) {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const { setting } = useSelector((state) => state);
 
   useEffect(() => {
     if (!open) {
@@ -39,7 +40,7 @@ export default function CreateAirdropToken({ open, _onClose, _handleRefresh }) {
     const temp = [...list];
     temp.push({
       address: "",
-      paymentContract: "",
+      asset: "",
       amount: 0,
     });
     setList(temp);
@@ -69,6 +70,9 @@ export default function CreateAirdropToken({ open, _onClose, _handleRefresh }) {
           _handleSubmit: () => {
             setLoading(true);
             for (const iterator of list) {
+              iterator.paymentContract = setting.contracts.find(
+                (c) => c.symbol === iterator.asset
+              ).contractAddress;
               post(
                 EndPointConstant.INO_AIRDROP_TOKEN,
                 iterator,
@@ -98,6 +102,7 @@ export default function CreateAirdropToken({ open, _onClose, _handleRefresh }) {
       let array = _convertCsvToArray(e.target.result);
       array = array.filter((item) => item.address !== "" && item);
       const temp = [...list, ...array];
+      console.log(temp);
       setList(temp);
     };
     reader.readAsText(file);
@@ -190,8 +195,6 @@ export default function CreateAirdropToken({ open, _onClose, _handleRefresh }) {
 }
 
 const UserDetail = ({ data, index, _handleChange, _handleDelete }) => {
-  const { setting } = useSelector((state) => state);
-
   return (
     <Grid item xs={12}>
       <Paper variant="outlined">
@@ -209,10 +212,8 @@ const UserDetail = ({ data, index, _handleChange, _handleDelete }) => {
             id="outlined-select-currency-native"
             select
             label="Asset"
-            value={data.paymentContract}
-            onChange={(e) =>
-              _handleChange(index, "paymentContract", e.target.value)
-            }
+            value={data.asset}
+            onChange={(e) => _handleChange(index, "asset", e.target.value)}
             SelectProps={{
               native: true,
             }}
@@ -223,14 +224,11 @@ const UserDetail = ({ data, index, _handleChange, _handleDelete }) => {
             required
           >
             <option value=""></option>
-            {setting?.contracts?.map(
-              (option, index) =>
-                (option.symbol === "ING" || option.symbol === "INC") && (
-                  <option key={index} value={option.contractAddress}>
-                    {option.symbol}
-                  </option>
-                )
-            )}
+            {["INC", "ING"].map((option, index) => (
+              <option key={index} value={option}>
+                {option}
+              </option>
+            ))}
           </TextField>
           <TextField
             value={data.amount}

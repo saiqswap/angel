@@ -1,9 +1,6 @@
 import { Box, Typography } from "@material-ui/core";
 import SearchHigherComponent from "../../components/SearchHigherComponent";
-import {
-  ENDPOINT_NFT_GET_LIST,
-  ENDPOINT_NFT_MINT,
-} from "../../constants/endpoint";
+import { ENDPOINT_NFT_GET_LIST } from "../../constants/endpoint";
 import { Filter } from "../../settings";
 
 const columns = [
@@ -15,6 +12,11 @@ const columns = [
     key: "tokenId",
     label: "ID",
     isId: true,
+  },
+  {
+    key: "box",
+    label: "Box",
+    isBoxDetail: true,
   },
   {
     key: "inDb",
@@ -66,10 +68,9 @@ const columns = [
     label: "Price",
     isAmount: true,
   },
-
   {
-    key: "createTime",
-    label: "Time",
+    key: "createdTime",
+    label: "Created Time",
     isTime: true,
   },
 ];
@@ -88,18 +89,21 @@ const filterBy = [
   }),
 ];
 
-export default SearchHigherComponent({
-  endpoint: ENDPOINT_NFT_GET_LIST,
-  title: "NFTs",
-  columns,
-  filterBy,
-  reMintEndpoint: ENDPOINT_NFT_MINT,
-  component: "nfts",
-  NoticeComponent: () => (
-    <Box sx={{ mb: 2 }}>
-      <Typography variant="body2" color="error" style={{ fontWeight: 900 }}>
-        In database is item cannot mint, listing, delist, transfer, buy
-      </Typography>
-    </Box>
-  ),
-});
+export default function NFTs(props) {
+  const Component = new SearchHigherComponent({
+    ...props,
+    endpoint: ENDPOINT_NFT_GET_LIST,
+    title: "NFTs",
+    columns,
+    filterBy,
+    note: "ownerAddress",
+    NoticeComponent: () => (
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="body2" color="error" style={{ fontWeight: 900 }}>
+          In database is item cannot mint, listing, delist, transfer, buy
+        </Typography>
+      </Box>
+    ),
+  });
+  return <Component />;
+}

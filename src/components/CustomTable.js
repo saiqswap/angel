@@ -1,44 +1,38 @@
 import {
+  Checkbox,
+  IconButton,
   Table,
-  TableHead,
   TableBody,
   TableCell,
+  TableHead,
   TableRow,
-  IconButton,
-  Checkbox,
 } from "@material-ui/core";
-import moment from "moment";
-import React, { useEffect } from "react";
-import { ACTIVE, BLOCK, INTERNAL, NEW } from "../constants";
-import { formatAddress, formatNumber, getLinkHash } from "../settings/format";
-import { library } from "../settings/library";
-import LinkToEmail from "./LinkToEmail";
+import { Check, CheckCircle, Close } from "@material-ui/icons";
 import DetailsIcon from "@material-ui/icons/Details";
-import CustomLoading from "./CustomLoading";
-import { useState } from "react";
 import EditIcon from "@material-ui/icons/Edit";
-import {
-  Check,
-  CheckBoxOutlineBlank,
-  CheckCircle,
-  Close,
-  RestorePage,
-} from "@material-ui/icons";
-import { get, put } from "../utils/api";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import RefreshIcon from "@material-ui/icons/Refresh";
+import SendIcon from "@material-ui/icons/Send";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { _switchPopup } from "../actions/settingActions";
+import { ACTIVE, BLOCK, INTERNAL, NEW } from "../constants";
 import {
   ENDPOINT_GET_HOT_WALLET,
   ENDPOINT_RESEND_WITHDRAW,
 } from "../constants/endpoint";
-import { Link } from "react-router-dom";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import { checkScope } from "../utils/auth";
-import RefreshIcon from "@material-ui/icons/Refresh";
 import { baseUrl, _getImage } from "../settings";
-import SendIcon from "@material-ui/icons/Send";
-import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { _switchPopup } from "../actions/settingActions";
+import { formatAddress, formatNumber, getLinkHash } from "../settings/format";
+import { library } from "../settings/library";
+import { get, put } from "../utils/api";
+import { checkScope } from "../utils/auth";
 import { formatNftName } from "../utils/format";
+import CustomLoading from "./CustomLoading";
+import ItemDetail from "./ItemDetail";
+import LinkToEmail from "./LinkToEmail";
 import LinkToOwnerAddress from "./LinkToOwnerAddress";
 
 function CustomTable({
@@ -64,6 +58,7 @@ function CustomTable({
 }) {
   const [rows, setRows] = useState(null);
   const dispatch = useDispatch();
+  const [selectedBoxDetail, setSelectedBoxDetail] = useState(null);
 
   if (isProfile) {
     const index = columns.findIndex((object) => {
@@ -131,283 +126,313 @@ function CustomTable({
   };
 
   return (
-    <Table stickyHeader aria-label="sticky table" size="small">
-      <TableHead>
-        <TableRow>
-          {showCheckbox && (
-            <TableCell padding="checkbox">
-              <Checkbox
-                onChange={_handleSelectAllClick}
-                inputProps={{ "aria-label": "select all desserts" }}
-                color="primary"
-                checked={selectedIds.length === pageSize}
-              />
-            </TableCell>
-          )}
-          {columns.map((item, index) => (
-            <TableCell key={index} style={{ fontWeight: "700" }}>
-              {item.label}
-            </TableCell>
-          ))}
-          <TableCell></TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {rows &&
-          rows.map((row, index) => {
-            let statusColor = null;
-            if (row.status === ACTIVE) {
-              statusColor = "green-color";
-            }
-            if (row.status === BLOCK) {
-              statusColor = "red-color";
-            }
-            if (row.status === NEW) {
-              statusColor = "blue-color";
-            }
-            const isItemSelected = isSelected(row.id);
-            return (
-              <TableRow key={index} selected={isItemSelected}>
-                {showCheckbox && (
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={isItemSelected}
-                      color="primary"
-                      name={row.id}
-                      onClick={() =>
-                        showCheckbox ? _handleClick(row.id) : false
-                      }
-                    />
-                  </TableCell>
-                )}
-                {columns.map((col, colIndex) => {
-                  let result = row[col.key];
-                  const {
-                    isId,
-                    isAmount,
-                    isEmail,
-                    isTime,
-                    isType,
-                    isStatus,
-                    isDate,
-                    isGA,
-                    isHash,
-                    isAddress,
-                    isArray,
-                    isBool,
-                    isHotWallet,
-                    isTransfer,
-                    isFeedToken,
-                    isLevel,
-                    isContent,
-                    isCount,
-                    isImage,
-                    isUsed,
-                    isINOItems,
-                    isNFTImage,
-                    isOwnerAddress,
-                  } = col;
-                  if (isINOItems) {
-                    const items = row[col.key];
-                    let mintCount = 0;
-                    items.forEach((e) => {
-                      if (e.box.mintTxHash) {
-                        mintCount++;
-                      }
-                    });
-                    result = `${mintCount}/${items.length}`;
-                  }
-                  if (!row[col.key] && row[col.key] !== 0) {
-                    result = "--/--";
-                  }
-                  if (isId) {
-                    result = "#" + row[col.key];
-                  }
-                  if (isEmail) {
-                    result = (
-                      <LinkToEmail
-                        id={row[col.userId]}
-                        email={row[col.key]}
-                        item={row}
-                        action={action}
-                        _handleSelectKYC={() => _handleSelectKYC(row)}
+    <>
+      <Table stickyHeader aria-label="sticky table" size="small">
+        <TableHead>
+          <TableRow>
+            {showCheckbox && (
+              <TableCell padding="checkbox">
+                <Checkbox
+                  onChange={_handleSelectAllClick}
+                  inputProps={{ "aria-label": "select all desserts" }}
+                  color="primary"
+                  checked={selectedIds.length === pageSize}
+                />
+              </TableCell>
+            )}
+            {columns.map((item, index) => (
+              <TableCell key={index} style={{ fontWeight: "700" }}>
+                {item.label}
+              </TableCell>
+            ))}
+            <TableCell></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows &&
+            rows.map((row, index) => {
+              let statusColor = null;
+              if (row.status === ACTIVE) {
+                statusColor = "green-color";
+              }
+              if (row.status === BLOCK) {
+                statusColor = "red-color";
+              }
+              if (row.status === NEW) {
+                statusColor = "blue-color";
+              }
+              const isItemSelected = isSelected(row.id);
+              return (
+                <TableRow key={index} selected={isItemSelected}>
+                  {showCheckbox && (
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={isItemSelected}
+                        color="primary"
+                        name={row.id}
+                        onClick={() =>
+                          showCheckbox ? _handleClick(row.id) : false
+                        }
                       />
-                    );
-                  }
-                  if (isOwnerAddress) {
-                    result = (
-                      <LinkToOwnerAddress
-                        id={row[col.userId]}
-                        address={row[col.key]}
-                      />
-                    );
-                  }
-                  if (isHash) {
-                    row.type === INTERNAL
-                      ? (result = (
-                          <LinkToEmail
-                            id={
-                              col.userId === "senderId" ? row[col.userId] : null
-                            }
-                            email={row[col.key]}
-                          />
-                        ))
-                      : (result = getLinkHash(row));
-                  }
-                  if (isAmount) result = formatNumber(row[col.key]);
-                  if (isTime)
-                    result = moment(row[col.key]).format("YYYY-MM-DD HH:mm:ss");
-                  if (isDate)
-                    result = moment(row[col.key]).format("YYYY-MM-DD");
-                  if (isAddress)
-                    result =
-                      row.type === "TRANSFER"
-                        ? row.receiver
-                        : formatAddress(row[col.key]);
-                  if (isType || isStatus)
-                    result = library[row[col.key]]
-                      ? library[row[col.key]]
-                      : row[col.key];
-                  if (isGA) result = row.gaEnable ? "ON" : "OFF";
-                  if (isUsed)
-                    result = row[col.key] ? (
-                      <CheckCircle color="primary" fontSize="small" />
-                    ) : null;
-                  if (isArray) result = row[col.key].toString();
-                  if (isBool)
-                    result = row[col.key] ? (
-                      <span className="text-green">ACTIVE</span>
-                    ) : (
-                      <span className="text-red">INACTIVE</span>
-                    );
-                  if (isHotWallet) result = <HotWallet data={row} />;
-                  if (isTransfer) {
-                    if (!row.isDefault) {
+                    </TableCell>
+                  )}
+                  {columns.map((col, colIndex) => {
+                    let result = row[col.key];
+                    const {
+                      isId,
+                      isAmount,
+                      isEmail,
+                      isTime,
+                      isType,
+                      isStatus,
+                      isDate,
+                      isGA,
+                      isHash,
+                      isAddress,
+                      isArray,
+                      isBool,
+                      isHotWallet,
+                      isTransfer,
+                      isFeedToken,
+                      isLevel,
+                      isContent,
+                      isCount,
+                      isImage,
+                      isUsed,
+                      isINOItems,
+                      isNFTImage,
+                      isOwnerAddress,
+                      isBoxDetail,
+                    } = col;
+                    if (isINOItems) {
+                      const items = row[col.key];
+                      let mintCount = 0;
+                      items.forEach((e) => {
+                        if (e.box.mintTxHash) {
+                          mintCount++;
+                        }
+                      });
+                      result = `${mintCount}/${items.length}`;
+                    }
+                    if (!row[col.key] && row[col.key] !== 0) {
                       result = "--/--";
                     }
-                  }
-                  if (isLevel) result = `F${row[col.key]}`;
-                  if (isFeedToken)
-                    result = (
-                      <a
-                        target="_blank"
-                        href={`/feed/detail/${row.tokenAddress}_${row.tokenId}`}
-                        rel="noreferrer"
-                      >
-                        #{row[col.key]}
-                      </a>
-                    );
-                  if (isContent) {
-                    result =
-                      row[col.key].slice(0, 50) +
-                      (row[col.key].length > 50 ? "..." : "");
-                  }
-                  if (isCount) {
-                    result = row[col.key].length;
-                  }
-                  if (isImage) {
-                    result = (
-                      <img
-                        src={_getImage(
-                          `body_${row.name
-                            .toLowerCase()
-                            .replace(" ", "_")
-                            .replace("-", "_")}.png`
-                        )}
-                        alt=""
-                        height={25}
-                        width={25}
-                      />
-                    );
-                  }
-                  if (isNFTImage) {
-                    result = (
-                      <img
-                        src={`${baseUrl}/nft_${row.type.toLowerCase()}_${formatNftName(
-                          row.name
-                        )}_${row.level.toLowerCase()}.png`}
-                        alt=""
-                        height={25}
-                        width={25}
-                      />
-                    );
-                  }
+                    if (isId) {
+                      result = "#" + row[col.key];
+                    }
+                    if (isEmail) {
+                      result = (
+                        <LinkToEmail
+                          id={row[col.userId]}
+                          email={row[col.key]}
+                          item={row}
+                          action={action}
+                          _handleSelectKYC={() => _handleSelectKYC(row)}
+                        />
+                      );
+                    }
+                    if (isOwnerAddress) {
+                      result = (
+                        <LinkToOwnerAddress
+                          id={row[col.userId]}
+                          address={row[col.key]}
+                        />
+                      );
+                    }
+                    if (isHash) {
+                      row.type === INTERNAL
+                        ? (result = (
+                            <LinkToEmail
+                              id={
+                                col.userId === "senderId"
+                                  ? row[col.userId]
+                                  : null
+                              }
+                              email={row[col.key]}
+                            />
+                          ))
+                        : (result = getLinkHash(row));
+                    }
+                    if (isAmount) result = formatNumber(row[col.key]);
+                    if (isTime)
+                      result = moment(row[col.key]).format(
+                        "YYYY-MM-DD HH:mm:ss"
+                      );
+                    if (isDate)
+                      result = moment(row[col.key]).format("YYYY-MM-DD");
+                    if (isAddress)
+                      result =
+                        row.type === "TRANSFER"
+                          ? row.receiver
+                          : formatAddress(row[col.key]);
+                    if (isType || isStatus)
+                      result = library[row[col.key]]
+                        ? library[row[col.key]]
+                        : row[col.key];
+                    if (isGA) result = row.gaEnable ? "ON" : "OFF";
+                    if (isUsed)
+                      result = row[col.key] ? (
+                        <CheckCircle color="primary" fontSize="small" />
+                      ) : null;
+                    if (isArray) result = row[col.key].toString();
+                    if (isBool)
+                      result = row[col.key] ? (
+                        <span className="text-green">ACTIVE</span>
+                      ) : (
+                        <span className="text-red">INACTIVE</span>
+                      );
+                    if (isHotWallet) result = <HotWallet data={row} />;
+                    if (isTransfer) {
+                      if (!row.isDefault) {
+                        result = "--/--";
+                      }
+                    }
+                    if (isLevel) result = `F${row[col.key]}`;
+                    if (isFeedToken)
+                      result = (
+                        <a
+                          target="_blank"
+                          href={`/feed/detail/${row.tokenAddress}_${row.tokenId}`}
+                          rel="noreferrer"
+                        >
+                          #{row[col.key]}
+                        </a>
+                      );
+                    if (isContent) {
+                      result =
+                        row[col.key].slice(0, 50) +
+                        (row[col.key].length > 50 ? "..." : "");
+                    }
+                    if (isCount) {
+                      result = row[col.key].length;
+                    }
+                    if (isImage) {
+                      result = (
+                        <img
+                          src={_getImage(
+                            `body_${row.name
+                              .toLowerCase()
+                              .replace(" ", "_")
+                              .replace("-", "_")}.png`
+                          )}
+                          alt=""
+                          height={25}
+                          width={25}
+                        />
+                      );
+                    }
+                    if (isNFTImage) {
+                      result = (
+                        <img
+                          src={`${baseUrl}/nft_${row.type.toLowerCase()}_${formatNftName(
+                            row.name
+                          )}_${row.level.toLowerCase()}.png`}
+                          alt=""
+                          height={25}
+                          width={25}
+                        />
+                      );
+                    }
+                    if (isBoxDetail) {
+                      result = row.box ? (
+                        // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                        <a
+                          onClick={() => setSelectedBoxDetail(row.box)}
+                          style={{ cursor: "pointer" }}
+                        >
+                          {row.box.tokenId}
+                        </a>
+                      ) : (
+                        "--/--"
+                      );
+                    }
 
-                  return (
-                    <TableCell
-                      key={colIndex}
-                      className={col.key === "status" ? statusColor : ""}
-                    >
-                      <span>{result}</span>
-                    </TableCell>
-                  );
-                })}
-                <TableCell>
-                  <IconButton
-                    size="small"
-                    onClick={() => _handleSelectItem(row)}
-                  >
-                    <DetailsIcon fontSize="small" />
-                  </IconButton>
-                  {/* Has re-send for withdraw fail */}
-                  {isResend && row.status !== "SUCCESS" && (
+                    return (
+                      <TableCell
+                        key={colIndex}
+                        className={col.key === "status" ? statusColor : ""}
+                      >
+                        <span>{result}</span>
+                      </TableCell>
+                    );
+                  })}
+                  <TableCell>
                     <IconButton
                       size="small"
-                      onClick={() => _handleResendWithdraw(row)}
+                      onClick={() => _handleSelectItem(row)}
                     >
-                      <SendIcon fontSize="small" />
+                      <DetailsIcon fontSize="small" />
                     </IconButton>
-                  )}
-                  {updateFields && (
-                    <IconButton
-                      size="small"
-                      onClick={() => _handleEditItem(row)}
-                    >
-                      <EditIcon fontSize="small" />
-                    </IconButton>
-                  )}
-                  {deleteEndpoint && (
-                    <IconButton size="small" onClick={() => _handleDelete(row)}>
-                      <Close fontSize="small" />
-                    </IconButton>
-                  )}
-                  {reMintEndpoint && (
-                    <IconButton size="small" onClick={() => _handleReMint(row)}>
-                      <RefreshIcon fontSize="small" />
-                    </IconButton>
-                  )}
-                  {/* login user by token */}
-                  {row.rank && checkScope("USER_ACCESS") && (
-                    <IconButton
-                      size="small"
-                      onClick={() => _handleLogin(row.id)}
-                    >
-                      <ExitToAppIcon fontSize="small" />
-                    </IconButton>
-                  )}
-                  {row.isDefault && (
-                    <IconButton size="small">
-                      <Check style={{ color: "green" }} fontSize="small" />
-                    </IconButton>
-                  )}
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        {data && (data.itemCount === 0 || data.items.length === 0) && (
-          <TableRow>
-            <TableCell colSpan={columns.length}>No records found</TableCell>
-          </TableRow>
-        )}
-        {!data && (
-          <TableRow>
-            <TableCell colSpan={columns.length}>
-              <CustomLoading />
-            </TableCell>
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+                    {/* Has re-send for withdraw fail */}
+                    {isResend && row.status !== "SUCCESS" && (
+                      <IconButton
+                        size="small"
+                        onClick={() => _handleResendWithdraw(row)}
+                      >
+                        <SendIcon fontSize="small" />
+                      </IconButton>
+                    )}
+                    {updateFields && (
+                      <IconButton
+                        size="small"
+                        onClick={() => _handleEditItem(row)}
+                      >
+                        <EditIcon fontSize="small" />
+                      </IconButton>
+                    )}
+                    {deleteEndpoint && (
+                      <IconButton
+                        size="small"
+                        onClick={() => _handleDelete(row)}
+                      >
+                        <Close fontSize="small" />
+                      </IconButton>
+                    )}
+                    {reMintEndpoint && (
+                      <IconButton
+                        size="small"
+                        onClick={() => _handleReMint(row)}
+                      >
+                        <RefreshIcon fontSize="small" />
+                      </IconButton>
+                    )}
+                    {/* login user by token */}
+                    {row.rank && checkScope("USER_ACCESS") && (
+                      <IconButton
+                        size="small"
+                        onClick={() => _handleLogin(row.id)}
+                      >
+                        <ExitToAppIcon fontSize="small" />
+                      </IconButton>
+                    )}
+                    {row.isDefault && (
+                      <IconButton size="small">
+                        <Check style={{ color: "green" }} fontSize="small" />
+                      </IconButton>
+                    )}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          {data && (data.itemCount === 0 || data.items.length === 0) && (
+            <TableRow>
+              <TableCell colSpan={columns.length}>No records found</TableCell>
+            </TableRow>
+          )}
+          {!data && (
+            <TableRow>
+              <TableCell colSpan={columns.length}>
+                <CustomLoading />
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <ItemDetail
+        data={selectedBoxDetail}
+        _onClose={() => setSelectedBoxDetail(null)}
+      />
+    </>
   );
 }
 

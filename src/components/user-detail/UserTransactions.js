@@ -2,13 +2,15 @@ import { Grid, Tab, Tabs } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import React, { useState } from "react";
 import AffiliateCommission from "../../pages/AffiliateCommission";
+import BoxList from "../../pages/box/BoxList";
 import Balances from "../../pages/fund/Balances";
 import DepositHistory from "../../pages/fund/DepositHistory";
 import FundLogs from "../../pages/fund/FundLogs";
 import WithdrawHistory from "../../pages/fund/WithdrawHistory";
+import NFTs from "../../pages/nft/NFTs";
 import Transactions from "../../pages/Transactions";
 
-export default function UserTransaction({ userId }) {
+export default function UserTransaction({ userId, userAddress }) {
   const [tab, setTab] = useState(0);
 
   const menus = [
@@ -20,6 +22,14 @@ export default function UserTransaction({ userId }) {
     //   title: "Balances",
     //   component: <Balances />,
     // },
+    {
+      title: "Items",
+      component: <NFTs isProfile={true} userAccount={userAddress} />,
+    },
+    {
+      title: "Box",
+      component: <BoxList isProfile={true} ownerAddress={userAddress} />,
+    },
     {
       title: `Transactions`,
       component: <Transactions isProfile={true} profileUserId={userId} />,

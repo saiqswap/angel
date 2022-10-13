@@ -73,7 +73,7 @@ export default function CurrentUserProfile() {
             <Info data={data} />
             <UserBalances data={data} />
             <Actions data={data} _success={() => setIsReload(!isReload)} />
-            <UserTransaction userId={data.id} />
+            <UserTransaction userId={data.id} userAddress={data.address} />
           </Grid>
         ) : (
           <CustomLoading />

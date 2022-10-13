@@ -16,6 +16,13 @@ const columns = [
     userId: "userId",
   },
   {
+    key: "ownerAddress",
+    label: "Owner address",
+    isOwnerAddress: true,
+    // isEmail: true,
+    userId: "userId",
+  },
+  {
     key: "type",
     label: "Box Type",
   },
@@ -36,7 +43,12 @@ const columns = [
   },
   {
     key: "createdTime",
-    label: "Time",
+    label: "Created Time",
+    isTime: true,
+  },
+  {
+    key: "updatedTime",
+    label: "Updated Time",
     isTime: true,
   },
 ];
@@ -65,17 +77,20 @@ const filterBy = [
   }),
 ];
 
-export default SearchHigherComponent({
-  endpoint: ENDPOINT_BOX_LIST,
-  title: "Box List",
-  columns,
-  getRoles: true,
-  filterBy,
-  NoticeComponent: () => (
-    <Box sx={{ mb: 2 }}>
-      <Typography variant="body2" color="error" style={{ fontWeight: 900 }}>
-        In database is box cannot mint, listing, delist, transfer, buy
-      </Typography>
-    </Box>
-  ),
-});
+export default function BoxList(props) {
+  const Component = new SearchHigherComponent({
+    ...props,
+    endpoint: ENDPOINT_BOX_LIST,
+    title: "Box List",
+    columns,
+    filterBy,
+    NoticeComponent: () => (
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="body2" color="error" style={{ fontWeight: 900 }}>
+          In database is box cannot mint, listing, delist, transfer, buy
+        </Typography>
+      </Box>
+    ),
+  });
+  return <Component />;
+}

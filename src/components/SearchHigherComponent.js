@@ -114,6 +114,10 @@ function SearchHigherComponent({
           };
           if (props.isProfile && props.profileUserId)
             body.filters.userId = props.profileUserId;
+          if (props.isProfile && props.userAccount)
+            body.filters.account = props.userAccount;
+          if (props.isProfile && props.ownerAddress)
+            body.filters.ownerAddress = props.ownerAddress;
           if (userId && !props.note) body.userId = userId;
           if (userId && props.note === "referrals") {
             body.filters.sponsorId = userId;
@@ -181,7 +185,9 @@ function SearchHigherComponent({
             : { userId }
           : {}
       );
+      setPage(1);
       setSelectedIds([]);
+      setPageSize(10);
     };
 
     const _onReload = () => setIsReload(!isReload);

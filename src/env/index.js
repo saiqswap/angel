@@ -1,3 +1,14 @@
+export const localConfig = {
+  API: `http://localhost:5000`,
+  // API: `https://marketplace_api.megdev.co`,
+  API_EXTENSION: `/adm-api`,
+  ENV_NAME: "LOCAL",
+  EVN_COLOR: "pink",
+  baseUrl: "https://files.infinityangel.io",
+  // baseUrl:
+  //   "https://6f7daba956414f5fa57231546ac07221.s3.ap-southeast-1.amazonaws.com",
+};
+
 export const devConfig = {
   API: `https://apiinfinity.feliciastation.com`,
   // API: `https://marketplace_api.megdev.co`,

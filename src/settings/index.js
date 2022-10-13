@@ -1,4 +1,9 @@
-import { devConfig, productionConfig, stagingConfig } from "../env";
+import {
+  devConfig,
+  localConfig,
+  productionConfig,
+  stagingConfig,
+} from "../env";
 
 export const ACCESS_TOKEN_KEY = "CBt3gpbqeMdWPNG1";
 export const DEVICE_KEY = "uU5tEUmAgvBWArsv";

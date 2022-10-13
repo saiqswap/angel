@@ -10,16 +10,9 @@ const columns = [
     isId: true,
   },
   {
-    key: "userId",
-    label: "User ID",
-    isEmail: true,
-    userId: "userId",
-  },
-  {
     key: "ownerAddress",
     label: "Owner address",
     isOwnerAddress: true,
-    // isEmail: true,
     userId: "userId",
   },
   {
@@ -55,26 +48,26 @@ const columns = [
 
 const filterBy = [
   new Filter({
-    key: "userId",
-    text: "User ID",
+    key: "ownerAddress",
+    text: "Owner Address",
     type: "input",
   }),
-  new Filter({
-    key: "txHash",
-    text: "TX Hash",
-    type: "input",
-  }),
-  new Filter({
-    key: "productId",
-    text: "Product ID",
-    type: "input",
-  }),
-  new Filter({
-    key: "status",
-    text: "Status",
-    type: "select",
-    selectName: "PresaleTransactionStatus",
-  }),
+  // new Filter({
+  //   key: "txHash",
+  //   text: "TX Hash",
+  //   type: "input",
+  // }),
+  // new Filter({
+  //   key: "productId",
+  //   text: "Product ID",
+  //   type: "input",
+  // }),
+  // new Filter({
+  //   key: "status",
+  //   text: "Status",
+  //   type: "select",
+  //   selectName: "PresaleTransactionStatus",
+  // }),
 ];
 
 export default function BoxList(props) {

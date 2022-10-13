@@ -14,6 +14,12 @@ const columns = [
     isId: true,
   },
   {
+    key: "ownerAddress",
+    label: "Owner address",
+    isOwnerAddress: true,
+    userId: "userId",
+  },
+  {
     key: "box",
     label: "Box",
     isBoxDetail: true,
@@ -38,19 +44,6 @@ const columns = [
     label: "Mint Tx Hash",
     isAddress: true,
   },
-  {
-    key: "ownerAddress",
-    label: "Owner address",
-    isOwnerAddress: true,
-    // isEmail: true,
-    userId: "userId",
-  },
-  // {
-  //   key: "userId",
-  //   label: "User ID",
-  //   isEmail: true,
-  //   userId: "userId",
-  // },
   {
     key: "name",
     label: "Name",

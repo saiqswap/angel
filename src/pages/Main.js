@@ -51,8 +51,24 @@ import SwapConfig from "./swap/SwapConfig";
 import Transactions from "./Transactions";
 import MemberCount from "./user/MemberCount";
 import UserList from "./user/UserList";
+import ViewComfyIcon from "@material-ui/icons/ViewComfy";
+import RIConfig from "./r-i/RIConfig";
 
 const routes = [
+  //ri
+  {
+    name: "R-I Factory",
+    icon: <ViewComfyIcon />,
+    scope: "",
+    routes: [
+      {
+        name: "Config",
+        path: "/r-i/config",
+        component: RIConfig,
+        // scope: "FUND_FULL",
+      },
+    ],
+  },
   {
     name: "Affiliate Commission",
     icon: <Grain />,

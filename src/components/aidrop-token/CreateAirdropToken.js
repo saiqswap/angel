@@ -10,21 +10,16 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
-import React, { useState } from "react";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { CSVLink } from "react-csv";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import {
-  EndPointConstant,
-  ENDPOINT_AIRDROP_SPECIAL_BOX,
-} from "../../constants/endpoint";
+import { _switchPopup } from "../../actions/settingActions";
+import { EndPointConstant } from "../../constants/endpoint";
 import { _convertCsvToArray } from "../../settings/format";
 import { post } from "../../utils/api";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { _switchPopup } from "../../actions/settingActions";
-import { useEffect } from "react";
-import { CSVLink } from "react-csv";
-import moment from "moment";
 
 export default function CreateAirdropToken({ open, _onClose, _handleRefresh }) {
   const [list, setList] = useState([]);

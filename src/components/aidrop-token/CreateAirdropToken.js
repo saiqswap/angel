@@ -95,6 +95,9 @@ export default function CreateAirdropToken({ open, _onClose, _handleRefresh }) {
               }
             }
             setLoading(false);
+            toast.success("Success");
+            _handleRefresh();
+            _onClose();
             if (failList.length > 0) {
               setFailList(failList);
             }

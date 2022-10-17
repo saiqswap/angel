@@ -254,16 +254,39 @@ function SearchHigherComponent({
         _switchPopup({
           title: "Export just only 10000 items",
           content: "Are you for this action",
-          _handleSubmit: () => {
-            const body = {
-              page,
-              pageSize: data.itemCount,
-              filters,
-            };
-            post(endpoint, body, (data) => {
-              setExportData(data.items);
-              document.getElementById("export-btn").click();
+          _handleSubmit: async () => {
+            let data = [];
+            const pageCount = await new Promise((resolve) => {
+              post(
+                `${endpoint}`,
+                {
+                  page: 1,
+                  pageSize: 1000,
+                },
+                (data) => {
+                  resolve(data.pageCount);
+                },
+                (error) => resolve(error)
+              );
             });
+            for (let index = 1; index <= pageCount; index++) {
+              const items = await new Promise((resolve) => {
+                post(
+                  `${endpoint}`,
+                  {
+                    page: index,
+                    pageSize: 1000,
+                  },
+                  (data) => {
+                    resolve(data.items);
+                  },
+                  (error) => resolve(error)
+                );
+              });
+              data = [...data, ...items];
+            }
+            setExportData(data);
+            document.getElementById("export-btn").click();
           },
         })
       );

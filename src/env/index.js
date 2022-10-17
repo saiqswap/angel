@@ -1,6 +1,6 @@
 export const localConfig = {
-  API: `http://localhost:5000`,
-  // API: `https://marketplace_api.megdev.co`,
+  // API: `http://localhost:5001`,
+  API: `https://apiinfinity.feliciastation.com`,
   API_EXTENSION: `/adm-api`,
   ENV_NAME: "LOCAL",
   EVN_COLOR: "pink",

@@ -11,7 +11,7 @@ export const SCOPES_KEY = "AhBcmvr1EkMdPnL5";
 const hostname = window.location.hostname.replace("www.", "");
 const domains = {};
 const envConfigs = {
-  localhost: devConfig,
+  localhost: localConfig,
   "admininfinity.feliciastation.com": devConfig,
   "marketplace_admin.megdev.co": stagingConfig,
 };

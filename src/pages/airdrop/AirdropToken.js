@@ -65,28 +65,48 @@ export default function AirdropToken() {
     setPage(page);
   };
 
-  const _handleExport = () => {
-    post(
-      `${EndPointConstant.INO_AIRDROP_TOKEN_GET_LIST}`,
-      {
-        page: 1,
-        pageSize: 10000,
-      },
-      (res) => {
-        const list = [];
-        const data = res.items;
-        for (const element of data) {
-          const { amount, address, asset, createdTime } = element;
-          list.push({
-            address,
-            asset,
-            time: moment(createdTime).format("YYYY-MM-DD HH:mm:ss"),
-            amount,
-          });
-        }
-        setExportData(list);
-      }
-    );
+  const _handleExport = async () => {
+    let list = [];
+    let data = [];
+    const pageCount = await new Promise((resolve) => {
+      post(
+        `${EndPointConstant.INO_AIRDROP_TOKEN_GET_LIST}`,
+        {
+          page: 1,
+          pageSize: 1000,
+        },
+        (data) => {
+          resolve(data.pageCount);
+        },
+        (error) => resolve(error)
+      );
+    });
+    for (let index = 1; index <= pageCount; index++) {
+      const items = await new Promise((resolve) => {
+        post(
+          `${EndPointConstant.INO_AIRDROP_TOKEN_GET_LIST}`,
+          {
+            page: index,
+            pageSize: 1000,
+          },
+          (data) => {
+            resolve(data.items);
+          },
+          (error) => resolve(error)
+        );
+      });
+      data = [...data, ...items];
+    }
+    for (const element of data) {
+      const { amount, address, asset, createdTime } = element;
+      list.push({
+        address,
+        asset,
+        time: moment(createdTime).format("YYYY-MM-DD HH:mm:ss"),
+        amount,
+      });
+    }
+    setExportData(list);
   };
 
   return (

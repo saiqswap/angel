@@ -15,7 +15,7 @@ import HistoryIcon from "@material-ui/icons/History";
 import InboxIcon from "@material-ui/icons/Inbox";
 import PersonIcon from "@material-ui/icons/Person";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
-import TelegramIcon from "@material-ui/icons/Telegram";
+import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 import React, { useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import AppBar from "../components/AppBar";
@@ -24,18 +24,15 @@ import CurrentUserProfile from "../components/CurrentUserProfile";
 import Sidebar from "../components/Sidebar";
 import AdminList from "./AdminList";
 import AffiliateCommission from "./AffiliateCommission";
-import BoxByType from "./airdrop/BoxByType";
-import BoxByTypeAndTier from "./airdrop/BoxByTypeAndTier";
+import AirdropBox from "./airdrop/AirdropBox";
+import AirdropToken from "./airdrop/AirdropToken";
 import BoxList from "./box/BoxList";
 import BoxRate from "./box/BoxRate";
 import Boxes from "./Boxes";
 import Contracts from "./Contracts";
 import CoinList from "./fund/CoinList";
-import DepositHistory from "./fund/DepositHistory";
 import FundLogs from "./fund/FundLogs";
 import WithdrawHistory from "./fund/WithdrawHistory";
-import INOList from "./ino/INOList";
-import Whitelist from "./ino/Whitelist";
 import MintingBoxCombo from "./minting-box/MintingBoxCombo";
 import MintingBoxExport from "./minting-box/MintingBoxExport";
 import MintingBoxProducts from "./minting-box/MintingBoxProducts";
@@ -50,12 +47,10 @@ import RoleList from "./RoleList";
 import S3Component from "./S3Component";
 import ChangePassword from "./setting/ChangePassword";
 import GoogleAuthenticator from "./setting/GoogleAuthenticator";
+import SwapConfig from "./swap/SwapConfig";
 import Transactions from "./Transactions";
 import MemberCount from "./user/MemberCount";
 import UserList from "./user/UserList";
-import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
-import SwapConfig from "./swap/SwapConfig";
-import AirdropToken from "./airdrop/AirdropToken";
 
 const routes = [
   {
@@ -73,7 +68,7 @@ const routes = [
     routes: [
       {
         name: "Box",
-        component: INOList,
+        component: AirdropBox,
         path: "/airdrop/box",
       },
       {

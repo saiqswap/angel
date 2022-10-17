@@ -18,24 +18,24 @@ import {
 } from "@material-ui/core";
 import { Add, CheckCircle, Delete, Visibility } from "@material-ui/icons";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import DetailsIcon from "@material-ui/icons/Details";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { CSVLink } from "react-csv";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { _switchPopup } from "../../actions/settingActions";
 import CustomPagination from "../../components/CustomPagination";
+import ItemDetail from "../../components/ItemDetail";
 import ItemField from "../../components/ItemField";
 import {
   ENDPOINT_INO_CREATE_TRANSFER,
   ENDPOINT_INO_LIST,
 } from "../../constants/endpoint";
 import { formatAddress } from "../../settings/format";
-import { get, post } from "../../utils/api";
-import DetailsIcon from "@material-ui/icons/Details";
-import ItemDetail from "../../components/ItemDetail";
-import { CSVLink } from "react-csv";
+import { post } from "../../utils/api";
 
-export default function INOList() {
+export default function AirdropBox() {
   const [data, setData] = useState(null);
   const [flag, setFlag] = useState(false);
   const [open, setOpen] = useState(false);
@@ -148,35 +148,55 @@ export default function INOList() {
     setPage(page);
   };
 
-  const _handleExport = () => {
-    post(
-      `${ENDPOINT_INO_LIST}`,
-      {
-        page: 1,
-        pageSize: 10000,
-      },
-      (res) => {
-        const list = [];
-        const data = res.items;
-        for (const element of data) {
-          const { items, address, inDb, name, createdTime } = element;
-          for (const item of items) {
-            list.push({
-              ownerAddress: address,
-              name,
-              inDb: inDb ? "Yes" : "No",
-              time: moment(createdTime).format("YYYY-MM-DD HH:mm:ss"),
-              type: item.boxType,
-              amount: 1,
-              boxTokenId: "#" + item.boxTokenId,
-              level: item.box.airdropNftLevel,
-              hash: item.box.mintTxHash,
-            });
-          }
-        }
-        setExportData(list);
+  const _handleExport = async () => {
+    let list = [];
+    let data = [];
+    const pageCount = await new Promise((resolve) => {
+      post(
+        `${ENDPOINT_INO_LIST}`,
+        {
+          page: 1,
+          pageSize: 1000,
+        },
+        (data) => {
+          resolve(data.pageCount);
+        },
+        (error) => resolve(error)
+      );
+    });
+    for (let index = 1; index <= pageCount; index++) {
+      const items = await new Promise((resolve) => {
+        post(
+          `${ENDPOINT_INO_LIST}`,
+          {
+            page: index,
+            pageSize: 1000,
+          },
+          (data) => {
+            resolve(data.items);
+          },
+          (error) => resolve(error)
+        );
+      });
+      data = [...data, ...items];
+    }
+    for (const element of data) {
+      const { items, address, inDb, name, createdTime } = element;
+      for (const item of items) {
+        list.push({
+          ownerAddress: address,
+          name,
+          inDb: inDb ? "Yes" : "No",
+          time: moment(createdTime).format("YYYY-MM-DD HH:mm:ss"),
+          type: item.boxType,
+          amount: 1,
+          boxTokenId: "#" + item.boxTokenId,
+          level: item.box.airdropNftLevel,
+          hash: item.box.mintTxHash,
+        });
       }
-    );
+    }
+    setExportData(list);
   };
 
   return (

@@ -23,12 +23,15 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { _switchPopup } from "../../actions/settingActions";
 import { useEffect } from "react";
+import { CSVLink } from "react-csv";
+import moment from "moment";
 
 export default function CreateAirdropToken({ open, _onClose, _handleRefresh }) {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const { setting } = useSelector((state) => state);
+  const [failList, setFailList] = useState(null);
 
   useEffect(() => {
     if (!open) {
@@ -65,28 +68,35 @@ export default function CreateAirdropToken({ open, _onClose, _handleRefresh }) {
     if (list.length > 0) {
       dispatch(
         _switchPopup({
-          title: "Send Box NFT",
+          title: "Airdrop Box",
           content: "Are you for this action",
-          _handleSubmit: () => {
+          _handleSubmit: async () => {
             setLoading(true);
-            for (const iterator of list) {
+            const failList = [];
+            for (let index = 0; index < list.length; index++) {
+              const iterator = list[index];
               iterator.paymentContract = setting.contracts.find(
                 (c) => c.symbol === iterator.asset
               ).contractAddress;
-              post(
-                EndPointConstant.INO_AIRDROP_TOKEN,
-                iterator,
-                () => {
-                  toast.success("Success");
-                  setLoading(false);
-                  _handleRefresh();
-                  _onClose();
-                },
-                (error) => {
-                  setLoading(false);
-                  toast.error(`${error.code} - ${error.msg}`);
-                }
-              );
+              const data = await new Promise((resolve) => {
+                post(
+                  EndPointConstant.INO_AIRDROP_TOKEN,
+                  iterator,
+                  () => {
+                    resolve("success");
+                  },
+                  () => {
+                    resolve("fail");
+                  }
+                );
+              });
+              if (data === "fail") {
+                failList.push(iterator);
+              }
+            }
+            setLoading(false);
+            if (failList.length > 0) {
+              setFailList(failList);
             }
           },
         })
@@ -102,7 +112,6 @@ export default function CreateAirdropToken({ open, _onClose, _handleRefresh }) {
       let array = _convertCsvToArray(e.target.result);
       array = array.filter((item) => item.address !== "" && item);
       const temp = [...list, ...array];
-      console.log(temp);
       setList(temp);
     };
     reader.readAsText(file);
@@ -171,6 +180,31 @@ export default function CreateAirdropToken({ open, _onClose, _handleRefresh }) {
                 >
                   Airdrop
                 </Button>
+                {failList && (
+                  <>
+                    <CSVLink
+                      data={failList}
+                      headers={[
+                        { label: "address", key: "address" },
+                        { label: "amount", key: "amount" },
+                        { label: "asset", key: "asset" },
+                      ]}
+                      //   hidden
+                      id="export-btn"
+                      filename={`export-airdrop-fail-token--${moment().format(
+                        "YYYY-MM-DD_hh-mm-ss"
+                      )}.csv`}
+                    >
+                      <Button
+                        // color="primary"
+                        variant="contained"
+                        style={{ marginLeft: 8 }}
+                      >
+                        Fail List
+                      </Button>
+                    </CSVLink>
+                  </>
+                )}
               </Box>
               <Box>
                 <Typography>Total: {list.length} item(s)</Typography>

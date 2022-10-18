@@ -149,7 +149,7 @@ export default function AirdropBox() {
   };
 
   const _handleExport = async () => {
-    let list = [];
+    // let list = [];
     let data = [];
     const pageCount = await new Promise((resolve) => {
       post(
@@ -180,23 +180,23 @@ export default function AirdropBox() {
       });
       data = [...data, ...items];
     }
-    for (const element of data) {
-      const { items, address, inDb, name, createdTime } = element;
-      for (const item of items) {
-        list.push({
-          ownerAddress: address,
-          name,
-          inDb: inDb ? "Yes" : "No",
-          time: moment(createdTime).format("YYYY-MM-DD HH:mm:ss"),
-          type: item.boxType,
-          amount: 1,
-          boxTokenId: "#" + item.boxTokenId,
-          level: item.box.airdropNftLevel,
-          hash: item.box.mintTxHash,
-        });
-      }
-    }
-    setExportData(list);
+    // for (const element of data) {
+    //   const { items, address, inDb, name, createdTime } = element;
+    //   for (const item of items) {
+    //     list.push({
+    //       ownerAddress: address,
+    //       name,
+    //       inDb: inDb ? "Yes" : "No",
+    //       time: moment(createdTime).format("YYYY-MM-DD HH:mm:ss"),
+    //       type: item.boxType,
+    //       amount: 1,
+    //       boxTokenId: "#" + item.boxTokenId,
+    //       level: item.box.airdropNftLevel,
+    //       hash: item.box.mintTxHash,
+    //     });
+    //   }
+    // }
+    setExportData(data);
   };
 
   return (

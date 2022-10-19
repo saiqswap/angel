@@ -84,4 +84,7 @@ export const EndPointConstant = {
   NFT_POST: `${API_EXTENSION}/v1/nft`,
   INO_AIRDROP_TOKEN: `${API_EXTENSION}/v1/ino/airdrop-token`,
   INO_AIRDROP_TOKEN_GET_LIST: `${API_EXTENSION}/v1/ino/airdrop-token/get-list`,
+  CONFIG_RI_AUTO_GET_LIST: `${API_EXTENSION}/v1/config/ri-auto/get-list`,
+  CONFIG_RI_AUTO: `${API_EXTENSION}/v1/config/ri-auto`,
+  CONFIG_RI_AUTO_SLOT: `${API_EXTENSION}/v1/config/ri-auto/slot`,
 };

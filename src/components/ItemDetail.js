@@ -81,6 +81,9 @@ export default function ItemDetail({ data, _onClose }) {
                       if (key === "box") {
                         return null;
                       }
+                      if (key === "slots") {
+                        return null;
+                      }
                       return (
                         key !== "properties" && (
                           <TableRow key={index}>

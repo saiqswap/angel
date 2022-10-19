@@ -177,8 +177,8 @@ export default function RIConfig() {
               <TableHead>
                 <TableRow>
                   <TableCell>ID</TableCell>
-                  <TableCell>Root</TableCell>
                   <TableCell>User</TableCell>
+                  <TableCell>Root</TableCell>
                   <TableCell>Created time</TableCell>
                   <TableCell>Last updated</TableCell>
                   <TableCell></TableCell>

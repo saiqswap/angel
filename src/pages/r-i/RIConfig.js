@@ -179,6 +179,7 @@ export default function RIConfig() {
                   <TableCell>ID</TableCell>
                   <TableCell>User</TableCell>
                   <TableCell>Root</TableCell>
+                  <TableCell>Number of slots</TableCell>
                   <TableCell>Created time</TableCell>
                   <TableCell>Last updated</TableCell>
                   <TableCell></TableCell>
@@ -203,6 +204,7 @@ export default function RIConfig() {
                           item={item}
                         />
                       </TableCell>
+                      <TableCell>{item.slots.length}</TableCell>
                       <TableCell>
                         {moment(item.createdTime).format("YYYY-MM-DD HH:mm:ss")}
                       </TableCell>

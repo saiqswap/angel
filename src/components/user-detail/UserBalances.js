@@ -44,7 +44,7 @@ export default function UserBalances({ data }) {
                       Amount: {formatAmount(balance.amount)}
                     </Typography>
                     <Typography variant="subtitle2">
-                      Lock: {formatAmount(balance.amount)}
+                      Lock: {formatAmount(balance.lockAmount)}
                     </Typography>
                     <Typography variant="subtitle2">
                       Debt: {formatAmount(debt?.amount)}

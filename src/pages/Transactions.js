@@ -90,6 +90,7 @@ export default function Transactions(props) {
     title: "Transactions",
     columns,
     filterBy,
+    exportLink: ENDPOINT_NFT_TRANSACTION_LIST,
   });
   return <Component />;
 }

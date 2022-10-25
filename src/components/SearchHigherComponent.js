@@ -262,6 +262,7 @@ function SearchHigherComponent({
                 {
                   page: 1,
                   pageSize: 1000,
+                  filters,
                 },
                 (data) => {
                   resolve(data.pageCount);
@@ -276,6 +277,7 @@ function SearchHigherComponent({
                   {
                     page: index,
                     pageSize: 1000,
+                    filters,
                   },
                   (data) => {
                     resolve(data.items);

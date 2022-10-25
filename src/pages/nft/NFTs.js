@@ -86,6 +86,7 @@ export default function NFTs(props) {
   const Component = new SearchHigherComponent({
     ...props,
     endpoint: ENDPOINT_NFT_GET_LIST,
+    exportLink: ENDPOINT_NFT_GET_LIST,
     title: "NFTs",
     columns,
     filterBy,

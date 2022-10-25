@@ -252,7 +252,7 @@ function SearchHigherComponent({
     const _handleExport = () => {
       dispatch(
         _switchPopup({
-          title: "Export just only 10000 items",
+          title: "Export just only all of items",
           content: "Are you for this action",
           _handleSubmit: async () => {
             let data = [];

@@ -10,7 +10,7 @@ const columns = [
   },
   {
     key: "tokenId",
-    label: "ID",
+    label: "Token ID",
     isId: true,
   },
   {
@@ -69,6 +69,11 @@ const columns = [
 ];
 
 const filterBy = [
+  new Filter({
+    key: "tokenId",
+    type: "input",
+    text: "Token ID",
+  }),
   new Filter({
     key: "account",
     type: "input",

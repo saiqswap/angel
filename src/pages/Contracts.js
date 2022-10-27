@@ -32,6 +32,10 @@ const columns = [
     key: "withdrawFee",
     label: "Withdraw fee",
   },
+  {
+    key: "rootWithdrawFee",
+    label: "R-I Root withdraw fee (%)",
+  },
 ];
 
 export default SearchHigherComponent({
@@ -84,6 +88,13 @@ export default SearchHigherComponent({
       col: 12,
       require: true,
     }),
+    new Filter({
+      key: "rootWithdrawFee",
+      type: "input",
+      text: "R-I Root Withdraw Fee (%)",
+      col: 12,
+      require: true,
+    }),
   ],
   updateFields: [
     new Filter({
@@ -125,6 +136,13 @@ export default SearchHigherComponent({
       key: "withdrawFee",
       type: "input",
       text: "Withdraw Fee",
+      col: 12,
+      require: true,
+    }),
+    new Filter({
+      key: "rootWithdrawFee",
+      type: "input",
+      text: "R-I Root Withdraw Fee (%)",
       col: 12,
       require: true,
     }),

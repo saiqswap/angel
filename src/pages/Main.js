@@ -53,18 +53,40 @@ import MemberCount from "./user/MemberCount";
 import UserList from "./user/UserList";
 import ViewComfyIcon from "@material-ui/icons/ViewComfy";
 import RIConfig from "./r-i/RIConfig";
-
+import RIReward from "./r-i/RIReward";
+import StakingConfig from "./staking/StakingConfig";
+import HdrStrongIcon from "@material-ui/icons/HdrStrong";
 const routes = [
   //ri
   {
-    name: "R-I Factory",
-    icon: <ViewComfyIcon />,
+    name: "Staking",
+    icon: <HdrStrongIcon />,
     scope: "",
     routes: [
       {
         name: "Config",
+        path: "/staking/config",
+        component: StakingConfig,
+        // scope: "FUND_FULL",
+      },
+    ],
+  },
+  //ri
+  {
+    name: "R-I",
+    icon: <ViewComfyIcon />,
+    scope: "",
+    routes: [
+      {
+        name: "Factory Config",
         path: "/r-i/config",
         component: RIConfig,
+        // scope: "FUND_FULL",
+      },
+      {
+        name: "Reward Config",
+        path: "/r-i/reward-config",
+        component: RIReward,
         // scope: "FUND_FULL",
       },
     ],

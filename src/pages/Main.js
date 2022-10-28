@@ -56,6 +56,7 @@ import RIConfig from "./r-i/RIConfig";
 import RIReward from "./r-i/RIReward";
 import StakingConfig from "./staking/StakingConfig";
 import HdrStrongIcon from "@material-ui/icons/HdrStrong";
+import StakingList from "./staking/StakingList";
 const routes = [
   //ri
   {
@@ -63,6 +64,12 @@ const routes = [
     icon: <HdrStrongIcon />,
     scope: "",
     routes: [
+      {
+        name: "List",
+        path: "/staking/list",
+        component: StakingList,
+        // scope: "FUND_FULL",
+      },
       {
         name: "Config",
         path: "/staking/config",

@@ -89,8 +89,7 @@ export const EndPointConstant = {
   CONFIG_RI_AUTO_SLOT: `${API_EXTENSION}/v1/config/ri-auto/slot`,
   STAKING_LIST: `${API_EXTENSION}/v1/staking/list`,
   STAKING_PACKAGES: `${API_EXTENSION}/v1/staking/package/list`,
-  STAKING_PACKAGE_CREATE: `${API_EXTENSION}/v1/staking/package/create`,
-  STAKING_PACKAGE_UPDATE: `${API_EXTENSION}/v1/staking/package/update`,
+  STAKING_PACKAGE_CREATE: `${API_EXTENSION}/v1/staking/package`,
   RI_REWARD_GET_LIST: `${API_EXTENSION}/v1/fund/reward-config/get-list`,
   RI_REWARD: `${API_EXTENSION}/v1/fund/reward-config`,
 };

@@ -118,7 +118,7 @@ export default function StakingConfig(props) {
     createFields,
     updateFields: createFields,
     createEndpoint: EndPointConstant.STAKING_PACKAGE_CREATE,
-    updateEndpoint: EndPointConstant.STAKING_PACKAGE_UPDATE,
+    updateEndpoint: EndPointConstant.STAKING_PACKAGE_CREATE,
   });
   return <Component />;
 }

@@ -152,6 +152,9 @@ export default function ItemField({
       if (selectName === "MINTING_ROUND") {
         list = [0, 1, 2, 3];
       }
+      if (selectName === "PACKAGE_TYPE") {
+        list = enums.StakingPackage;
+      }
       setList(list);
     }
   }, [contracts, enums, mintingBoxes, roleList, scopes, selectName]);

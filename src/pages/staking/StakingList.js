@@ -1,9 +1,5 @@
 import SearchHigherComponent from "../../components/SearchHigherComponent";
-import {
-  EndPointConstant,
-  ENDPOINT_POST_WITHDRAW_HISTORY,
-} from "../../constants/endpoint";
-import { Filter } from "../../settings";
+import { EndPointConstant } from "../../constants/endpoint";
 
 const columns = [
   {
@@ -12,7 +8,7 @@ const columns = [
     isId: true,
   },
   {
-    key: "email",
+    key: "userEmail",
     label: "Email",
     isEmail: true,
     userId: "userId",
@@ -23,96 +19,93 @@ const columns = [
     isAmount: true,
   },
   {
-    key: "asset",
+    key: "currency",
     label: "Asset",
-    isStatus: true,
-  },
-  {
-    key: "fee",
-    label: "Fee",
-    isAmount: true,
-  },
-  {
-    key: "receiverAddress",
-    label: "Receiver",
-    isAddress: true,
-  },
-  {
-    key: "txHash",
-    label: "Hash",
-    isHash: true,
   },
   {
     key: "status",
     label: "Status",
-    isStatus: true,
+  },
+  {
+    key: "timeToNextPay",
+    label: "Next Time To Pay",
+    isDate: true,
+  },
+  {
+    key: "startTime",
+    label: "Start Time",
+    isDate: true,
+  },
+  {
+    key: "endTime",
+    label: "End Time",
+    isDate: true,
   },
   {
     key: "createdTime",
-    label: "Time",
-    isTime: true,
+    label: "Created Time",
+    isDate: true,
   },
 ];
 
 const filterBy = [
-  new Filter({
-    key: "from",
-    type: "date",
-    text: "From date",
-  }),
-  new Filter({
-    key: "to",
-    type: "date",
-    text: "To date",
-  }),
-  new Filter({
-    key: "id",
-    type: "input",
-    text: "Withdraw ID",
-  }),
-  new Filter({
-    key: "username",
-    type: "input",
-    text: "Username",
-  }),
-  new Filter({
-    key: "type",
-    type: "select",
-    text: "Type",
-    selectName: "TransferType",
-  }),
-  new Filter({
-    key: "status",
-    type: "select",
-    text: "Select status",
-    selectName: "WithdrawStatus",
-  }),
-  new Filter({
-    key: "asset",
-    type: "select",
-    text: "Asset",
-    selectName: "Coin",
-  }),
-  new Filter({
-    key: "txId",
-    type: "input",
-    text: "Hash",
-  }),
-  new Filter({
-    key: "wallet",
-    type: "input",
-    text: "Wallet",
-  }),
+  // new Filter({
+  //   key: "from",
+  //   type: "date",
+  //   text: "From date",
+  // }),
+  // new Filter({
+  //   key: "to",
+  //   type: "date",
+  //   text: "To date",
+  // }),
+  // new Filter({
+  //   key: "id",
+  //   type: "input",
+  //   text: "Withdraw ID",
+  // }),
+  // new Filter({
+  //   key: "username",
+  //   type: "input",
+  //   text: "Username",
+  // }),
+  // new Filter({
+  //   key: "type",
+  //   type: "select",
+  //   text: "Type",
+  //   selectName: "TransferType",
+  // }),
+  // new Filter({
+  //   key: "status",
+  //   type: "select",
+  //   text: "Select status",
+  //   selectName: "WithdrawStatus",
+  // }),
+  // new Filter({
+  //   key: "asset",
+  //   type: "select",
+  //   text: "Asset",
+  //   selectName: "Coin",
+  // }),
+  // new Filter({
+  //   key: "txId",
+  //   type: "input",
+  //   text: "Hash",
+  // }),
+  // new Filter({
+  //   key: "wallet",
+  //   type: "input",
+  //   text: "Wallet",
+  // }),
 ];
 
 export default function StakingList(props) {
   const Component = new SearchHigherComponent({
     ...props,
     endpoint: EndPointConstant.STAKING_LIST,
-    title: "Withdraw history",
+    title: "Staking list",
     columns,
     filterBy,
-    isResend: true,
   });
   return <Component />;
 }

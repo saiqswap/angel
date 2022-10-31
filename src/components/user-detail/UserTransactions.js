@@ -8,6 +8,7 @@ import DepositHistory from "../../pages/fund/DepositHistory";
 import FundLogs from "../../pages/fund/FundLogs";
 import WithdrawHistory from "../../pages/fund/WithdrawHistory";
 import NFTs from "../../pages/nft/NFTs";
+import StakingList from "../../pages/staking/StakingList";
 import Transactions from "../../pages/Transactions";
 
 export default function UserTransaction({ userId, userAddress }) {
@@ -33,6 +34,10 @@ export default function UserTransaction({ userId, userAddress }) {
     {
       title: `Transactions`,
       component: <Transactions isProfile={true} profileUserId={userId} />,
+    },
+    {
+      title: `Staking`,
+      component: <StakingList isProfile={true} profileUserId={userId} />,
     },
     {
       title: "Logs",

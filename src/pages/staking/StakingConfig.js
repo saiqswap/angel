@@ -59,12 +59,11 @@ const createFields = [
   }),
   new Filter({
     key: "currency",
-    type: "input",
+    type: "select",
     text: "Asset",
     col: 12,
     require: true,
-    defaultValue: "ING",
-    disabled: true,
+    selectName: "Coin",
   }),
   new Filter({
     key: "annualInterestRate",

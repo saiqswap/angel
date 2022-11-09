@@ -1,5 +1,6 @@
 import SearchHigherComponent from "../../components/SearchHigherComponent";
 import { EndPointConstant } from "../../constants/endpoint";
+import { Filter } from "../../settings";
 
 const columns = [
   {
@@ -64,23 +65,23 @@ const filterBy = [
   //   type: "input",
   //   text: "Withdraw ID",
   // }),
-  // new Filter({
-  //   key: "username",
-  //   type: "input",
-  //   text: "Username",
-  // }),
+  new Filter({
+    key: "userEmail",
+    type: "input",
+    text: "Email",
+  }),
   // new Filter({
   //   key: "type",
   //   type: "select",
   //   text: "Type",
   //   selectName: "TransferType",
   // }),
-  // new Filter({
-  //   key: "status",
-  //   type: "select",
-  //   text: "Select status",
-  //   selectName: "WithdrawStatus",
-  // }),
+  new Filter({
+    key: "status",
+    type: "select",
+    text: "Select status",
+    selectName: "StakingStatus",
+  }),
   // new Filter({
   //   key: "asset",
   //   type: "select",

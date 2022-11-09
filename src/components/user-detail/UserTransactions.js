@@ -1,10 +1,7 @@
 import { Grid, Tab, Tabs } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import React, { useState } from "react";
-import AffiliateCommission from "../../pages/AffiliateCommission";
 import BoxList from "../../pages/box/BoxList";
-import Balances from "../../pages/fund/Balances";
-import DepositHistory from "../../pages/fund/DepositHistory";
 import FundLogs from "../../pages/fund/FundLogs";
 import WithdrawHistory from "../../pages/fund/WithdrawHistory";
 import NFTs from "../../pages/nft/NFTs";

@@ -155,6 +155,9 @@ export default function ItemField({
       if (selectName === "PACKAGE_TYPE") {
         list = enums.StakingPackage;
       }
+      if (selectName === "StakingStatus") {
+        list = enums.StakingStatus;
+      }
       setList(list);
     }
   }, [contracts, enums, mintingBoxes, roleList, scopes, selectName]);

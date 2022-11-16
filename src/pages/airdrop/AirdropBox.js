@@ -178,6 +178,7 @@ export default function AirdropBox() {
           (error) => resolve(error)
         );
       });
+
       data = [...data, ...items];
     }
     // for (const element of data) {
@@ -196,7 +197,23 @@ export default function AirdropBox() {
     //     });
     //   }
     // }
-    setExportData(data);
+    // data.forEach((element) => {
+    //   element.items = JSON.stringify(element.items);
+    // });
+    const items = [];
+    data.forEach((element) => {
+      element.items.forEach((item) => {
+        items.push({
+          name: element.name,
+          address: element.address,
+          time: JSON.stringify(element.createdTime),
+          inDb: JSON.stringify(element.inDb),
+          boxType: item.boxType,
+          boxTokenId: JSON.stringify(item.boxTokenId),
+        });
+      });
+    });
+    setExportData(items);
   };
 
   return (
@@ -228,15 +245,12 @@ export default function AirdropBox() {
               <CSVLink
                 data={exportData}
                 headers={[
-                  { label: "Owner Address", key: "ownerAddress" },
-                  { label: "Name", key: "name" },
-                  { label: "In DB", key: "inDb" },
-                  { label: "Time", key: "time" },
-                  { label: "Type", key: "type" },
-                  { label: "Amount", key: "amount" },
-                  { label: "Box ID", key: "boxTokenId" },
-                  { label: "Level", key: "level" },
-                  { label: "Hash", key: "hash" },
+                  { label: "name", key: "name" },
+                  { label: "address", key: "address" },
+                  { label: "boxType", key: "boxType" },
+                  { label: "inDb", key: "inDb" },
+                  { label: "boxTokenId", key: "boxTokenId" },
+                  { label: "time", key: "time" },
                 ]}
                 //   hidden
                 id="export-btn"

@@ -115,6 +115,7 @@ export default function RiFactorySlots({
             `${EndPointConstant.RI_FACTORY_DELETE_SLOT}/${slot.id}`,
             {},
             () => {
+              toast.success("Success");
               _handleRefresh();
               _onClose();
             },

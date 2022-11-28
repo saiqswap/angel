@@ -1,15 +1,13 @@
 import {
   AppBar,
   Box,
-  Button,
   Drawer,
   Grid,
   IconButton,
   Paper,
-  TextField,
   Typography,
 } from "@material-ui/core";
-import { Delete } from "@material-ui/icons";
+import { Close } from "@material-ui/icons";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,12 +15,9 @@ import { toast } from "react-toastify";
 import { _switchPopup } from "../../actions/settingActions";
 import {
   EndPointConstant,
-  ENDPOINT_NFT_GET_LIST,
   ENDPOINT_POST_USER_LIST,
 } from "../../constants/endpoint";
-import { _convertCsvToArray } from "../../settings/format";
-import { post } from "../../utils/api";
-import CustomLoading from "../CustomLoading";
+import { post, _delete } from "../../utils/api";
 
 export default function RiFactorySlots({
   selectedUser,
@@ -110,6 +105,26 @@ export default function RiFactorySlots({
     }
   };
 
+  const _handleDelete = (slot) => {
+    dispatch(
+      _switchPopup({
+        title: `Delete slot ${slot.id}`,
+        content: "Are you for this action",
+        _handleSubmit: async () => {
+          _delete(
+            `${EndPointConstant.RI_FACTORY_DELETE_SLOT}/${slot.id}`,
+            {},
+            () => {
+              _handleRefresh();
+              _onClose();
+            },
+            () => toast.error("Fail")
+          );
+        },
+      })
+    );
+  };
+
   return (
     <Drawer anchor="right" open={Boolean(selectedUser)} onClose={_onClose}>
       <Box className="item-detail" width={700}>
@@ -151,7 +166,16 @@ export default function RiFactorySlots({
             <Grid container spacing={2}>
               {selectedUser?.slots?.map((slot) => (
                 <Grid item xs={6}>
-                  <Paper variant="outlined">
+                  <Paper variant="outlined" style={{ position: "relative" }}>
+                    <IconButton
+                      style={{
+                        position: "absolute",
+                        right: 0,
+                      }}
+                      onClick={() => _handleDelete(slot)}
+                    >
+                      <Close fontSize="small" />
+                    </IconButton>
                     <Box p={1}>
                       <Typography variant="body2">
                         Angel: {slot.angelTokenId}

@@ -57,6 +57,7 @@ import RIReward from "./r-i/RIReward";
 import StakingConfig from "./staking/StakingConfig";
 import HdrStrongIcon from "@material-ui/icons/HdrStrong";
 import StakingList from "./staking/StakingList";
+import AppConfigs from "./AppConfigs";
 const routes = [
   //ri
   {
@@ -324,6 +325,12 @@ const subRoutes = [
     name: "Setting",
     icon: <Settings />,
     routes: [
+      {
+        name: "Swap KT Raon configs",
+        path: "/setting/swap-ktraon-configs",
+        component: AppConfigs,
+      },
+
       {
         name: "Google authenticator",
         path: "/setting/google-authenticator",

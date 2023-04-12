@@ -58,6 +58,7 @@ import StakingConfig from "./staking/StakingConfig";
 import HdrStrongIcon from "@material-ui/icons/HdrStrong";
 import StakingList from "./staking/StakingList";
 import AppConfigs from "./AppConfigs";
+import NFTItemsToING from "./swap/NFTItemsToING";
 const routes = [
   //ri
   {
@@ -302,7 +303,18 @@ const routes = [
   {
     name: "Swap",
     icon: <SwapHorizIcon />,
-    routes: [{ name: "Config", path: "/swap/config", component: SwapConfig }],
+    routes: [
+      {
+        name: "Asset to asset Config",
+        path: "/swap/config",
+        component: SwapConfig,
+      },
+      {
+        name: "NFT items to ING lock config",
+        path: "/swap/nft-items-to-ing",
+        component: NFTItemsToING,
+      },
+    ],
   },
 ];
 

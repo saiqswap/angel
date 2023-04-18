@@ -113,7 +113,7 @@ export default function ItemField({
         list = ["TIER_1", "TIER_2", "TIER_3", "TIER_4", "TIER_5"];
       }
       if (selectName === "NFT_TYPES") {
-        list = ["ANGEL", "MINION", "COSTUME"];
+        list = ["ANGEL", "MINION_PARTS", "COSTUME"];
       }
       if (selectName === "NFT_TRANSACTION_STATUS") {
         list = enums.NftTransactionType;

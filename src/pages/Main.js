@@ -11,11 +11,13 @@ import {
 import DvrIcon from "@material-ui/icons/Dvr";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import GavelIcon from "@material-ui/icons/Gavel";
+import HdrStrongIcon from "@material-ui/icons/HdrStrong";
 import HistoryIcon from "@material-ui/icons/History";
 import InboxIcon from "@material-ui/icons/Inbox";
 import PersonIcon from "@material-ui/icons/Person";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
+import ViewComfyIcon from "@material-ui/icons/ViewComfy";
 import React, { useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import AppBar from "../components/AppBar";
@@ -24,12 +26,16 @@ import CurrentUserProfile from "../components/CurrentUserProfile";
 import Sidebar from "../components/Sidebar";
 import AdminList from "./AdminList";
 import AffiliateCommission from "./AffiliateCommission";
+import AppConfigs from "./AppConfigs";
+import Boxes from "./Boxes";
+import Contracts from "./Contracts";
+import RoleList from "./RoleList";
+import S3Component from "./S3Component";
+import Transactions from "./Transactions";
 import AirdropBox from "./airdrop/AirdropBox";
 import AirdropToken from "./airdrop/AirdropToken";
 import BoxList from "./box/BoxList";
 import BoxRate from "./box/BoxRate";
-import Boxes from "./Boxes";
-import Contracts from "./Contracts";
 import CoinList from "./fund/CoinList";
 import FundLogs from "./fund/FundLogs";
 import WithdrawHistory from "./fund/WithdrawHistory";
@@ -40,25 +46,20 @@ import MintingBoxPushSold from "./minting-box/MintingBoxPushSold";
 import MintingBoxSetting from "./minting-box/MintingBoxSetting";
 import MintingBoxTransactions from "./minting-box/MintingBoxTransactions";
 import Equipment from "./nft/Equipment";
-import NewTemplates from "./nft/NewTemplates";
 import NFTs from "./nft/NFTs";
+import NewTemplates from "./nft/NewTemplates";
 import RI from "./nft/RI";
-import RoleList from "./RoleList";
-import S3Component from "./S3Component";
-import ChangePassword from "./setting/ChangePassword";
-import GoogleAuthenticator from "./setting/GoogleAuthenticator";
-import SwapConfig from "./swap/SwapConfig";
-import Transactions from "./Transactions";
-import MemberCount from "./user/MemberCount";
-import UserList from "./user/UserList";
-import ViewComfyIcon from "@material-ui/icons/ViewComfy";
 import RIConfig from "./r-i/RIConfig";
 import RIReward from "./r-i/RIReward";
+import ChangePassword from "./setting/ChangePassword";
+import GoogleAuthenticator from "./setting/GoogleAuthenticator";
 import StakingConfig from "./staking/StakingConfig";
-import HdrStrongIcon from "@material-ui/icons/HdrStrong";
 import StakingList from "./staking/StakingList";
-import AppConfigs from "./AppConfigs";
 import NFTItemsToING from "./swap/NFTItemsToING";
+import NFTItemsToINGLogs from "./swap/NFTToINGLogs";
+import SwapConfig from "./swap/SwapConfig";
+import MemberCount from "./user/MemberCount";
+import UserList from "./user/UserList";
 const routes = [
   //ri
   {
@@ -313,6 +314,11 @@ const routes = [
         name: "NFT items to ING lock config",
         path: "/swap/nft-items-to-ing",
         component: NFTItemsToING,
+      },
+      {
+        name: "Logs",
+        path: "/swap/nft-items-to-ing-logs",
+        component: NFTItemsToINGLogs,
       },
     ],
   },

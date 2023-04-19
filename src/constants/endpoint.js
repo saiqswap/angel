@@ -94,3 +94,5 @@ export const EndPointConstant = {
   RI_REWARD: `${API_EXTENSION}/v1/fund/reward-config`,
   RI_FACTORY_DELETE_SLOT: `${API_EXTENSION}/v1/config/ri-auto/slot`,
 };
+
+export const ENDPOINT_NFT_TO_ING_LOGS = `${API_EXTENSION}/v1/swap-nft-to-ing-lock/log`;

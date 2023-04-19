@@ -1,5 +1,5 @@
 import SearchHigherComponent from "../../components/SearchHigherComponent";
-import { Filter } from "../../settings";
+import { API_EXTENSION, Filter } from "../../settings";
 
 const columns = [
   {
@@ -43,11 +43,11 @@ const columns = [
 ];
 
 export default SearchHigherComponent({
-  endpoint: `/adm-api/v1/swap-nft-to-ing-lock/list`,
+  endpoint: `${API_EXTENSION}/v1/swap-nft-to-ing-lock/list`,
   title: "Swap NTF items to ING config",
   columns,
-  createEndpoint: `/adm-api/v1/swap-nft-to-ing-lock/create`,
-  updateEndpoint: `/adm-api/v1/swap-nft-to-ing-lock/update`,
+  createEndpoint: `${API_EXTENSION}/v1/swap-nft-to-ing-lock/create`,
+  updateEndpoint: `${API_EXTENSION}/v1/swap-nft-to-ing-lock/update`,
   getRoles: true,
   createFields: [
     new Filter({
